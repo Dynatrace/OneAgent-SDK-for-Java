@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+					  http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <repositories>
+    <repository>
+      <id>temporary</id>
+      <name>lab.linz</name>
+      <url>http://artifactory.lab.dynatrace.org/artifactory/dt-agents-build</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <groupId>com.dynatrace.sample.oneagent.adk</groupId>
+  <artifactId>oneagent-adk-samples</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+ 
+  <modules>
+    <module>parent</module>
+    <module>remotecall-client</module>
+    <module>remotecall-server</module>
+  </modules>
+  
+  <url>https://github.com/Dynatrace/OneAgent-ADK-Java-Samples</url>
+  <name>Dynatrace OneAgent ADK Java</name>
+  <organization>
+  	<name>Dynatrace</name>
+  	<url>http://www.dynatrace.com</url>
+  </organization>
+</project>
