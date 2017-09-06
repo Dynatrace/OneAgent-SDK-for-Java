@@ -3,10 +3,11 @@
 Sample applications showing how to use Dynatrace OneAgent ADK for Java to create custom specific PurePaths.
 
 ## Build and prepare running the sample applications
+
 - ensure you have Apache Maven 3.5 installed, see: [Apache Maven](https://maven.apache.org/)
 - ensure Dynatrace OneAgent is installed. if not see our [free Trial](https://www.dynatrace.com/)
 - clone this repository
-- edit the parent/pom.xml: adapt the agent.* properties to match your OneAgent environment
+- Step only needed in case of Dynatrace AppMon is being used: edit the parent/pom.xml: adapt the agent.* properties to match your OneAgent environment
 - run `mvn package` in root directory of the cloned repository
 
 ### Run RemoteCall sample application
@@ -27,6 +28,19 @@ If you want to integrate the OneAgent ADK into your application, just add the fo
 	<scope>compile</scope>
 
 If you prefer to integrate the ADK using plain jar file, just download them from mavenCentral: FIXME: add link to mavenCentral 
+
+## Troubleshooting
+As long as the ADK can't connect to agent (see output of sample), you might set the following system property to print debug information to standard out:
+	
+	-Dcom.dynatrace.oneagent.adk.debug=true
+
+As soon as ADK is active, but no paths are shown in UI or AppMon Client, enable the agent debug flag:
+	
+	debugTaggingAdkJava=true
+
+This will provide additional debug information in agent log.
+
+Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module.
 
 ## OneAgent ADK Requirements
 - JRE 1.6 or higher

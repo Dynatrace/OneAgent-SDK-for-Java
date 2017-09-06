@@ -38,10 +38,13 @@
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-	<!-- edit properties to match your local environment: -->
-	<agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib>
+	<!-- uncomment and edit properties to match your local environment (in case of AppMon only): -->
+	<!-- <agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib> -->
+	<!-- <agent.lib>DT_HOME\agent\lib64\oneagentloader.dll</agent.lib>
 	<agent.server>http://localhost:8020</agent.server>
 	<agent.options>,debugEnableOneAgentAdkJavaNative=true,debugTaggingAdkJava=true</agent.options>
+	<agent.agentpath>-agentpath:"${agent.lib}=name=AdkSample,server=${agent.server}"${agent.options}</agent.agentpath>
+	-->
   </properties>
  
 </project>

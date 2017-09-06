@@ -43,7 +43,7 @@
         <configuration>
           <executable>java</executable>
           <arguments>
-          	<argument>-agentpath:"${agent.lib}=name=AdkClient,server=${agent.server}"${agent.options}</argument>
+          	<argument>${agent.agentpath}</argument>
           	<argument>-classpath</argument>
           	<classpath/>
             <argument>com.dynatrace.sample.oneagent.adk.ClientApp</argument>

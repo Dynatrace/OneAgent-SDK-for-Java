@@ -23,6 +23,7 @@ public class ServerApp {
 
 	private ServerApp() {
 		oneAgentAdk = OneAgentADKFactory.createInstance();
+		oneAgentAdk.setLoggingCallback(new StdErrLoggingCallback());
 		ADKState currentADKState = oneAgentAdk.getCurrentADKState();
 		switch (currentADKState) {
 		case ACTIVE:
