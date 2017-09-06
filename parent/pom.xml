@@ -40,7 +40,7 @@
 
 	<!-- edit properties to match your local environment: -->
 	<agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib>
-	<agent.server>http://localhost:8040</agent.server>
+	<agent.server>http://localhost:8020</agent.server>
 	<agent.options>,debugEnableOneAgentAdkJavaNative=true,debugTaggingAdkJava=true</agent.options>
   </properties>
  

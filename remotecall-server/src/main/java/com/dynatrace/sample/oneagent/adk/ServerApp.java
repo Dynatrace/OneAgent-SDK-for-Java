@@ -55,7 +55,8 @@ public class ServerApp {
 		}
 		try {
 			new ServerApp().run(port);
-			System.out.println("remote call server stopped.");
+			System.out.println("remote call server stopped. sleeping a while, so agent is able to send data to server ...");
+			Thread.sleep(15000); // we have to wait - so agent is able to send data to server.
 		} catch (Exception e) {
 			System.err.println("remote call server failed: " + e.getMessage());
 			e.printStackTrace();
