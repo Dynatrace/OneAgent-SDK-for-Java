@@ -1,12 +1,28 @@
 package com.dynatrace.sample.oneagent.adk;
 
+/*
+ * Copyright 2017 Dynatrace LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.dynatrace.oneagent.adk.OneAgentADKFactory;
 import com.dynatrace.oneagent.adk.api.OneAgentADK;
-import com.dynatrace.oneagent.adk.api.OutgoingRemoteCall;
+import com.dynatrace.oneagent.adk.api.OutgoingRemoteCallTracer;
 import com.dynatrace.oneagent.adk.api.enums.ADKState;
 
 public class ClientApp {
@@ -71,7 +87,7 @@ public class ClientApp {
 	}
 
 	private void traceCallToServer(ObjectOutputStream out, int port) throws IOException {
-		OutgoingRemoteCall externalOutgoingRemoteCall = oneAgentAdk.createExternalOutgoingRemoteCall("myMethod", "myService", "endpoint", "localhost:" + port);
+		OutgoingRemoteCallTracer externalOutgoingRemoteCall = oneAgentAdk.traceExternalOutgoingRemoteCall("myMethod", "myService", "endpoint", "localhost:" + port);
 		externalOutgoingRemoteCall.start();
 		try {
 			String outgoingTag = externalOutgoingRemoteCall.getDynatraceStringTag();

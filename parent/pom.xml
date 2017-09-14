@@ -8,6 +8,7 @@
     <repository>
       <id>temporary</id>
       <name>lab.linz</name>
+      <!-- FIXME: add maven central (or: remove as maven central should be default) -->
       <url>http://artifactory.lab.dynatrace.org/artifactory/dt-agents-build</url>
       <layout>default</layout>
       <snapshots>
@@ -27,7 +28,7 @@
 	  <groupId>com.dynatrace.oneagent</groupId>
 	  <artifactId>oneagent.adk</artifactId>
 	  <!-- FIXME: <version>1.0.0</version> -->
-	  <version>1.130.0.20170904-125112</version>
+	  <version>1.130.0.90000101-000000</version>
 	  <scope>compile</scope>
 	</dependency>
   </dependencies>
@@ -40,7 +41,8 @@
 
 	<!-- uncomment and edit properties to match your local environment (in case of AppMon only): -->
 	<!-- <agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib> -->
-	<!-- <agent.lib>DT_HOME\agent\lib64\oneagentloader.dll</agent.lib>
+	<!-- ensure DT_HOME environment variable is set and points to you AppMon installation directory: -->
+	<!-- <agent.lib>${env.DT_HOME}\agent\lib64\oneagentloader.dll</agent.lib>
 	<agent.server>http://localhost:8020</agent.server>
 	<agent.options>,debugEnableOneAgentAdkJavaNative=true,debugTaggingAdkJava=true</agent.options>
 	<agent.agentpath>-agentpath:"${agent.lib}=name=AdkSample,server=${agent.server}"${agent.options}</agent.agentpath>
