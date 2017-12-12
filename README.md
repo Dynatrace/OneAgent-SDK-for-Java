@@ -49,7 +49,7 @@ Additionally ensure, that you have set an `LoggingCallback` in your application.
 ## Compatibility OneAgent ADK Java releases with OneAgent Java releases
 |OneAgent ADK for Java|Dynatrace OneAgent Java|AppMon OneAgent Java|
 |:------|:--------|:--------|
-|1.0.0  |>=1.131  |>=7.1    |
+|1.0.0  |>=1.133  |>=7.1    |
 
 ## Release Notes (OneAgent ADK sample applications)
 |Version|Date|Description|
