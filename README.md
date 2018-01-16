@@ -1,13 +1,17 @@
 # Dynatrace OneAgent SDK for Java
 
 This SDK allows Dynatrace customers to instrument java applications. This is useful for technologies where no out of the box sensor
-is provided or in customer application.
+is provided or in customer application are monitored.
 It provides the java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
 
 ## Package contents
 
-- samples directory: contains sample application, which demonstrates the usage of the SDK. see readme inside the samples directory for more details
-- LICENSE file: license under which the whole SDK and sample applications are published
+- `samples`: contains sample application, which demonstrates the usage of the SDK. see readme inside the samples directory for more details
+- `LICENSE`: license under which the whole SDK and sample applications are published
+
+## Features
+Dynatrace OneAgent SDK for Java adds support for following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
+-  outgoing and incoming remote call
 
 ## Integrating into your application
 
@@ -36,9 +40,7 @@ As soon as SDK is active, but no paths are shown in Dynatrace UI, enable the age
 	
 	debugOneAgentSdkJava=true
 
-This will provide additional debug information in agent log.
-
-Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
+This will provide SDK related debug information in agent log. Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
 
 ## OneAgent SDK for Java Requirements
 
@@ -49,6 +51,11 @@ Additionally ensure, that you have set an `LoggingCallback` in your application.
 |OneAgent SDK for Java|Dynatrace OneAgent Java|
 |:------|:--------|
 |1.0.1  |>=1.135  |
+
+## Feedback
+
+In case of questions, issues or feature requests feel free to contact [Michael Kopp](https://github.com/mikopp) or [Alram Lechner](https://github.com/AlramLechnerDynatrace). Your feedback is welcome!
+
 
 ## OneAgent SDK for Java release notes
 |Version|Date|Description|

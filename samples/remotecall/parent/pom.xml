@@ -38,14 +38,16 @@
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-	<!-- uncomment and edit properties to match your local environment (in case of AppMon only): -->
-	<!-- <agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib> -->
-	<!-- ensure DT_HOME environment variable is set and points to you AppMon installation directory: -->
-	<!-- <agent.lib>${env.DT_HOME}\agent\lib64\oneagentloader.dll</agent.lib>
-	<agent.server>http://localhost:8020</agent.server>
-	<agent.options>,debugEnableOneAgentSdkJavaNative=true,debugTaggingSdkJava=true</agent.options>
-	<agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options}</agent.agentpath>
-	-->
+	<!-- uncomment and replace url/tenant/token in case of manual agent injection -->
+	<!-- 
+	<agent.lib>path_to_installed_one_agent\agent\lib64\oneagentjava.dll</agent.lib>
+	<agent.server>https://url.to.tenant.com:443</agent.server>
+	<agent.tenant>tenantUUID</agent.tenant>
+	<agent.tenantToken>tenantToken</agent.tenantToken>
+	<agent.options>,debugOneAgentSdkJava=true</agent.options>
+	<agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options},tenant=${agent.tenant},tenantToken=${agent.tenantToken}</agent.agentpath>
+	 -->
+	 
   </properties>
  
 </project>

@@ -1,15 +1,15 @@
-# OneAgent SDK for Java sample applications
+# Sample applications for OneAgent SDK for Java 
 
-Sample applications showing how to use Dynatrace OneAgent SDK for Java to create custom specific PurePaths.
+Sample applications showing how to use Dynatrace OneAgent SDK for Java to create custom specific PurePaths and service calls.
 
-## contents
+## Contents
 
-- remotecall shows usage of remote call API. allows you to tag remote calls in same or between different JVM's.  
+- `remotecall`: shows usage of remote call API. Allows you to tag remote calls in same or between different JVM's.  
 
 ## Build and prepare running sample applications
 
 - ensure you have Apache Maven 3.5 installed, see: [Apache Maven](https://maven.apache.org/)
-- ensure Dynatrace OneAgent is installed. if not see our [free Trial](https://www.dynatrace.com/)
+- ensure Dynatrace OneAgent is installed. If not see our [free Trial](https://www.dynatrace.com/trial/?vehicle_name=https://github.com/Dynatrace/OneAgent-SDK-for-Java)
 - clone this repository
 - run `mvn package` in root directory of the desired sample
 
