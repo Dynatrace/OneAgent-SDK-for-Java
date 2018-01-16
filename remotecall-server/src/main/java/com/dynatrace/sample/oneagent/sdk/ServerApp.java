@@ -1,4 +1,4 @@
-package com.dynatrace.sample.oneagent.adk;
+package com.dynatrace.sample.oneagent.sdk;
 
 /*
  * Copyright 2017 Dynatrace LLC
@@ -21,10 +21,9 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.dynatrace.oneagent.adk.OneAgentADKFactory;
-import com.dynatrace.oneagent.adk.api.IncomingRemoteCallTracer;
-import com.dynatrace.oneagent.adk.api.OneAgentADK;
-import com.dynatrace.oneagent.adk.api.enums.ADKState;
+import com.dynatrace.oneagent.sdk.OneAgentSDKFactory;
+import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 
 /**
  * ServerApp is listing for
@@ -35,25 +34,24 @@ import com.dynatrace.oneagent.adk.api.enums.ADKState;
 public class ServerApp {
 
 	
-	private final OneAgentADK oneAgentAdk;
+	private final OneAgentSDK oneAgentSdk;
 
 	private ServerApp() {
-		oneAgentAdk = OneAgentADKFactory.createInstance();
-		oneAgentAdk.setLoggingCallback(new StdErrLoggingCallback());
-		ADKState currentADKState = oneAgentAdk.getCurrentADKState();
-		switch (currentADKState) {
+		oneAgentSdk = OneAgentSDKFactory.createInstance();
+		oneAgentSdk.setLoggingCallback(new StdErrLoggingCallback());
+		switch (oneAgentSdk.getCurrentState()) {
 		case ACTIVE:
-			System.out.println("ADK is active and capturing.");
+			System.out.println("SDK is active and capturing.");
 			break;
-		case PERMANENT_INACTIVE:
+		case PERMANENTLY_INACTIVE:
 			System.err.println(
-					"ADK is PERMANENT_INACTIVE; Probably no agent injected or agent is incompatible with ADK.");
+					"SDK is PERMANENT_INACTIVE; Probably no agent injected or agent is incompatible with SDK.");
 			break;
-		case TEMPORARY_INACTIVE:
-			System.err.println("ADK is TEMPORARY_INACTIVE; Agent has been deactived - check agent configuration.");
+		case TEMPORARILY_INACTIVE:
+			System.err.println("SDK is TEMPORARY_INACTIVE; Agent has been deactived - check agent configuration.");
 			break;
 		default:
-			System.err.println("ADK is in unknown state.");
+			System.err.println("SDK is in unknown state.");
 			break;
 		}
 	}
@@ -103,7 +101,7 @@ public class ServerApp {
 	}
 	
 	private void traceClientRequest(Object receivedTag) {
-		IncomingRemoteCallTracer externalIncomingRemoteCall = oneAgentAdk.traceExternalIncomingRemoteCall("myMethod", "myService", "endpoint");
+		IncomingRemoteCallTracer externalIncomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("myMethod", "myService", "endpoint");
 		if (receivedTag instanceof String) {
 			externalIncomingRemoteCall.setDynatraceStringTag((String) receivedTag);
 		} else if (receivedTag instanceof byte[]) {

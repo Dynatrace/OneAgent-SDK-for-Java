@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
-    <groupId>com.dynatrace.sample.oneagent.adk</groupId>
+    <groupId>com.dynatrace.sample.oneagent.sdk</groupId>
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 	<relativePath>../parent/pom.xml</relativePath>
@@ -24,7 +24,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.dynatrace.sample.oneagent.adk.ServerApp</mainClass>
+              <mainClass>com.dynatrace.sample.oneagent.sdk.ServerApp</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -46,7 +46,7 @@
           	<argument>${agent.agentpath}</argument>
           	<argument>-classpath</argument>
           	<classpath/>
-            <argument>com.dynatrace.sample.oneagent.adk.ServerApp</argument>
+            <argument>com.dynatrace.sample.oneagent.sdk.ServerApp</argument>
           </arguments>
         </configuration>
       </plugin>

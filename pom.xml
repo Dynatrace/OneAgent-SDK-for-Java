@@ -15,8 +15,8 @@
       </snapshots>
     </repository>
   </repositories>
-  <groupId>com.dynatrace.sample.oneagent.adk</groupId>
-  <artifactId>oneagent-adk-samples</artifactId>
+  <groupId>com.dynatrace.sample.oneagent.sdk</groupId>
+  <artifactId>oneagent-sdk-samples</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
  
@@ -26,8 +26,8 @@
     <module>remotecall-server</module>
   </modules>
   
-  <url>https://github.com/Dynatrace/OneAgent-ADK-Java-Samples</url>
-  <name>Dynatrace OneAgent ADK Java</name>
+  <url>https://github.com/Dynatrace/OneAgent-SDK-Java</url>
+  <name>Dynatrace OneAgent SDK Java</name>
   <organization>
   	<name>Dynatrace</name>
   	<url>http://www.dynatrace.com</url>

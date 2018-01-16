@@ -1,4 +1,4 @@
-package com.dynatrace.sample.oneagent.adk;
+package com.dynatrace.sample.oneagent.sdk;
 
 /*
  * Copyright 2017 Dynatrace LLC
@@ -20,31 +20,30 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import com.dynatrace.oneagent.adk.OneAgentADKFactory;
-import com.dynatrace.oneagent.adk.api.OneAgentADK;
-import com.dynatrace.oneagent.adk.api.OutgoingRemoteCallTracer;
-import com.dynatrace.oneagent.adk.api.enums.ADKState;
+import com.dynatrace.oneagent.sdk.OneAgentSDKFactory;
+import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
+import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 
 public class ClientApp {
 
-	private final OneAgentADK oneAgentAdk;
+	private final OneAgentSDK oneAgentSdk;
 
 	private ClientApp() {
-		oneAgentAdk = OneAgentADKFactory.createInstance();
-		ADKState currentADKState = oneAgentAdk.getCurrentADKState();
-		switch (currentADKState) {
+		oneAgentSdk = OneAgentSDKFactory.createInstance();
+		switch (oneAgentSdk.getCurrentState()) {
 		case ACTIVE:
-			System.out.println("ADK is active and capturing.");
+			System.out.println("SDK is active and capturing.");
 			break;
-		case PERMANENT_INACTIVE:
+		case PERMANENTLY_INACTIVE:
 			System.err.println(
-					"ADK is PERMANENT_INACTIVE; Probably no agent injected or agent is incompatible with ADK.");
+					"SDK is PERMANENTLY_INACTIVE; Probably no agent injected or agent is incompatible with SDK.");
 			break;
-		case TEMPORARY_INACTIVE:
-			System.err.println("ADK is TEMPORARY_INACTIVE; Agent has been deactived - check agent configuration.");
+		case TEMPORARILY_INACTIVE:
+			System.err.println("SDK is TEMPORARILY_INACTIVE; Agent has been deactived - check agent configuration.");
 			break;
 		default:
-			System.err.println("ADK is in unknown state.");
+			System.err.println("SDK is in unknown state.");
 			break;
 		}
 	}
@@ -87,7 +86,7 @@ public class ClientApp {
 	}
 
 	private void traceCallToServer(ObjectOutputStream out, int port) throws IOException {
-		OutgoingRemoteCallTracer externalOutgoingRemoteCall = oneAgentAdk.traceExternalOutgoingRemoteCall("myMethod", "myService", "endpoint", "localhost:" + port);
+		OutgoingRemoteCallTracer externalOutgoingRemoteCall = oneAgentSdk.traceOutgoingRemoteCall("myMethod", "myService", "endpoint", ChannelType.IN_PROCESS, "localhost:" + port);
 		externalOutgoingRemoteCall.start();
 		try {
 			String outgoingTag = externalOutgoingRemoteCall.getDynatraceStringTag();
