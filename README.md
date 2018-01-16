@@ -1,24 +1,17 @@
-# OneAgent SDK for Java sample applications
+# Dynatrace OneAgent SDK for Java
 
-Sample applications showing how to use Dynatrace OneAgent SDK for Java to create custom specific PurePaths.
+This SDK allows Dynatrace customers to instrument java applications. This is useful for technologies where no out of the box sensor
+is provided or in customer application.
+It provides the java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
 
-## Build and prepare running the sample applications
+## Package contents
 
-- ensure you have Apache Maven 3.5 installed, see: [Apache Maven](https://maven.apache.org/)
-- ensure Dynatrace OneAgent is installed. if not see our [free Trial](https://www.dynatrace.com/)
-- clone this repository
-- run `mvn package` in root directory of the cloned repository
-
-### Run RemoteCall sample application
-This Application shows how to trace remote calls and tag them. To run this sample you need to start a server and client sample application - both with Dynatrace agent injected.
-
-- Server: `mvn -pl remotecall-server exec:exec`
-
-- Client: `mvn -pl remotecall-client exec:exec`
-
-Check your Dynatrace environment for newly created services.
+- samples directory: contains sample application, which demonstrates the usage of the SDK. see readme inside the samples directory for more details
+- LICENSE file: license under which the whole SDK and sample applications are published
 
 ## Integrating into your application
+
+### Dependencies
 If you want to integrate the OneAgent SDK into your application, just add the following maven dependency:
 
 	<dependency>
@@ -28,10 +21,14 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	  <scope>compile</scope>
 	</dependency>
 
-If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral: FIXME: add link to mavenCentral 
+FIXME: provide gradle / ivy / SBT links 
 
-## Troubleshooting
-As long as the SDK can't connect to agent (see output of sample), you might set the following system property to print debug information to standard out:
+If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral: FIXME: add link to mavenCentral
+
+The Dynatrace OneAgent SDK for Java has no further dependencies.
+
+### Troubleshooting
+As long as the SDK can't connect to agent (see usage of SDKState in samples), you might set the following system property to print debug information to standard out:
 	
 	-Dcom.dynatrace.oneagent.sdk.debug=true
 
@@ -41,18 +38,19 @@ As soon as SDK is active, but no paths are shown in Dynatrace UI, enable the age
 
 This will provide additional debug information in agent log.
 
-Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module.
+Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
 
 ## OneAgent SDK for Java Requirements
+
 - JRE 1.6 or higher
 - Dynatrace OneAgent Java (supported versions see below)
 
-## Compatibility OneAgent SDK for Java releases with OneAgent for Java releases
+### Compatibility OneAgent SDK for Java releases with OneAgent for Java releases
 |OneAgent SDK for Java|Dynatrace OneAgent Java|
 |:------|:--------|
 |1.0.1  |>=1.135  |
 
-## Release Notes (OneAgent SDK for Java)
+## OneAgent SDK for Java release notes
 |Version|Date|Description|
-|:------|:----------|:--------------|
-|1.0.1  |01.2018    |Initial release|
+|:------|:----------|:------------------|
+|1.0.1  |01.2018    |Initial release    |
