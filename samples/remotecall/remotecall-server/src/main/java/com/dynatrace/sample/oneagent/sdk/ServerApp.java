@@ -1,7 +1,7 @@
 package com.dynatrace.sample.oneagent.sdk;
 
 /*
- * Copyright 2017 Dynatrace LLC
+ * Copyright 2018 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,22 +101,22 @@ public class ServerApp {
 	}
 	
 	private void traceClientRequest(Object receivedTag) {
-		IncomingRemoteCallTracer externalIncomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("myMethod", "myService", "endpoint");
+		IncomingRemoteCallTracer incomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("myMethod", "myService", "endpoint");
 		if (receivedTag instanceof String) {
-			externalIncomingRemoteCall.setDynatraceStringTag((String) receivedTag);
+			incomingRemoteCall.setDynatraceStringTag((String) receivedTag);
 		} else if (receivedTag instanceof byte[]) {
-			externalIncomingRemoteCall.setDynatraceByteTag((byte[]) receivedTag);
+			incomingRemoteCall.setDynatraceByteTag((byte[]) receivedTag);
 		} else {
 			System.err.println("invalid tag received: " + receivedTag.getClass().toString());
 		}
 		
-		externalIncomingRemoteCall.start();
+		incomingRemoteCall.start();
 		try {
 			handleClientRequest();
 		} catch (Exception e) {
-			externalIncomingRemoteCall.error(e);
+			incomingRemoteCall.error(e);
 		} finally {
-			externalIncomingRemoteCall.end();
+			incomingRemoteCall.end();
 		}
 		
 	}

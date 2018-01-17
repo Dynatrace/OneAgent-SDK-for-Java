@@ -1,7 +1,7 @@
 package com.dynatrace.sample.oneagent.sdk;
 
 /*
- * Copyright 2017 Dynatrace LLC
+ * Copyright 2018 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,16 +86,16 @@ public class ClientApp {
 	}
 
 	private void traceCallToServer(ObjectOutputStream out, int port) throws IOException {
-		OutgoingRemoteCallTracer externalOutgoingRemoteCall = oneAgentSdk.traceOutgoingRemoteCall("myMethod", "myService", "endpoint", ChannelType.IN_PROCESS, "localhost:" + port);
-		externalOutgoingRemoteCall.start();
+		OutgoingRemoteCallTracer outgoingRemoteCall = oneAgentSdk.traceOutgoingRemoteCall("myMethod", "myService", "endpoint", ChannelType.IN_PROCESS, "localhost:" + port);
+		outgoingRemoteCall.start();
 		try {
-			String outgoingTag = externalOutgoingRemoteCall.getDynatraceStringTag();
+			String outgoingTag = outgoingRemoteCall.getDynatraceStringTag();
 			System.out.println("send tag to server: " + outgoingTag);
 			invokeCallToServer(out, outgoingTag);
 		} catch (Exception e) {
-			externalOutgoingRemoteCall.error(e);
+			outgoingRemoteCall.error(e);
 		} finally {
-			externalOutgoingRemoteCall.end();
+			outgoingRemoteCall.end();
 		}
 	}
 
