@@ -1,7 +1,9 @@
+**Disclaimer: This SDK is currently in early access and still work in progress.**
+
 # Dynatrace OneAgent SDK for Java
 
-This SDK allows Dynatrace customers to instrument java applications. This is useful for technologies where no out of the box sensor
-is provided or in customer application are monitored.
+This SDK allows Dynatrace customers to instrument java applications. This is useful to enhance the visibility for prioritary frameworks or custom framework not directly supported by Dynatrace OneAgent out of the box.
+
 It provides the java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
 
 ## Package contents
@@ -32,13 +34,9 @@ If you prefer to integrate the SDK using plain jar file, just download them from
 The Dynatrace OneAgent SDK for Java has no further dependencies.
 
 ### Troubleshooting
-As long as the SDK can't connect to agent (see usage of SDKState in samples), you might set the following system property to print debug information to standard out:
+If the SDK can't connect to the OneAgent (see usage of SDKState in samples) or you you don't see the desired result in the Dynatrace UI, you might set the following system property to print debug information to standard out:
 	
 	-Dcom.dynatrace.oneagent.sdk.debug=true
-
-As soon as SDK is active, but no paths are shown in Dynatrace UI, enable the agent debug flag:
-	
-	debugOneAgentSdkJava=true
 
 This will provide SDK related debug information in agent log. Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
 
