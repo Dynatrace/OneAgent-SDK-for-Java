@@ -1,4 +1,4 @@
-package com.dynatrace.sample.oneagent.sdk;
+package com.dynatrace.oneagent.sdk.samples;
 
 /*
  * Copyright 2018 Dynatrace LLC
@@ -37,10 +37,10 @@ public class ClientApp {
 			break;
 		case PERMANENTLY_INACTIVE:
 			System.err.println(
-					"SDK is PERMANENTLY_INACTIVE; Probably no agent injected or agent is incompatible with SDK.");
+					"SDK is PERMANENTLY_INACTIVE; Probably no OneAgent injected or OneAgent is incompatible with SDK.");
 			break;
 		case TEMPORARILY_INACTIVE:
-			System.err.println("SDK is TEMPORARILY_INACTIVE; Agent has been deactived - check agent configuration.");
+			System.err.println("SDK is TEMPORARILY_INACTIVE; OneAgent has been deactivated - check OneAgent configuration.");
 			break;
 		default:
 			System.err.println("SDK is in unknown state.");
@@ -62,12 +62,12 @@ public class ClientApp {
 		}
 		try {
 			new ClientApp().run(port);
-			System.out.println("remote call client finished. sleeping a while, so agent is able to send data to server ...");
-			Thread.sleep(15000); // we have to wait - so agent is able to send data to server.
+			System.out.println("remote call client finished. sleeping a while, so OneAgent is able to send data to server ...");
+			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to server.
 		} catch (Exception e) {
 			System.err.println("remote call client failed: " + e.getMessage());
 			e.printStackTrace();
-			System.exit(-1);
+			System.exit(1);
 		}
 	}
 
@@ -79,7 +79,6 @@ public class ClientApp {
 					+ " connected");
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			traceCallToServer(out, port);
-
 		} finally {
 			socket.close();
 		}
@@ -102,6 +101,7 @@ public class ClientApp {
 	private void invokeCallToServer(ObjectOutputStream out, String outgoingTag) throws IOException {
 		// call the server and send the tag
 		out.writeObject(outgoingTag);
+		out.writeObject("the top secret message");
 	}
 	
 }

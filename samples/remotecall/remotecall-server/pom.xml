@@ -24,7 +24,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.dynatrace.sample.oneagent.sdk.ServerApp</mainClass>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.ServerApp</mainClass>
             </manifest>
           </archive>
         </configuration>

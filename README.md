@@ -2,9 +2,9 @@
 
 # Dynatrace OneAgent SDK for Java
 
-This SDK allows Dynatrace customers to instrument java applications. This is useful to enhance the visibility for prioritary frameworks or custom framework not directly supported by Dynatrace OneAgent out of the box.
+This SDK allows Dynatrace customers to instrument java applications. This is useful to enhance the visibility for proprietary frameworks or custom frameworks not directly supported by Dynatrace OneAgent out-of-the-box.
 
-It provides the java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
+It provides the Java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
 
 ## Package contents
 
@@ -12,8 +12,8 @@ It provides the java implementation of the [Dynatrace OneAgent SDK](https://gith
 - `LICENSE`: license under which the whole SDK and sample applications are published
 
 ## Features
-Dynatrace OneAgent SDK for Java adds support for following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
--  outgoing and incoming remote call
+Dynatrace OneAgent SDK for Java currently implements support for the following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
+-  outgoing and incoming remote calls
 
 ## Integrating into your application
 
@@ -34,11 +34,11 @@ If you prefer to integrate the SDK using plain jar file, just download them from
 The Dynatrace OneAgent SDK for Java has no further dependencies.
 
 ### Troubleshooting
-If the SDK can't connect to the OneAgent (see usage of SDKState in samples) or you you don't see the desired result in the Dynatrace UI, you might set the following system property to print debug information to standard out:
+If the SDK can't connect to the OneAgent (see usage of SDKState in samples) or you you don't see the desired result in the Dynatrace UI, you can set the following system property to print debug information to standard out:
 	
 	-Dcom.dynatrace.oneagent.sdk.debug=true
 
-This will provide SDK related debug information in agent log. Additionally ensure, that you have set an `LoggingCallback` in your application. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
+Additionally you should/have to ensure, that you have set a `LoggingCallback`. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
 
 ## OneAgent SDK for Java Requirements
 
@@ -52,7 +52,7 @@ This will provide SDK related debug information in agent log. Additionally ensur
 
 ## Feedback
 
-In case of questions, issues or feature requests feel free to contact [Michael Kopp](https://github.com/mikopp) or [Alram Lechner](https://github.com/AlramLechnerDynatrace). Your feedback is welcome!
+In case of questions, issues or feature requests feel free to contact [Michael Kopp](https://github.com/mikopp), [Alram Lechner](https://github.com/AlramLechnerDynatrace) or file an issue. Your feedback is welcome!
 
 
 ## OneAgent SDK for Java release notes

@@ -1,4 +1,4 @@
-package com.dynatrace.sample.oneagent.sdk;
+package com.dynatrace.oneagent.sdk.samples;
 
 /*
  * Copyright 2018 Dynatrace LLC

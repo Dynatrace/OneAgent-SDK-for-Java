@@ -1,4 +1,4 @@
-package com.dynatrace.sample.oneagent.sdk;
+package com.dynatrace.oneagent.sdk.samples;
 
 /*
  * Copyright 2018 Dynatrace LLC
@@ -26,13 +26,12 @@ import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 
 /**
- * ServerApp is listing for
+ * ServerApp is listing for remote call requests from remote-call client.
  * 
  * @author Alram.Lechner
  *
  */
 public class ServerApp {
-
 	
 	private final OneAgentSDK oneAgentSdk;
 
@@ -45,10 +44,10 @@ public class ServerApp {
 			break;
 		case PERMANENTLY_INACTIVE:
 			System.err.println(
-					"SDK is PERMANENT_INACTIVE; Probably no agent injected or agent is incompatible with SDK.");
+					"SDK is PERMANENT_INACTIVE; Probably no OneAgent injected or OneAgent is incompatible with SDK.");
 			break;
 		case TEMPORARILY_INACTIVE:
-			System.err.println("SDK is TEMPORARY_INACTIVE; Agent has been deactived - check agent configuration.");
+			System.err.println("SDK is TEMPORARY_INACTIVE; OneAgent has been deactivated - check OneAgent configuration.");
 			break;
 		default:
 			System.err.println("SDK is in unknown state.");
@@ -70,8 +69,8 @@ public class ServerApp {
 		}
 		try {
 			new ServerApp().run(port);
-			System.out.println("remote call server stopped. sleeping a while, so agent is able to send data to server ...");
-			Thread.sleep(15000); // we have to wait - so agent is able to send data to server.
+			System.out.println("remote call server stopped. sleeping a while, so OneAgent is able to send data to server ...");
+			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to server.
 		} catch (Exception e) {
 			System.err.println("remote call server failed: " + e.getMessage());
 			e.printStackTrace();
@@ -82,16 +81,18 @@ public class ServerApp {
 	private void run(int port) throws IOException, ClassNotFoundException {
 		ServerSocket serverSocket = new ServerSocket(port);
 		try {
-			System.out.println("Waiting for clients no port " + serverSocket.getInetAddress().getHostName() + ":"
+			System.out.println("Waiting for clients on port " + serverSocket.getInetAddress().getHostName() + ":"
 					+ serverSocket.getLocalPort());
 			Socket client = serverSocket.accept();
 			try {
 				System.out.println(
 						"Client " + client.getInetAddress().getHostName() + ":" + client.getPort() + " connected");
 				ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-				Object receviedTag = in.readObject();
-				System.out.println("received tag: " + receviedTag.toString());
-				traceClientRequest(receviedTag);
+				
+				Object receivedTag = in.readObject();
+				String receivedMessage = (String) in.readObject();
+				System.out.println("received tag: " + receivedTag.toString());
+				traceCallFromClient(receivedTag, receivedMessage);
 			} finally {
 				client.close();
 			}
@@ -100,7 +101,7 @@ public class ServerApp {
 		}
 	}
 	
-	private void traceClientRequest(Object receivedTag) {
+	private void traceCallFromClient(Object receivedTag, String receivedMessage) {
 		IncomingRemoteCallTracer incomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("myMethod", "myService", "endpoint");
 		if (receivedTag instanceof String) {
 			incomingRemoteCall.setDynatraceStringTag((String) receivedTag);
@@ -112,7 +113,7 @@ public class ServerApp {
 		
 		incomingRemoteCall.start();
 		try {
-			handleClientRequest();
+			handleCallFromClient(receivedMessage);
 		} catch (Exception e) {
 			incomingRemoteCall.error(e);
 		} finally {
@@ -121,8 +122,9 @@ public class ServerApp {
 		
 	}
 
-	private void handleClientRequest() {
+	private void handleCallFromClient(String receivedMessage) {
 		// do whatever the server should do ...
+		System.out.println("Received message from client: " + receivedMessage);
 	}
 	
 }
