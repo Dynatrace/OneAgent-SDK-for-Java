@@ -15,8 +15,8 @@
       </snapshots>
     </repository>
   </repositories>
-  <groupId>com.dynatrace.sample.oneagent.sdk</groupId>
-  <artifactId>oneagent-sdk-samples</artifactId>
+  <groupId>com.dynatrace.oneagent.sdk.samples.remoting</groupId>
+  <artifactId>remotecall-sample</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
  
