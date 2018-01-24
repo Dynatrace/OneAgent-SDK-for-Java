@@ -1,4 +1,4 @@
-package com.dynatrace.oneagent.sdk.samples;
+package com.dynatrace.oneagent.sdk.samples.remoting;
 
 /*
  * Copyright 2018 Dynatrace LLC

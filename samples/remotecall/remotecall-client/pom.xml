@@ -24,7 +24,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.dynatrace.oneagent.sdk.samples.ClientApp</mainClass>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.remoting.ClientApp</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -46,7 +46,7 @@
           	<argument>${agent.agentpath}</argument>
           	<argument>-classpath</argument>
           	<classpath/>
-            <argument>com.dynatrace.sample.oneagent.sdk.ClientApp</argument>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.remoting.ClientApp</mainClass>
           </arguments>
         </configuration>
       </plugin>
