@@ -6,7 +6,7 @@
 
   <groupId>com.dynatrace.oneagent.sdk.samples.remoting</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <!-- Dynatrace OneAgent SDK can be found in jcentral:  -->
   <!-- FIXME: add coordinates to jcentral -->
