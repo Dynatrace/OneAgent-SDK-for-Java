@@ -47,14 +47,37 @@ Additionally you should/have to ensure, that you have set a `LoggingCallback`. F
 
 Common concepts of the Dynatrace OneAgent SDK concepts are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK).
 
+## Get an Api object
+
+Use OneAgentSDKFactory.createInstance() to obtain an OneAgentSDK instance. You should reuse this object over the whole application 
+and if possible JVM lifetime:
+
+```Java
+OneAgentSDK oneAgentSdk = OneAgentSDKFactory.createInstance();
+switch (oneAgentSdk.getCurrentState()) {
+case ACTIVE:
+	break;
+case PERMANENTLY_INACTIVE:
+	break;
+case TEMPORARILY_INACTIVE:
+	break;
+default:
+	break;
+}
+```
+
+It is good practice to check the SDK state regularly as it may change at every point of time (except PERMANENTLY_INACTIVE never changes over JVM lifetime).
+
 ## Common concepts: Tracers
 
 To trace any kind of call you first need to create a Tracer. The Tracer object represents the logical and physical endpoint that you want to call. A Tracer serves two purposes. First to time the call (duraction, cpu and more) and report errors. That is why each Tracer has these three methods. The error method must be called only once, and it must be in between start and end.
 
 ```Java
-	void start();
-	void error(String message);
-	void end();
+void start();
+
+void error(String message);
+
+void end();
 ```
 The second purpose of a Tracer is to allow tracing across process boundaries. To achieve that these kind of traces supply so called tags. Tags are strings or byte arrays that enable Dynatrace to trace a transaction end to end. As such the tag is the one information that you need to transport across these calls yourselfs.
 
@@ -66,33 +89,33 @@ You can use the SDK to trace proprietary IPC communication from one process to t
 To trace any kind of remote call you first need to create a Tracer. The Tracer object represents the endpoint that you want to call, as such you need to supply the name of the remote service and remote method. In addition you need to transport the tag in your remote call to the server side if you want to trace it end to end.
 
 ```Java
-	OutgoingRemoteCallTracer outgoingRemoteCall = OneAgentSDK.traceOutgoingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service", ChannelType.TCP_IP, "remoteHost:1234");
-	outgoingRemoteCall.setProtocolName("RMI/custom");
-	outgoingRemoteCall.start();
-		try {
-			String tag = outgoingRemoteCall.getDynatraceStringTag();
-			// make the call and transport the tag across to server
-		} catch (Throwable e) {
-			outgoingRemoteCall.error(e);
-		} finally {
-			outgoingRemoteCall.end();
-		}
+OutgoingRemoteCallTracer outgoingRemoteCall = OneAgentSDK.traceOutgoingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service", ChannelType.TCP_IP, "remoteHost:1234");
+outgoingRemoteCall.setProtocolName("RMI/custom");
+outgoingRemoteCall.start();
+	try {
+		String tag = outgoingRemoteCall.getDynatraceStringTag();
+		// make the call and transport the tag across to server
+	} catch (Throwable e) {
+		outgoingRemoteCall.error(e);
+	} finally {
+		outgoingRemoteCall.end();
+	}
 ```
 
 On the server side you need to wrap the handling and processing of your remote call as well. This will not only trace the server side call and everything that happens, it will also connect it to the calling side.
 
 ```Java
-	IncomingRemoteCallTracer incomingRemoteCall = OneAgentSDK.traceIncomingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service");
-	incomingRemoteCall.setDynatraceStringTag(tag);
-	incomingRemoteCall.start();
-	try {
-		incomingRemoteCall.setProtocolName("RMI/custom");
-		doSomeWork(); // process the remoteCall
-	} catch (Exception e) {
-		incomingRemoteCall.error(e);
-	}finally{
-		incomingRemoteCall.end();
-	}
+IncomingRemoteCallTracer incomingRemoteCall = OneAgentSDK.traceIncomingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service");
+incomingRemoteCall.setDynatraceStringTag(tag);
+incomingRemoteCall.start();
+try {
+	incomingRemoteCall.setProtocolName("RMI/custom");
+	doSomeWork(); // process the remoteCall
+} catch (Exception e) {
+	incomingRemoteCall.error(e);
+}finally{
+	incomingRemoteCall.end();
+}
 ```
 
 ### Compatibility OneAgent SDK for Java releases with OneAgent for Java releases
