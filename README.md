@@ -45,7 +45,7 @@ Additionally you should/have to ensure, that you have set a `LoggingCallback`. F
 
 # API Concepts
 
-Common concepts of the Dynatrace OneAgent SDK concepts are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK).
+Common concepts of the Dynatrace OneAgent SDK are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK).
 
 ## Get an Api object
 
@@ -92,14 +92,14 @@ To trace any kind of remote call you first need to create a Tracer. The Tracer o
 OutgoingRemoteCallTracer outgoingRemoteCall = OneAgentSDK.traceOutgoingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service", ChannelType.TCP_IP, "remoteHost:1234");
 outgoingRemoteCall.setProtocolName("RMI/custom");
 outgoingRemoteCall.start();
-	try {
-		String tag = outgoingRemoteCall.getDynatraceStringTag();
-		// make the call and transport the tag across to server
-	} catch (Throwable e) {
-		outgoingRemoteCall.error(e);
-	} finally {
-		outgoingRemoteCall.end();
-	}
+try {
+	String tag = outgoingRemoteCall.getDynatraceStringTag();
+	// make the call and transport the tag across to server
+} catch (Throwable e) {
+	outgoingRemoteCall.error(e);
+} finally {
+	outgoingRemoteCall.end();
+}
 ```
 
 On the server side you need to wrap the handling and processing of your remote call as well. This will not only trace the server side call and everything that happens, it will also connect it to the calling side.
