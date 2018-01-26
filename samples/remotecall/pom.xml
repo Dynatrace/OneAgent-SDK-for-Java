@@ -4,20 +4,9 @@
 					  http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
  
-  <repositories>
-    <repository>
-      <id>temporary</id>
-      <name>lab.linz</name>
-      <url>http://artifactory.lab.dynatrace.org/artifactory/dt-agents-build</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <groupId>com.dynatrace.oneagent.sdk.samples.remoting</groupId>
   <artifactId>remotecall-sample</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.3</version>
   <packaging>pom</packaging>
  
   <modules>
@@ -27,7 +16,7 @@
   </modules>
   
   <url>https://github.com/Dynatrace/OneAgent-SDK-Java</url>
-  <name>Dynatrace OneAgent SDK Java</name>
+  <name>Dynatrace OneAgent SDK Java RemoteCall sample</name>
   <organization>
   	<name>Dynatrace</name>
   	<url>http://www.dynatrace.com</url>

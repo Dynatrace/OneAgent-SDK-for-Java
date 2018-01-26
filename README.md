@@ -23,13 +23,11 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.0.1</version>
+	  <version>1.0.3</version>
 	  <scope>compile</scope>
 	</dependency>
 
-FIXME: provide gradle / ivy / SBT links 
-
-If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral: FIXME: add link to mavenCentral
+If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral - Dynatrace OneAgent SDK for Java [binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3.jar), [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) or [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-javadoc.jar)
 
 The Dynatrace OneAgent SDK for Java has no further dependencies.
 
@@ -48,7 +46,7 @@ Additionally you should/have to ensure, that you have set a `LoggingCallback`. F
 ### Compatibility OneAgent SDK for Java releases with OneAgent for Java releases
 |OneAgent SDK for Java|Dynatrace OneAgent Java|
 |:------|:--------|
-|1.0.1  |>=1.135  |
+|1.0.3  |>=1.135  |
 
 ## Feedback
 
@@ -58,4 +56,4 @@ In case of questions, issues or feature requests feel free to contact [Michael K
 ## OneAgent SDK for Java release notes
 |Version|Date|Description|
 |:------|:----------|:------------------|
-|1.0.1  |01.2018    |Initial release    |
+|1.0.3  |01.2018    |Initial release    |
