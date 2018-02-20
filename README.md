@@ -15,6 +15,11 @@ It provides the Java implementation of the [Dynatrace OneAgent SDK](https://gith
 Dynatrace OneAgent SDK for Java currently implements support for the following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
 -  outgoing and incoming remote calls
 
+## Documentation
+The reference documentation is included in this package. The most recent version is also available online at [https://dynatrace.github.io/OneAgent-SDK-for-Java/](https://dynatrace.github.io/OneAgent-SDK-for-Java/).
+
+A high level documentation/description of OneAgent SDK concepts is available at [https://github.com/Dynatrace/OneAgent-SDK/](https://github.com/Dynatrace/OneAgent-SDK/).
+
 ## Integrating into your application
 
 ### Dependencies
