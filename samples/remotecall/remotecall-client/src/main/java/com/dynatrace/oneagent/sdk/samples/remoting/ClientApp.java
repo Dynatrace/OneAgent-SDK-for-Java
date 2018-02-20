@@ -85,7 +85,7 @@ public class ClientApp {
 	}
 
 	private void traceCallToServer(ObjectOutputStream out, int port) throws IOException {
-		OutgoingRemoteCallTracer outgoingRemoteCall = oneAgentSdk.traceOutgoingRemoteCall("myMethod", "myService", "endpoint", ChannelType.IN_PROCESS, "localhost:" + port);
+		OutgoingRemoteCallTracer outgoingRemoteCall = oneAgentSdk.traceOutgoingRemoteCall("myMethod", "myService", "endpoint", ChannelType.TCP_IP, "localhost:" + port);
 		outgoingRemoteCall.start();
 		try {
 			String outgoingTag = outgoingRemoteCall.getDynatraceStringTag();
