@@ -1,9 +1,7 @@
 package com.dynatrace.oneagent.sdk.samples.inprocesslinking;
 
-import java.sql.Connection;
 import java.sql.Statement;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Logger;
 
 import com.dynatrace.oneagent.sdk.OneAgentSDKFactory;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
@@ -34,6 +32,7 @@ public class DatabaseWorkerThread extends Thread {
 				
 				// trace the execution of retrieved SQL:
 				InProcessLinkTracer inProcessLinkTracer = oneAgentSdk.traceInProcessLink(item.getLink());
+				inProcessLinkTracer.start();
 				try {
 					dbStatement.execute(item.getSqlStatement());
 				} catch (Exception e) {
