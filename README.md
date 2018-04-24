@@ -1,4 +1,4 @@
-**Disclaimer: This SDK is currently in early access and still work in progress.**
+**Disclaimer: This SDK is currently in beta and still work in progress.**
 
 # Dynatrace OneAgent SDK for Java
 
