@@ -1,5 +1,7 @@
 package com.dynatrace.oneagent.sdk.samples.inprocesslinking;
 
+import java.io.BufferedReader;
+
 /*
  * Copyright 2018 Dynatrace LLC
  *
@@ -17,10 +19,17 @@ package com.dynatrace.oneagent.sdk.samples.inprocesslinking;
  */
 
 import java.io.IOException;
-import java.sql.ResultSet;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import com.dynatrace.oneagent.sdk.OneAgentSDKFactory;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
@@ -35,8 +44,7 @@ public class InProcessLinkingApp {
 
 	private final OneAgentSDK oneAgentSdk;
 
-	private BlockingQueue<AsyncDatabaseWorkItem> blockingQueue = new ArrayBlockingQueue<AsyncDatabaseWorkItem>(5);
-	private NoopStatement dbStatement = new NoopStatement();
+	private BlockingQueue<UrlDownloadItem> blockingQueue = new ArrayBlockingQueue<UrlDownloadItem>(5);
 
 	private InProcessLinkingApp() {
 		oneAgentSdk = OneAgentSDKFactory.createInstance();
@@ -65,12 +73,12 @@ public class InProcessLinkingApp {
 		System.out.println("*************************************************************");
 		try {
 			InProcessLinkingApp app = new InProcessLinkingApp();
-			new DatabaseWorkerThread(app.blockingQueue).start();
-			app.startAsyncOperation();
-			// System.out.println("remote call server stopped. sleeping a while, so OneAgent
-			// is able to send data to server ...");
-			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to
-			// server.
+			// start worker thread, responsible for downloading files in background. thread waits on provided blocking queue.
+			new UrlDownloaderThread(app.blockingQueue).start();
+			String latestVersion = app.startAsyncOperation();
+			System.err.println("Found latest OneAgent SDK for Java: " + latestVersion);
+			System.out.println("sample application stopped. sleeping a while, so OneAgent is able to send data to server ...");
+			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to server
 			app.end();
 		} catch (Exception e) {
 			System.err.println("in-process-linking sample failed: " + e.getMessage());
@@ -81,23 +89,37 @@ public class InProcessLinkingApp {
 
 	/**
 	 * TODO: add custom service for this method
+	 * check for latest version and start downloading them asynchronously.
 	 */
-	private void startAsyncOperation() throws IOException, ClassNotFoundException, InterruptedException, SQLException {
+	private String startAsyncOperation() throws IOException, ClassNotFoundException, InterruptedException, SQLException {
 		System.out.println("Executor started ...");
-		// process synchronous db work:
-		ResultSet bookingRs = dbStatement.executeQuery("Select * from bookings where bookingId = 'AB01022'");
-		// do some sync work ...
-		bookingRs.close();
+		
+		// do some sync work - eg. check for latest version:
+		HttpsURLConnection url = (HttpsURLConnection) new URL("https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases/latest").openConnection();
 
-		// process DB execution, where no result is needed async in background: 
-		AsyncDatabaseWorkItem asyncWorkItem = new AsyncDatabaseWorkItem(
-				"update bookings set paymentState='FINISHED' where bookingId = 'AB01022'", 
+		// we expect redirect to latest release url:
+		url.setInstanceFollowRedirects(false);
+		int responseStatus = url.getResponseCode();
+		if (responseStatus != 302) {
+			System.out.println("no redirect retrieved!");
+			return null;
+		}
+		
+		// e. g.: https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases/tag/v1.0.3
+		String location = url.getHeaderField("Location");
+		String latestVersion = location.substring(location.lastIndexOf('/')+1);
+
+		// download the big release archive asynchronously ... 
+		UrlDownloadItem asyncWorkItem = new UrlDownloadItem(
+				"https://github.com/Dynatrace/OneAgent-SDK-for-Java/archive/" + latestVersion + ".zip", 
 				oneAgentSdk.createInProcessLink());
 		blockingQueue.put(asyncWorkItem);
-}
+		
+		return latestVersion;
+	}
 	
 	private void end() {
-		blockingQueue.offer(AsyncDatabaseWorkItem.END);
+		blockingQueue.offer(UrlDownloadItem.END);
 	}
 
 }

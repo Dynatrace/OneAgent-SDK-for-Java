@@ -30,5 +30,5 @@ This Application shows how to in-process-linking is being sued. To run this samp
 - ensure you have custom service for method `startAsyncOperation` in class `com.dynatrace.oneagent.sdk.samples.inprocesslinking.InProcessLinkingApp` 
 - run sample: `mvn exec:exec`
 
-Check your Dynatrace environment for newly created services.
-
+Check your Dynatrace environment for newly created services like that:
+![in-process-linking-service](img/in-process-linking-service.png)
