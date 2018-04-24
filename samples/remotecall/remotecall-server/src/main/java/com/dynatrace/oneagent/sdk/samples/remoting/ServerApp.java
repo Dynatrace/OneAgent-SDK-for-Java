@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.dynatrace.oneagent.sdk.OneAgentSDKFactory;
 import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
@@ -34,6 +36,7 @@ import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 public class ServerApp {
 	
 	private final OneAgentSDK oneAgentSdk;
+	private final Logger logger = Logger.getLogger("ServerApp");
 
 	private ServerApp() {
 		oneAgentSdk = OneAgentSDKFactory.createInstance();
@@ -116,6 +119,7 @@ public class ServerApp {
 			handleCallFromClient(receivedMessage);
 		} catch (Exception e) {
 			incomingRemoteCall.error(e);
+			logger.log(Level.WARNING, "handling of remotecall failed", e);
 		} finally {
 			incomingRemoteCall.end();
 		}

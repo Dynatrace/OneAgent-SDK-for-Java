@@ -5,6 +5,7 @@ Sample applications showing how to use Dynatrace OneAgent SDK for Java to create
 ## Contents
 
 - `remotecall`: shows usage of remote call API. Allows you to tag remote calls in the same or between different JVMs.  
+- `in-process-linking`: shows usage of in-process-linking API. Allows you to tag eg. asynchronous execution inside the same process.
 
 ## Build and prepare running sample applications
 
@@ -20,4 +21,14 @@ This Application shows how to trace remote calls and tag them. To run this sampl
 
 - Client: `mvn -pl remotecall-client exec:exec`
 
+Check your Dynatrace environment for newly created service like that:
+![remotecall-server](img/remotecall-service.png)
+
+### Run InProcessLinking sample application
+This Application shows how to in-process-linking is being sued. To run this sample you need to create a custom service for your tenant. and of course Dynatrace OneAgent must be installed.
+
+- ensure you have custom service for method `startAsyncOperation` in class `com.dynatrace.oneagent.sdk.samples.inprocesslinking.InProcessLinkingApp` 
+- run sample: `mvn exec:exec`
+
 Check your Dynatrace environment for newly created services.
+

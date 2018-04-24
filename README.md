@@ -28,7 +28,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.0.3</version>
+	  <version>1.1.0</version>
 	  <scope>compile</scope>
 	</dependency>
 
@@ -110,7 +110,8 @@ try {
 On the server side you need to wrap the handling and processing of your remote call as well. This will not only trace the server side call and everything that happens, it will also connect it to the calling side.
 
 ```Java
-IncomingRemoteCallTracer incomingRemoteCall = OneAgentSDK.traceIncomingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service");
+OneAgentSDK oneAgentSdk = OneAgentSDKFactory.createInstance();
+IncomingRemoteCallTracer incomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("remoteMethodToCall", "RemoteServiceName", "rmi://Endpoint/service");
 incomingRemoteCall.setDynatraceStringTag(tag);
 incomingRemoteCall.start();
 try {
@@ -118,22 +119,48 @@ try {
 	doSomeWork(); // process the remoteCall
 } catch (Exception e) {
 	incomingRemoteCall.error(e);
-}finally{
+	// rethrow or add your exception handling
+} finally{
 	incomingRemoteCall.end();
+}
+```
+
+## Using the Dynatrace OneAgent SDK for in-process-linking
+
+You can use the SDK to link inside a single process. To link for eg. an asynchronous execution, you need the following code:
+```Java
+OneAgentSDK oneAgentSdk = OneAgentSDKFactory.createInstance();
+InProcessLink inProcessLink = sdk.createInProcessLink();
+```
+
+Provide the returned inProcessLink to the code, that does the asynchronous execution:
+
+```Java
+OneAgentSDK sdk = OneAgentSDKFactory.createInstance();
+InProcessLinkTracer inProcessLinkTracer = sdk.traceInProcessLink(inProcessLink);
+inProcessLinkTracer.start();
+try {
+	// do the work ...
+} catch (Exception e) {
+	inProcessLinkTracer.error(e);
+	// rethrow or add your exception handling
+} finally {
+	inProcessLinkTracer.end();
 }
 ```
 
 ### Compatibility OneAgent SDK for Java releases with OneAgent for Java releases
 |OneAgent SDK for Java|Dynatrace OneAgent Java|
 |:------|:--------|
+|1.1.0  |>=1.143  |
 |1.0.3  |>=1.135  |
 
 ## Feedback
 
-In case of questions, issues or feature requests feel free to contact [Michael Kopp](https://github.com/mikopp), [Alram Lechner](https://github.com/AlramLechnerDynatrace) or file an issue. Your feedback is welcome!
-
+In case of questions, issues or feature requests feel free to contact the maintainer by dynatrace.oneagent.sdk(at)dynatrace(dot)com or file an issue. Your feedback is welcome!
 
 ## OneAgent SDK for Java release notes
 |Version|Date|Description|
-|:------|:----------|:------------------|
-|1.0.3  |01.2018    |Initial release    |
+|:------|:----------|:--------------------------------------|:----------------------------------------|
+|1.1.0  |04.2018    |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.1.0-javadoc.jar)|
+|1.0.3  |01.2018    |Initial release                        |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-javadoc.jar)|

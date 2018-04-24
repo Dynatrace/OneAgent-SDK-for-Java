@@ -19,6 +19,8 @@ package com.dynatrace.oneagent.sdk.samples.remoting;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.dynatrace.oneagent.sdk.OneAgentSDKFactory;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
@@ -28,6 +30,7 @@ import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 public class ClientApp {
 
 	private final OneAgentSDK oneAgentSdk;
+	private final Logger logger = Logger.getLogger("ClientApp");
 
 	private ClientApp() {
 		oneAgentSdk = OneAgentSDKFactory.createInstance();
@@ -93,6 +96,7 @@ public class ClientApp {
 			invokeCallToServer(out, outgoingTag);
 		} catch (Exception e) {
 			outgoingRemoteCall.error(e);
+			logger.log(Level.WARNING, "remotecall failed", e);
 		} finally {
 			outgoingRemoteCall.end();
 		}

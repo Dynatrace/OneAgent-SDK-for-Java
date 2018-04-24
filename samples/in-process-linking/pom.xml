@@ -3,21 +3,27 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 					  http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.dynatrace.oneagent.sdk.samples.remoting</groupId>
-  <artifactId>parent</artifactId>
+ 
+  <groupId>com.dynatrace.oneagent.sdk.samples.inprocesslinking</groupId>
+  <artifactId>in-process-linking-sample</artifactId>
   <version>1.1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <!-- Dynatrace OneAgent SDK can be found in jcentral:  -->
-  <!-- FIXME: add coordinates to jcentral -->
+  <packaging>jar</packaging>
+ 
   <dependencies>
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.0.3</version>
+	  <version>1.1.0</version>
 	  <scope>compile</scope>
 	</dependency>
   </dependencies>
+
+  <url>https://github.com/Dynatrace/OneAgent-SDK-Java</url>
+  <name>Dynatrace OneAgent SDK Java In-Process-Linking sample</name>
+  <organization>
+  	<name>Dynatrace</name>
+  	<url>http://www.dynatrace.com</url>
+  </organization>
   
   <properties>
 	<maven.compiler.source>1.6</maven.compiler.source>
@@ -34,14 +40,51 @@
 	<agent.options>,debugOneAgentSdkJava=true</agent.options>
 	<agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options},tenant=${agent.tenant},tenantToken=${agent.tenantToken}</agent.agentpath>
 	 -->
-	 
-	<agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib>
+    <agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib>
     <agent.server>https://aoz69185.dev.dynatracelabs.com:443</agent.server>
     <agent.tenant>aoz69185</agent.tenant>
     <agent.tenantToken>kp1m2K4Il2KXwKIE</agent.tenantToken>
     <agent.options>,debugOneAgentSdkJava=true</agent.options>
     <agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options},tenant=${agent.tenant},tenantToken=${agent.tenantToken}</agent.agentpath>
-	 
   </properties>
- 
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+		<version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.inprocesslinking.InProcessLinkingApp</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>java</executable>
+          <arguments>
+          	<argument>${agent.agentpath}</argument>
+          	<argument>-classpath</argument>
+          	<classpath/>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.inprocesslinking.InProcessLinkingApp</mainClass>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>  
+
 </project>
