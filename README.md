@@ -4,21 +4,28 @@
 
 This SDK allows Dynatrace customers to instrument java applications. This is useful to enhance the visibility for proprietary frameworks or custom frameworks not directly supported by Dynatrace OneAgent out-of-the-box.
 
-It provides the Java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
+This is the official Java implementation of the [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK). 
 
 ## Package contents
 
 - `samples`: contains sample application, which demonstrates the usage of the SDK. see readme inside the samples directory for more details
+- `docs`: contains the reference documentation (javadoc). The most recent version is also available online at [https://dynatrace.github.io/OneAgent-SDK-for-Java/](https://dynatrace.github.io/OneAgent-SDK-for-Java/).
 - `LICENSE`: license under which the whole SDK and sample applications are published
+
+## Requirements
+
+- JRE 1.6 or higher
+- Dynatrace OneAgent (required versions see below)
+
+|OneAgent SDK for Java|Dynatrace OneAgent Java|
+|:------|:--------|
+|1.1.0  |>=1.143  |
+|1.0.3  |>=1.135  |
+
 
 ## Features
 Dynatrace OneAgent SDK for Java currently implements support for the following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
 -  outgoing and incoming remote calls
-
-## Documentation
-The reference documentation is included in this package. The most recent version is also available online at [https://dynatrace.github.io/OneAgent-SDK-for-Java/](https://dynatrace.github.io/OneAgent-SDK-for-Java/).
-
-A high level documentation/description of OneAgent SDK concepts is available at [https://github.com/Dynatrace/OneAgent-SDK/](https://github.com/Dynatrace/OneAgent-SDK/).
 
 ## Integrating into your application
 
@@ -43,10 +50,7 @@ If the SDK can't connect to the OneAgent (see usage of SDKState in samples) or y
 
 Additionally you should/have to ensure, that you have set a `LoggingCallback`. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
 
-## OneAgent SDK for Java Requirements
 
-- JRE 1.6 or higher
-- Dynatrace OneAgent Java (supported versions see below)
 
 # API Concepts
 
@@ -149,11 +153,7 @@ try {
 }
 ```
 
-### Compatibility OneAgent SDK for Java releases with OneAgent for Java releases
-|OneAgent SDK for Java|Dynatrace OneAgent Java|
-|:------|:--------|
-|1.1.0  |>=1.143  |
-|1.0.3  |>=1.135  |
+
 
 ## Feedback
 
