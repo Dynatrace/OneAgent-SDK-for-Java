@@ -87,7 +87,7 @@ void end();
 The second purpose of a Tracer is to allow tracing across process boundaries. To achieve that these kind of traces supply so called tags. Tags are strings or byte arrays that enable Dynatrace to trace a transaction end to end. As such the tag is the one information that you need to transport across these calls yourselfs.
 
 
-## Using the Dynatrace OneAgent SDK to trace remote calls
+## Trace incoming and outgoing remote calls
 
 You can use the SDK to trace proprietary IPC communication from one process to the other. This will enable you to see full Service Flow, PurePath and Smartscape topology for remoting technologies that Dynatrace is not aware of.
 
@@ -125,7 +125,7 @@ try {
 }
 ```
 
-## Using the Dynatrace OneAgent SDK for in-process-linking
+## Link in process
 
 You can use the SDK to link inside a single process. To link for eg. an asynchronous execution, you need the following code:
 ```Java
