@@ -154,10 +154,13 @@ try {
 
 ## Further readings
 
+* <a href="https://www.dynatrace.com/support/help/extend-dynatrace/oneagent-sdk/what-is-oneagent-sdk/" target="_blank">What is the OneAgent SDK?</a> in the Dynatrace documentation
+* <a href="https://answers.dynatrace.com/spaces/483/dynatrace-product-ideas/idea/198106/planned-features-for-oneagent-sdk.html" target="_blank">Feedback & Roadmap thread in AnswerHub</a>
+* <a href="https://www.dynatrace.com/news/blog/dynatrace-oneagent-sdk-for-java-end-to-end-monitoring-for-proprietary-java-frameworks/" target="_blank">Blog: Dynatrace OneAgent SDK for Java: End-to-end monitoring for proprietary Java frameworks</a>
 
 ## Help & Support
 
-In case of questions, issues or feature requests feel free to contact the maintainer by dynatrace.oneagent.sdk(at)dynatrace(dot)com or file an issue. Your feedback is welcome!
+The Dynatrace OneAgent SDK is an open source project, in beta status. Feedback and feature requests can be filed directly on GitHub or on the <a href="https://answers.dynatrace.com/spaces/483/dynatrace-product-ideas/idea/198106/planned-features-for-oneagent-sdk.html" target="_blank">Feedback & Roadmap thread in AnswerHub</a>.
 
 ## Release notes
 |Version|Description|Links|
