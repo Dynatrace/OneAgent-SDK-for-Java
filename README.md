@@ -17,15 +17,10 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 - JRE 1.6 or higher
 - Dynatrace OneAgent (required versions see below)
 
-|OneAgent SDK for Java|Dynatrace OneAgent Java|
+|OneAgent SDK for Java|Required OneAgent version|
 |:------|:--------|
 |1.1.0  |>=1.143  |
 |1.0.3  |>=1.135  |
-
-
-## Features
-Dynatrace OneAgent SDK for Java currently implements support for the following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
--  outgoing and incoming remote calls
 
 ## Integrating into your application
 
@@ -51,12 +46,11 @@ If the SDK can't connect to the OneAgent (see usage of SDKState in samples) or y
 Additionally you should/have to ensure, that you have set a `LoggingCallback`. For usage see class `StdErrLoggingCallback` in `remotecall-server` module (in samples/remotecall folder).
 
 
-
-# API Concepts
+## API Concepts
 
 Common concepts of the Dynatrace OneAgent SDK are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK).
 
-## Get an Api object
+### Get an Api object
 
 Use OneAgentSDKFactory.createInstance() to obtain an OneAgentSDK instance. You should reuse this object over the whole application 
 and if possible JVM lifetime:
@@ -77,7 +71,7 @@ default:
 
 It is good practice to check the SDK state regularly as it may change at every point of time (except PERMANENTLY_INACTIVE never changes over JVM lifetime).
 
-## Common concepts: Tracers
+### Common concepts: Tracers
 
 To trace any kind of call you first need to create a Tracer. The Tracer object represents the logical and physical endpoint that you want to call. A Tracer serves two purposes. First to time the call (duraction, cpu and more) and report errors. That is why each Tracer has these three methods. The error method must be called only once, and it must be in between start and end.
 
@@ -91,7 +85,12 @@ void end();
 The second purpose of a Tracer is to allow tracing across process boundaries. To achieve that these kind of traces supply so called tags. Tags are strings or byte arrays that enable Dynatrace to trace a transaction end to end. As such the tag is the one information that you need to transport across these calls yourselfs.
 
 
-## Trace incoming and outgoing remote calls
+## Features
+Dynatrace OneAgent SDK for Java currently implements support for the following features (corresponding to features specified in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK)):
+-  outgoing and incoming remote calls
+
+
+### Trace incoming and outgoing remote calls
 
 You can use the SDK to trace proprietary IPC communication from one process to the other. This will enable you to see full Service Flow, PurePath and Smartscape topology for remoting technologies that Dynatrace is not aware of.
 
@@ -129,7 +128,7 @@ try {
 }
 ```
 
-## Link in process
+### In process linking
 
 You can use the SDK to link inside a single process. To link for eg. an asynchronous execution, you need the following code:
 ```Java
@@ -153,13 +152,14 @@ try {
 }
 ```
 
+## Further readings
 
 
-## Feedback
+## Help & Support
 
 In case of questions, issues or feature requests feel free to contact the maintainer by dynatrace.oneagent.sdk(at)dynatrace(dot)com or file an issue. Your feedback is welcome!
 
-## OneAgent SDK for Java release notes
+## Release notes
 |Version|Description|Links|
 |:------|:--------------------------------------|:----------------------------------------|
 |1.1.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.1.0-javadoc.jar)|
