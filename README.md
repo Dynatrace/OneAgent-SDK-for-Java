@@ -124,6 +124,11 @@ The feature sets differ slightly with each language implementation. More functio
 
 A more detailed specification of the features can be found in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK#features).
 
+|Feature|Required OneAgent SDK for Java version|
+|:------|:--------|
+|Trace incoming and outgoing remote calls  |>=1.0.3  |
+|In process linking  |>=1.1.0  |
+
 <a name="remoting" />
 
 ### Trace incoming and outgoing remote calls
