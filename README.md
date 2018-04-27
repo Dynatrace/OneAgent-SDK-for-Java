@@ -59,7 +59,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	  <scope>compile</scope>
 	</dependency>
 
-If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral - Dynatrace OneAgent SDK for Java [binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3.jar), [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) and [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-javadoc.jar)
+If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral. You can find the download links for each version in the [Release notes](#releasenotes) section.
 
 The Dynatrace OneAgent SDK for Java has no further dependencies.
 
@@ -76,7 +76,7 @@ Additionally you should/have to ensure, that you have set a `LoggingCallback`. F
 
 ## API Concepts
 
-Common concepts of the Dynatrace OneAgent SDK are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK).
+Common concepts of the Dynatrace OneAgent SDK are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK#apiconcepts).
 
 <a name="oneagentsdkobject" />
 
@@ -122,7 +122,12 @@ The second purpose of a Tracer is to allow tracing across process boundaries. To
 
 The feature sets differ slightly with each language implementation. More functionality will be added over time, see <a href="https://answers.dynatrace.com/spaces/483/dynatrace-product-ideas/idea/198106/planned-features-for-oneagent-sdk.html" target="_blank">Planned features for OneAgent SDK</a> for details on upcoming features.
 
-A more detailed specification of the features can be found in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK).
+A more detailed specification of the features can be found in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK#features).
+
+|Feature|Required OneAgent SDK for Java version|
+|:------|:--------|
+|Trace incoming and outgoing remote calls  |>=1.0.3  |
+|In process linking  |>=1.1.0  |
 
 <a name="remoting" />
 
@@ -207,6 +212,9 @@ The Dynatrace OneAgent SDK is an open source project, in beta status. Feedback a
 <a name="releasenotes" />
 
 ## Release notes
+
+see also https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases
+
 |Version|Description|Links|
 |:------|:--------------------------------------|:----------------------------------------|
 |1.1.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.1.0-javadoc.jar)|
