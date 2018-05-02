@@ -207,7 +207,24 @@ try {
 
 ## Help & Support
 
-The Dynatrace OneAgent SDK is an open source project, in beta status. Feedback and feature requests can be filed directly on GitHub or on the <a href="https://answers.dynatrace.com/spaces/483/dynatrace-product-ideas/idea/198106/planned-features-for-oneagent-sdk.html" target="_blank">Feedback & Roadmap thread in AnswerHub</a>.
+The Dynatrace OneAgent SDK for Java is an open source project, currently in beta status. The features are fully supported by Dynatrace. 
+
+**Get Help**
+* Ask a question in the <a href="https://answers.dynatrace.com/spaces/482/view.html" target="_blank">product forums</a>
+* Read the <a href="https://www.dynatrace.com/support/help/" target="_blank">product documentation</a>
+
+**Open a <a href="https://github.com/Dynatrace/OneAgent-SDK-for-Java/issues">GitHub issue</a> to:**
+* Report minor defects, minor items or typos
+* Ask for improvements or changes in the SDK API
+* Ask any questions related to the community effort
+
+SLAs don't apply for GitHub tickets
+
+**Customers can open a ticket on the <a href="https://support.dynatrace.com/supportportal/" target="_blank">Dynatrace support portal</a> to:**
+* Get support from the Dynatrace technical support engineering team
+* Manage and resolve product related technical issues
+
+SLAs apply according to the customer's support level.
 
 <a name="releasenotes" />
 
