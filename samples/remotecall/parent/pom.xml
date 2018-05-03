@@ -34,14 +34,7 @@
 	<agent.options>,debugOneAgentSdkJava=true</agent.options>
 	<agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options},tenant=${agent.tenant},tenantToken=${agent.tenantToken}</agent.agentpath>
 	 -->
-	 
-	<agent.lib>C:\workspaces\ruxit\agent\devenv\build\agent\lib64\oneagentjava.dll</agent.lib>
-    <agent.server>https://aoz69185.dev.dynatracelabs.com:443</agent.server>
-    <agent.tenant>aoz69185</agent.tenant>
-    <agent.tenantToken>kp1m2K4Il2KXwKIE</agent.tenantToken>
-    <agent.options>,debugOneAgentSdkJava=true</agent.options>
-    <agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options},tenant=${agent.tenant},tenantToken=${agent.tenantToken}</agent.agentpath>
-	 
-  </properties>
+
+	 </properties>
  
 </project>
