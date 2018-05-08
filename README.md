@@ -126,8 +126,8 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 
 |Feature|Required OneAgent SDK for Java version|
 |:------|:--------|
-|Trace incoming and outgoing remote calls  |>=1.0.3  |
 |In process linking  |>=1.1.0  |
+|Trace incoming and outgoing remote calls  |>=1.0.3  |
 
 <a name="remoting" />
 
@@ -234,5 +234,5 @@ see also https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases
 
 |Version|Description|Links|
 |:------|:--------------------------------------|:----------------------------------------|
-|1.1.0  |Added support for in-process-linking   |coming soon|
+|1.1.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.1.0-javadoc.jar)|
 |1.0.3  |Initial release                        |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-javadoc.jar)|
