@@ -46,7 +46,8 @@
           	<argument>${agent.agentpath}</argument>
           	<argument>-classpath</argument>
           	<classpath/>
-              <mainClass>com.dynatrace.oneagent.sdk.samples.remoting.ClientApp</mainClass>
+            <mainClass>com.dynatrace.oneagent.sdk.samples.remoting.ClientApp</mainClass>
+          	<argument>${sample.mode}</argument>
           </arguments>
         </configuration>
       </plugin>
