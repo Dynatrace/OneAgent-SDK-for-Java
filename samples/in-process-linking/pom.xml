@@ -6,7 +6,7 @@
  
   <groupId>com.dynatrace.oneagent.sdk.samples.inprocesslinking</groupId>
   <artifactId>in-process-linking-sample</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0</version>
   <packaging>jar</packaging>
  
   <dependencies>
