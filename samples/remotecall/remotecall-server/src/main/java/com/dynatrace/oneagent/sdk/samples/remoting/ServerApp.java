@@ -34,7 +34,7 @@ import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
  *
  */
 public class ServerApp {
-	
+
 	private final OneAgentSDK oneAgentSdk;
 	private final Logger logger = Logger.getLogger("ServerApp");
 
@@ -50,29 +50,34 @@ public class ServerApp {
 					"SDK is PERMANENT_INACTIVE; Probably no OneAgent injected or OneAgent is incompatible with SDK.");
 			break;
 		case TEMPORARILY_INACTIVE:
-			System.err.println("SDK is TEMPORARY_INACTIVE; OneAgent has been deactivated - check OneAgent configuration.");
+			System.err.println(
+					"SDK is TEMPORARY_INACTIVE; OneAgent has been deactivated - check OneAgent configuration.");
 			break;
 		default:
 			System.err.println("SDK is in unknown state.");
 			break;
 		}
 	}
-	
+
 	public static void main(String args[]) {
 		System.out.println("*************************************************************");
 		System.out.println("**       Running remote call server                        **");
 		System.out.println("*************************************************************");
 		int port = 33744; // default port
+		boolean endlessmode = false;
 		for (String arg : args) {
 			if (arg.startsWith("port=")) {
 				port = Integer.parseInt(arg.substring("port=".length()));
+			} else if (arg.startsWith("endlessmode")) {
+				endlessmode = true;
 			} else {
 				System.err.println("unknown argument: " + arg);
 			}
 		}
 		try {
-			new ServerApp().run(port);
-			System.out.println("remote call server stopped. sleeping a while, so OneAgent is able to send data to server ...");
+			new ServerApp().run(port, endlessmode);
+			System.out.println(
+					"remote call server stopped. sleeping a while, so OneAgent is able to send data to server ...");
 			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to server.
 		} catch (Exception e) {
 			System.err.println("remote call server failed: " + e.getMessage());
@@ -81,31 +86,34 @@ public class ServerApp {
 		}
 	}
 
-	private void run(int port) throws IOException, ClassNotFoundException {
+	private void run(int port, boolean endlessmode) throws IOException, ClassNotFoundException {
 		ServerSocket serverSocket = new ServerSocket(port);
 		try {
-			System.out.println("Waiting for clients on port " + serverSocket.getInetAddress().getHostName() + ":"
-					+ serverSocket.getLocalPort());
-			Socket client = serverSocket.accept();
-			try {
-				System.out.println(
-						"Client " + client.getInetAddress().getHostName() + ":" + client.getPort() + " connected");
-				ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-				
-				Object receivedTag = in.readObject();
-				String receivedMessage = (String) in.readObject();
-				System.out.println("received tag: " + receivedTag.toString());
-				traceCallFromClient(receivedTag, receivedMessage);
-			} finally {
-				client.close();
-			}
+			do {
+				System.out.println("Waiting for clients on port " + serverSocket.getInetAddress().getHostName() + ":"
+						+ serverSocket.getLocalPort());
+				Socket client = serverSocket.accept();
+				try {
+					System.out.println(
+							"Client " + client.getInetAddress().getHostName() + ":" + client.getPort() + " connected");
+					ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+
+					Object receivedTag = in.readObject();
+					String receivedMessage = (String) in.readObject();
+					System.out.println("received tag: " + receivedTag.toString());
+					traceCallFromClient(receivedTag, receivedMessage);
+				} finally {
+					client.close();
+				}
+			} while (endlessmode);
 		} finally {
 			serverSocket.close();
 		}
 	}
-	
+
 	private void traceCallFromClient(Object receivedTag, String receivedMessage) {
-		IncomingRemoteCallTracer incomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("myMethod", "myService", "endpoint");
+		IncomingRemoteCallTracer incomingRemoteCall = oneAgentSdk.traceIncomingRemoteCall("myMethod", "myService",
+				"endpoint");
 		if (receivedTag instanceof String) {
 			incomingRemoteCall.setDynatraceStringTag((String) receivedTag);
 		} else if (receivedTag instanceof byte[]) {
@@ -113,7 +121,7 @@ public class ServerApp {
 		} else {
 			System.err.println("invalid tag received: " + receivedTag.getClass().toString());
 		}
-		
+
 		incomingRemoteCall.start();
 		try {
 			handleCallFromClient(receivedMessage);
@@ -123,12 +131,12 @@ public class ServerApp {
 		} finally {
 			incomingRemoteCall.end();
 		}
-		
+
 	}
 
 	private void handleCallFromClient(String receivedMessage) {
 		// do whatever the server should do ...
 		System.out.println("Received message from client: " + receivedMessage);
 	}
-	
+
 }

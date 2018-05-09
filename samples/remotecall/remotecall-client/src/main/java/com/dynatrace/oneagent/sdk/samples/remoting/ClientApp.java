@@ -56,17 +56,22 @@ public class ClientApp {
 		System.out.println("**       Running remote call client                        **");
 		System.out.println("*************************************************************");
 		int port = 33744;
+		boolean endlessmode = false;
 		for (String arg : args) {
 			if (arg.startsWith("port=")) {
 				port = Integer.parseInt(arg.substring("port=".length()));
+			} else if (arg.startsWith("endlessmode")) {
+				endlessmode = true;
 			} else {
 				System.err.println("unknown argument: " + arg);
 			}
 		}
 		try {
-			new ClientApp().run(port);
-			System.out.println("remote call client finished. sleeping a while, so OneAgent is able to send data to server ...");
-			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to server.
+			ClientApp clientApp = new ClientApp();
+			do {
+				clientApp.run(port);
+				Thread.sleep(10000);
+			} while (endlessmode);
 		} catch (Exception e) {
 			System.err.println("remote call client failed: " + e.getMessage());
 			e.printStackTrace();
