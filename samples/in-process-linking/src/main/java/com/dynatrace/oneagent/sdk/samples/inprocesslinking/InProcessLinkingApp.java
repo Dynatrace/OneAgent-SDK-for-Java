@@ -1,7 +1,5 @@
 package com.dynatrace.oneagent.sdk.samples.inprocesslinking;
 
-import java.io.BufferedReader;
-
 /*
  * Copyright 2018 Dynatrace LLC
  *
@@ -19,13 +17,8 @@ import java.io.BufferedReader;
  */
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -107,7 +100,10 @@ public class InProcessLinkingApp {
 		
 		// e. g.: https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases/tag/v1.0.3
 		String location = url.getHeaderField("Location");
-		String latestVersion = location.substring(location.lastIndexOf('/')+1);
+		String latestVersion = location.substring(location.lastIndexOf('/') + 1);
+		
+		// tag this request using the found SDK version:
+		oneAgentSdk.addCustomRequestAttribute("oneagentsdk.java.version", latestVersion);
 
 		// download the big release archive asynchronously ... 
 		UrlDownloadItem asyncWorkItem = new UrlDownloadItem(
