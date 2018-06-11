@@ -32,3 +32,11 @@ This Application shows how to in-process-linking and custom service attributes a
 
 Check your Dynatrace environment for newly created services like that:
 ![in-process-linking-service](img/in-process-linking-service.png)
+
+### Run WebRequest sample application
+This Application shows how to trace incoming webrequests. To run this sample you just go into the sample directory and run the sample by typing:
+
+- run sample: `mvn exec:exec`
+
+Check your Dynatrace environment for newly created services like that:
+![webrequest-service](img/webrequest-service.png)

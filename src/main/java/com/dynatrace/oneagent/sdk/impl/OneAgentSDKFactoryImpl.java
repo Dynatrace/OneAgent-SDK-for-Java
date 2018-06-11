@@ -27,7 +27,7 @@ public class OneAgentSDKFactoryImpl {
 
     /* increase version with every change. in case of non breaking change (to OneAgent), increase oneSdkFix only. */
     static final int oneSdkMajor = 1;
-    static final int oneSdkMinor = 2;
+    static final int oneSdkMinor = 3;
     static final int oneSdkFix = 0;
 
     /** the only SDK instance (one for every classLoader) */
