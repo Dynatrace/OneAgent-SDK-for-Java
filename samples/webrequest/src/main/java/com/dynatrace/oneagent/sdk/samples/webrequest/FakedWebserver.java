@@ -28,14 +28,14 @@ public class FakedWebserver {
 	}
 	
 	public static class HttpRequest {
-		private final String remoteHostName;
+		private final String remoteIpAddress;
 		private final String uri;
 		private final String method;
 		
-		public HttpRequest(String uri, String method, String remoteHostName) {
+		public HttpRequest(String uri, String method, String remoteIpAddress) {
 			this.uri = uri;
 			this.method = method;
-			this.remoteHostName = remoteHostName;
+			this.remoteIpAddress = remoteIpAddress;
 		}
 		
 		public String getUri() {
@@ -56,8 +56,8 @@ public class FakedWebserver {
 			return new HashMap<String, List<String>>();
 		}
 
-		public String getRemoteHostName() {
-			return remoteHostName;
+		public String getRemoteIpAddress() {
+			return remoteIpAddress;
 		}
 		
 		
@@ -78,7 +78,7 @@ public class FakedWebserver {
 				incomingWebrequestTracer.addParameter(headerField.getKey(), value);
 			}
 		}
-		incomingWebrequestTracer.setRemoteAddress(session.getRemoteHostName());
+		incomingWebrequestTracer.setRemoteAddress(session.getRemoteIpAddress());
 
 		incomingWebrequestTracer.start();
 		HttpResponse response = new HttpResponse();
