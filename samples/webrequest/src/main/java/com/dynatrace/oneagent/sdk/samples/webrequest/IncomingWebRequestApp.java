@@ -64,7 +64,7 @@ public class IncomingWebRequestApp {
 			IncomingWebRequestApp app = new IncomingWebRequestApp();
 			app.runIncomingWebrequest();
 			System.out.println("sample application stopped. sleeping a while, so OneAgent is able to send data to server ...");
-			Thread.sleep(15000); // we have to wait - so OneAgent is able to send data to server
+			Thread.sleep(15000 * 3); // we have to wait - so OneAgent is able to send data to server
 		} catch (Exception e) {
 			System.err.println("in-process-linking sample failed: " + e.getMessage());
 			e.printStackTrace();
