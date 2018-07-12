@@ -25,7 +25,7 @@ Check your Dynatrace environment for newly created service like that:
 ![remotecall-server](img/remotecall-service.png)
 
 ### Run InProcessLinking sample application
-This Application shows how to in-process-linking is being sued. To run this sample you need to create a custom service for your tenant. and of course Dynatrace OneAgent must be installed.
+This Application shows how to in-process-linking and custom service attributes are being used. To run this sample you need to create a custom service for your tenant - and of course Dynatrace OneAgent must be installed.
 
 - ensure you have custom service for method `startAsyncOperation` in class `com.dynatrace.oneagent.sdk.samples.inprocesslinking.InProcessLinkingApp` 
 - run sample: `mvn exec:exec`

@@ -6,14 +6,14 @@
  
   <groupId>com.dynatrace.oneagent.sdk.samples.inprocesslinking</groupId>
   <artifactId>in-process-linking-sample</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <packaging>jar</packaging>
  
   <dependencies>
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.1.0</version>
+	  <version>1.2.0</version>
 	  <scope>compile</scope>
 	</dependency>
   </dependencies>

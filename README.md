@@ -19,6 +19,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 * [Features](#features)
  	* [Trace incoming and outgoing remote calls](#remoting)
  	* [In process linking](#inprocess)
+ 	* [Add custom request attributes](#scav)
 * [Further reading](#furtherreading)
 * [Help & Support](#help)
 * [Release notes](#releasenotes)
@@ -39,9 +40,10 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 - Dynatrace OneAgent (required versions see below)
 
 |OneAgent SDK for Java|Required OneAgent version|
-|:------|:--------|
-|1.1.0  |>=1.143  |
-|1.0.3  |>=1.135  |
+|:--------------------|:------------------------|
+|1.2.0                |>=1.147                  |
+|1.1.0                |>=1.143                  |
+|1.0.3                |>=1.135                  |
 
 <a name="integration" />
 
@@ -55,7 +57,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.1.0</version>
+	  <version>1.2.0</version>
 	  <scope>compile</scope>
 	</dependency>
 
@@ -124,10 +126,11 @@ The feature sets differ slightly with each language implementation. More functio
 
 A more detailed specification of the features can be found in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK#features).
 
-|Feature|Required OneAgent SDK for Java version|
-|:------|:--------|
-|In process linking  |>=1.1.0  |
-|Trace incoming and outgoing remote calls  |>=1.0.3  |
+|Feature                                   |Required OneAgent SDK for Java version|
+|:-----------------------------------------|:-------------------------------------|
+|Custom request attributes                 |>=1.2.0                               |
+|In process linking                        |>=1.1.0                               |
+|Trace incoming and outgoing remote calls  |>=1.0.3                               |
 
 <a name="remoting" />
 
@@ -195,6 +198,21 @@ try {
 }
 ```
 
+<a name="scav" />
+
+### Add custom request attributes
+
+You can use the SDK to add custom request attributes to the current traced service. Custom request attributes allow you to do advanced filtering of your requests in Dynatrace.
+
+Adding custom request attributes to the currently traced service call is simple. Just call one of the addCustomRequestAttribute methods with your key and value:
+
+```Java
+oneAgentSDK.addCustomRequestAttribute("region", "EMEA");
+oneAgentSDK.addCustomRequestAttribute("salesAmount", 2500);
+```
+
+When no service call is being traced, the custom request attributes are dropped.
+
 <a name="furtherreading" />
 
 ## Further readings
@@ -232,7 +250,8 @@ SLAs apply according to the customer's support level.
 
 see also https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases
 
-|Version|Description|Links|
+|Version|Description                            |Links                                    |
 |:------|:--------------------------------------|:----------------------------------------|
+|1.2.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-javadoc.jar)|
 |1.1.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0-javadoc.jar)|
 |1.0.3  |Initial release                        |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-javadoc.jar)|
