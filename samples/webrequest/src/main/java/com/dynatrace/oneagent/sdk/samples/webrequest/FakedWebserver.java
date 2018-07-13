@@ -76,12 +76,13 @@ public class FakedWebserver {
 		private final String remoteIpAddress;
 		private final String uri;
 		private final String method;
-		Map<String, String> requestHeaders = new HashMap<String, String>();
+		private final Map<String, List<String>> requestHeaders;
 		
-		public HttpRequest(String uri, String method, String remoteIpAddress) {
+		public HttpRequest(String uri, String method, String remoteIpAddress, Map<String, List<String>> requestHeaders) {
 			this.uri = uri;
 			this.method = method;
 			this.remoteIpAddress = remoteIpAddress;
+			this.requestHeaders = requestHeaders;
 		}
 		
 		public String getUri() {
@@ -92,7 +93,7 @@ public class FakedWebserver {
 			return method;
 		}
 
-		public Map<String, String> getHeaders() {
+		public Map<String, List<String>> getHeaders() {
 			return requestHeaders;
 		}
 
@@ -112,12 +113,14 @@ public class FakedWebserver {
 		IncomingWebRequestTracer incomingWebrequestTracer = oneAgentSDK.traceIncomingWebRequest(webAppInfo, url, request.getMethod());
 
 		// add request header, parameter and remote address before start:
-		for (Entry<String, String> headerField : request.getHeaders().entrySet()) {
-			incomingWebrequestTracer.addRequestHeader(headerField.getKey(), headerField.getValue());
-		}
-		for (Entry<String, List<String>> headerField : request.getParameters().entrySet()) {
+		for (Entry<String, List<String>> headerField : request.getHeaders().entrySet()) {
 			for (String value : headerField.getValue()) {
-				incomingWebrequestTracer.addParameter(headerField.getKey(), value);
+				incomingWebrequestTracer.addRequestHeader(headerField.getKey(), value);
+			}
+		}
+		for (Entry<String, List<String>> parameter : request.getParameters().entrySet()) {
+			for (String value : parameter.getValue()) {
+				incomingWebrequestTracer.addParameter(parameter.getKey(), value);
 			}
 		}
 		incomingWebrequestTracer.setRemoteAddress(request.getRemoteIpAddress());

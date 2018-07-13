@@ -58,7 +58,7 @@ public class FakedHttpClient implements HttpResponse {
 		} catch (UnknownHostException e) {
 			clientIp = "192.168.4.5"; // fake IP
 		}
-		httpRequest = new HttpRequest(url.getPath() + "?" + url.getQuery(), method, clientIp);
+		httpRequest = new HttpRequest(url.getPath() + "?" + url.getQuery(), method, clientIp, requestHeaders);
 		
 		// ... and queue it for processing: 
 		WebRequestApp.instance.webServer.enqeueHttpRequestForProcessing(httpRequest, this);

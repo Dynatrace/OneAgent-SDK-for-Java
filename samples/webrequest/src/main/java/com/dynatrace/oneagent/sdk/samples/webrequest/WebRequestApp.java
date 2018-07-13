@@ -62,7 +62,7 @@ public class WebRequestApp {
 	}
 
 	private void runFakedWebrequest() {
-		String url = "http://localhost:80/my/path?param1=value1&param2=value2";
+		String url = "http://localhost:80/billing/my/path?param1=value1&param2=value2";
 		System.out.println("[Client] request " + url);
 		OutgoingWebRequestTracer outgoingWebRequestTracer = oneAgentSdk.traceOutgoingWebRequest(url, "GET");
 		outgoingWebRequestTracer.start();
