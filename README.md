@@ -20,8 +20,9 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
  	* [Trace incoming and outgoing remote calls](#remoting)
  	* [In process linking](#inprocess)
  	* [Add custom request attributes](#scav)
- 	* [Trace incoming web requests](#inwebrequests)
- 	* [Trace outgoing web requests](#outwebrequests)
+ 	* [Trace web requests](#webrequests)
+ 	 	* [Trace incoming web requests](#inwebrequests)
+ 	 	* [Trace outgoing web requests](#outwebrequests)
 * [Further reading](#furtherreading)
 * [Help & Support](#help)
 * [Release notes](#releasenotes)
@@ -219,19 +220,23 @@ oneAgentSDK.addCustomRequestAttribute("salesAmount", 2500);
 
 When no service call is being traced, the custom request attributes are dropped.
 
+<a name="webrequests"/>
+
+## Trace web requests
+
 <a name="inwebrequests"/>
 
-## Trace incoming web requests
+### Trace incoming web requests
 
-You can use the SDK to trace incoming web requests. This might be useful if Dynatrace does not support the respective web server framework or language.
+You can use the SDK to trace incoming web requests. This might be useful if Dynatrace does not support the respective web server framework or language processing the incoming web requests.
 
-To trace any kind of incoming web request you first need to create a WebServerInfo object. The info object represents the endpoint of your web server (webservername, applicationname and context root). This object should be reused for all traced webrequests for the same application.
+To trace an incoming web request you first need to create a WebServerInfo object. The info object represents the endpoint of your web server (web server name, application name and context root). This object should be reused for all traced web requests within for the same application.
 
 ```Java
 WebServerInfo wsInfo = OneAgentSDK.createWebServerInfo("WebShopProduction", "CheckoutService", "/api/service/checkout");
 ```
 
-To trace a specific incoming web request you then need to create a Tracer object. It is important to provide all http headers from the request to the SDK by calling addRequestHeader(...). This ensures that tagging with our built-in sensor is working.
+To trace a specific incoming web request you then need to create a Tracer object. Make sure you provide all http headers from the request to the SDK by calling addRequestHeader(...). This ensures that tagging with our built-in sensor is working.
 
 ```Java
 IncomingWebRequestTracer tracer = OneAgentSDK.traceIncomingWebRequest(wsInfo,"https://www.oursupershop.com/api/service/checkout/save","POST")
@@ -263,7 +268,7 @@ try {
 
 <a name="outwebrequests"/>
 
-## Trace outgoing web requests
+### Trace outgoing web requests
 
 You can use the SDK to trace outgoing web requests. This might be useful if Dynatrace does not support the respective http library or language.
 
