@@ -209,9 +209,9 @@ try {
 
 ### Add custom request attributes
 
-You can use the SDK to add custom request attributes to current traced service. Custom request attributes allow you to do easier/better filtering of your requests in Dynatrace.
+You can use the SDK to add custom request attributes to the current traced service. Custom request attributes allow you to do advanced filtering of your requests in Dynatrace.
 
-Adding custom request attributes to the currently traced service call is pretty simple. Just call one of the addCustomRequestAttribute methods with your key and value:
+Adding custom request attributes to the currently traced service call is simple. Just call one of the addCustomRequestAttribute methods with your key and value:
 
 ```Java
 oneAgentSDK.addCustomRequestAttribute("region", "EMEA");
