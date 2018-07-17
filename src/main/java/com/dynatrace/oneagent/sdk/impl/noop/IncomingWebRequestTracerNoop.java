@@ -20,17 +20,17 @@ import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 public class IncomingWebRequestTracerNoop extends NodeNoop implements IncomingWebRequestTracer {
 
 	public static final IncomingWebRequestTracer INSTANCE = new IncomingWebRequestTracerNoop();
-	
+
 	private IncomingWebRequestTracerNoop() {
 	}
-	
-    @Override
-    public void setDynatraceStringTag(String tag) {
-    }
 
-    @Override
-    public void setDynatraceByteTag(byte[] tag) {
-    }
+	@Override
+	public void setDynatraceStringTag(String tag) {
+	}
+
+	@Override
+	public void setDynatraceByteTag(byte[] tag) {
+	}
 
 	@Override
 	public void setRemoteAddress(String remoteAddress) {

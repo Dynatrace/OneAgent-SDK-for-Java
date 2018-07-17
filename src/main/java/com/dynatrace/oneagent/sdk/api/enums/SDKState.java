@@ -20,26 +20,29 @@ package com.dynatrace.oneagent.sdk.api.enums;
  */
 public enum SDKState {
 
-    /** 
-     * SDK is connected to OneAgent and capturing data.
-     * @since 1.0
-     */
-    ACTIVE,
+	/**
+	 * SDK is connected to OneAgent and capturing data.
+	 * 
+	 * @since 1.0
+	 */
+	ACTIVE,
 
-    /**
-     * SDK is connected to OneAgent, but capturing is disabled.It is good practice 
-     * to skip creating SDK transactions to save resources. The SDK state should 
-     * be checked regularly as it may change at every point in time.
-     * @since 1.0
-     */
-    TEMPORARILY_INACTIVE,
+	/**
+	 * SDK is connected to OneAgent, but capturing is disabled.It is good practice
+	 * to skip creating SDK transactions to save resources. The SDK state should be
+	 * checked regularly as it may change at every point in time.
+	 * 
+	 * @since 1.0
+	 */
+	TEMPORARILY_INACTIVE,
 
-    /**
-     * SDK isn't connected to OneAgent, so it will never capture data. This SDK 
-     * state will never change during the lifetime of a JVM. It is good practice 
-     * to never call any SDK API to save resources. 
-     * @since 1.0
-     */
-    PERMANENTLY_INACTIVE;
+	/**
+	 * SDK isn't connected to OneAgent, so it will never capture data. This SDK
+	 * state will never change during the lifetime of a JVM. It is good practice to
+	 * never call any SDK API to save resources.
+	 * 
+	 * @since 1.0
+	 */
+	PERMANENTLY_INACTIVE;
 
 }

@@ -23,16 +23,16 @@ import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
  */
 public class OneAgentSDKFactory {
 
-    /**
-     * Provides a {@link OneAgentSDK} instance, that has to be used to create
-     * transactions. It is safe to use returned {@link OneAgentSDK} instance in 
-     * multiple threads. Every application should only create one single SDK 
-     * instance during its lifetime.
-     *
-     * @return never null. if no OneAgent present, NOOP implementation gets
-     *         returned.
-     */
-    public static OneAgentSDK createInstance() {
-        return OneAgentSDKFactoryImpl.createInstance();
-    }
+	/**
+	 * Provides a {@link OneAgentSDK} instance, that has to be used to create
+	 * transactions. It is safe to use returned {@link OneAgentSDK} instance in
+	 * multiple threads. Every application should only create one single SDK
+	 * instance during its lifetime.
+	 *
+	 * @return never null. if no OneAgent present, NOOP implementation gets
+	 *         returned.
+	 */
+	public static OneAgentSDK createInstance() {
+		return OneAgentSDKFactoryImpl.createInstance();
+	}
 }

@@ -20,5 +20,5 @@ import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 public class WebApplicationInfoNoop implements WebApplicationInfo {
 
 	public static final WebApplicationInfo INSTANCE = new WebApplicationInfoNoop();
-	
+
 }

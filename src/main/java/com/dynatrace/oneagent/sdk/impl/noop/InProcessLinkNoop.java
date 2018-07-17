@@ -18,7 +18,7 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 
 public class InProcessLinkNoop implements InProcessLink {
-	
+
 	public final static InProcessLink INSTANCE = new InProcessLinkNoop();
-	
+
 }

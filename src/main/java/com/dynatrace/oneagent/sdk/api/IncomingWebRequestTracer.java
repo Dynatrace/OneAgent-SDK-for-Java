@@ -16,48 +16,61 @@
 package com.dynatrace.oneagent.sdk.api;
 
 /**
- * Interface for incoming webrequest tracer.
- * <a href="https://github.com/Dynatrace/OneAgent-SDK#webrequests">https://github.com/Dynatrace/OneAgent-SDK#webrequests</a>
+ * Interface for incoming webrequest tracer. <a href=
+ * "https://github.com/Dynatrace/OneAgent-SDK#webrequests">https://github.com/Dynatrace/OneAgent-SDK#webrequests</a>
  * 
  * @since 1.3
  */
 public interface IncomingWebRequestTracer extends Tracer, IncomingTaggable {
 
 	/**
-	 * Validates and sets the remote IP address of the incoming web request. This information is very useful to gain information about Load balancers, Proxies and ultimately the end user that is sending the request.
+	 * Validates and sets the remote IP address of the incoming web request. This
+	 * information is very useful to gain information about Load balancers, Proxies
+	 * and ultimately the end user that is sending the request.
 	 *
-	 * @param remoteAddress		remote IP address
+	 * @param remoteAddress
+	 *            remote IP address
 	 */
 	void setRemoteAddress(String remoteAddress);
 
 	/**
-	 * All HTTP request headers should be provided to this method. Selective capturing will be done based on sensor configuration.
+	 * All HTTP request headers should be provided to this method. Selective
+	 * capturing will be done based on sensor configuration.
 	 *
-	 * @param name		HTTP request header field name
-	 * @param value		HTTP request header field value
+	 * @param name
+	 *            HTTP request header field name
+	 * @param value
+	 *            HTTP request header field value
 	 */
 	void addRequestHeader(String name, String value);
 
 	/**
-	 * All HTTP parameters should be provided to this method. Selective capturing will be done based on sensor configuration.
+	 * All HTTP parameters should be provided to this method. Selective capturing
+	 * will be done based on sensor configuration.
 	 *
-	 * @param name		HTTP parameter name
-	 * @param value		HTTP parameter value
+	 * @param name
+	 *            HTTP parameter name
+	 * @param value
+	 *            HTTP parameter value
 	 */
 	void addParameter(String name, String value);
 
 	/**
-	 * All HTTP response headers should be provided to this method. Selective capturing will be done based on sensor configuration.
+	 * All HTTP response headers should be provided to this method. Selective
+	 * capturing will be done based on sensor configuration.
 	 *
-	 * @param name		HTTP response header field name
-	 * @param value		HTTP response header field value
+	 * @param name
+	 *            HTTP response header field name
+	 * @param value
+	 *            HTTP response header field value
 	 */
 	void addResponseHeader(String name, String value);
 
 	/**
 	 * Sets the HTTP response status code.
 	 *
-	 * @param statusCode		HTTP status code returned to client
+	 * @param statusCode
+	 *            HTTP status code returned to client
 	 */
 	void setStatusCode(int statusCode);
 

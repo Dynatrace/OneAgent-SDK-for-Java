@@ -18,7 +18,7 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
 class WebApplicationInfoImpl implements WebApplicationInfo {
-	
+
 	private final String webServerName;
 	private final String applicationID;
 	private final String contextRoot;
@@ -40,5 +40,5 @@ class WebApplicationInfoImpl implements WebApplicationInfo {
 	String getContextRoot() {
 		return contextRoot;
 	}
-	
+
 }

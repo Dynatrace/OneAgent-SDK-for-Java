@@ -16,28 +16,28 @@
 package com.dynatrace.oneagent.sdk.api;
 
 /**
- * LoggingCallback gets called only inside a OneAgentSDK API call when
- * an error/warning has occurred. <br>
+ * LoggingCallback gets called only inside a OneAgentSDK API call when an
+ * error/warning has occurred. <br>
  * Never call any SDK API inside one of these callback methods.
  */
 public interface LoggingCallback {
 
-    /**
-     * Just a warning. Something is missing, but OneAgent is working normal.
-     *
-     * @param message
-     *            message text. never null.
-     * @since 1.0
-     */
-    void warn(String message);
+	/**
+	 * Just a warning. Something is missing, but OneAgent is working normal.
+	 *
+	 * @param message
+	 *            message text. never null.
+	 * @since 1.0
+	 */
+	void warn(String message);
 
-    /**
-     * Something that should be done can't be done. (e. g. PurePath could 
-     * not be started)
-     *
-     * @param message
-     *            message text. never null.
-     * @since 1.0
-     */
-    void error(String message);
+	/**
+	 * Something that should be done can't be done. (e. g. PurePath could not be
+	 * started)
+	 *
+	 * @param message
+	 *            message text. never null.
+	 * @since 1.0
+	 */
+	void error(String message);
 }

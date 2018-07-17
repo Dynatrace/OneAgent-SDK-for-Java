@@ -20,16 +20,16 @@ import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 public class OutgoingWebRequestTracerNoop extends NodeNoop implements OutgoingWebRequestTracer {
 	public static final OutgoingWebRequestTracerNoop INSTANCE = new OutgoingWebRequestTracerNoop();
 
-    @Override
-    public String getDynatraceStringTag() {
-        return NO_TAG_STRING;
-    }
+	@Override
+	public String getDynatraceStringTag() {
+		return NO_TAG_STRING;
+	}
 
-    @Override
-    public byte[] getDynatraceByteTag() {
-        return NO_TAG_BLOB;
-    }
-    
+	@Override
+	public byte[] getDynatraceByteTag() {
+		return NO_TAG_BLOB;
+	}
+
 	@Override
 	public void addRequestHeader(String name, String value) {
 	}

@@ -23,16 +23,16 @@ package com.dynatrace.oneagent.sdk.api.enums;
  */
 public enum ChannelType {
 
-    OTHER(0), TCP_IP(1), UNIX_DOMAIN_SOCKET(2), NAMED_PIPE(3), IN_PROCESS(4);
+	OTHER(0), TCP_IP(1), UNIX_DOMAIN_SOCKET(2), NAMED_PIPE(3), IN_PROCESS(4);
 
-    /** constant is being used in API call to OneAgent. don't change it! */
-    private final int sdkConstant;
+	/** constant is being used in API call to OneAgent. don't change it! */
+	private final int sdkConstant;
 
-    private ChannelType(int sdkConstant) {
-        this.sdkConstant = sdkConstant;
-    }
+	private ChannelType(int sdkConstant) {
+		this.sdkConstant = sdkConstant;
+	}
 
-    public int getSDKConstant() {
-        return sdkConstant;
-    }
+	public int getSDKConstant() {
+		return sdkConstant;
+	}
 }

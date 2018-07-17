@@ -19,25 +19,24 @@ import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 
 public class IncomingWebRequestProxy extends TraceableProxy implements IncomingWebRequestTracer {
 
-
 	public IncomingWebRequestProxy(SDK2AgentInternalApiProxy apiProxy, Object agentObject) {
 		super(apiProxy, agentObject);
 	}
 
 	@Override
-    public void setDynatraceStringTag(String tag) {
-       apiProxy.incomingTaggable_setDynatraceStringTag(agentsNodeObject, tag);
-    }
+	public void setDynatraceStringTag(String tag) {
+		apiProxy.incomingTaggable_setDynatraceStringTag(agentsNodeObject, tag);
+	}
 
-    @Override
-    public void setDynatraceByteTag(byte[] tag) {
-        apiProxy.incomingTaggable_setDynatraceByteTag(agentsNodeObject, tag);
-    }
+	@Override
+	public void setDynatraceByteTag(byte[] tag) {
+		apiProxy.incomingTaggable_setDynatraceByteTag(agentsNodeObject, tag);
+	}
 
 	@Override
 	public void setRemoteAddress(String remoteAddress) {
 		apiProxy.incomingWebRequestTracer_setRemoteAddress(agentsNodeObject, remoteAddress);
-		
+
 	}
 
 	@Override

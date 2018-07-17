@@ -19,23 +19,23 @@ import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
 
 public class RemoteCallServerProxy extends TraceableProxy implements IncomingRemoteCallTracer {
 
-    RemoteCallServerProxy(SDK2AgentInternalApiProxy apiProxy, Object remoteCallObject) {
-        super(apiProxy, remoteCallObject);
-    }
+	RemoteCallServerProxy(SDK2AgentInternalApiProxy apiProxy, Object remoteCallObject) {
+		super(apiProxy, remoteCallObject);
+	}
 
-    @Override
-    public void setDynatraceStringTag(String tag) {
-       apiProxy.incomingTaggable_setDynatraceStringTag(agentsNodeObject, tag);
-    }
+	@Override
+	public void setDynatraceStringTag(String tag) {
+		apiProxy.incomingTaggable_setDynatraceStringTag(agentsNodeObject, tag);
+	}
 
-    @Override
-    public void setDynatraceByteTag(byte[] tag) {
-        apiProxy.incomingTaggable_setDynatraceByteTag(agentsNodeObject, tag);
-    }
+	@Override
+	public void setDynatraceByteTag(byte[] tag) {
+		apiProxy.incomingTaggable_setDynatraceByteTag(agentsNodeObject, tag);
+	}
 
-    @Override
-    public void setProtocolName(String protocolName) {
-        apiProxy.incomingRemoteCallTracer_setProtocolName(agentsNodeObject, protocolName);
-    }
+	@Override
+	public void setProtocolName(String protocolName) {
+		apiProxy.incomingRemoteCallTracer_setProtocolName(agentsNodeObject, protocolName);
+	}
 
 }

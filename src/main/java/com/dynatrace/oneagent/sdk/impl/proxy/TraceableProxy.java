@@ -19,35 +19,35 @@ import com.dynatrace.oneagent.sdk.api.Tracer;
 
 abstract class TraceableProxy implements Tracer {
 
-    protected final SDK2AgentInternalApiProxy apiProxy;
-    protected final Object agentsNodeObject;
+	protected final SDK2AgentInternalApiProxy apiProxy;
+	protected final Object agentsNodeObject;
 
-    TraceableProxy(SDK2AgentInternalApiProxy apiProxy, Object agentsNodeObject) {
-        this.apiProxy = apiProxy;
-        this.agentsNodeObject = agentsNodeObject;
-    }
+	TraceableProxy(SDK2AgentInternalApiProxy apiProxy, Object agentsNodeObject) {
+		this.apiProxy = apiProxy;
+		this.agentsNodeObject = agentsNodeObject;
+	}
 
-    @Override
-    public void start() {
-        apiProxy.tracer_start(agentsNodeObject);
+	@Override
+	public void start() {
+		apiProxy.tracer_start(agentsNodeObject);
 
-    }
+	}
 
-    @Override
-    public void end() {
-        apiProxy.tracer_end(agentsNodeObject);
+	@Override
+	public void end() {
+		apiProxy.tracer_end(agentsNodeObject);
 
-    }
+	}
 
-    @Override
-    public void error(String message) {
-        apiProxy.tracer_error(agentsNodeObject, message);
+	@Override
+	public void error(String message) {
+		apiProxy.tracer_error(agentsNodeObject, message);
 
-    }
+	}
 
-    @Override
-    public void error(Throwable throwable) {
-        apiProxy.tracer_error(agentsNodeObject, throwable);
-    }
+	@Override
+	public void error(Throwable throwable) {
+		apiProxy.tracer_error(agentsNodeObject, throwable);
+	}
 
 }

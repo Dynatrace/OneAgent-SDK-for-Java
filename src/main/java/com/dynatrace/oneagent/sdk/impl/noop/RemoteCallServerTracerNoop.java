@@ -19,21 +19,21 @@ import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
 
 public class RemoteCallServerTracerNoop extends NodeNoop implements IncomingRemoteCallTracer {
 
-    public static final IncomingRemoteCallTracer INSTANCE = new RemoteCallServerTracerNoop();
+	public static final IncomingRemoteCallTracer INSTANCE = new RemoteCallServerTracerNoop();
 
-    private RemoteCallServerTracerNoop() {
-    }
+	private RemoteCallServerTracerNoop() {
+	}
 
-    @Override
-    public void setDynatraceStringTag(String tag) {
-    }
+	@Override
+	public void setDynatraceStringTag(String tag) {
+	}
 
-    @Override
-    public void setDynatraceByteTag(byte[] tag) {
-    }
+	@Override
+	public void setDynatraceByteTag(byte[] tag) {
+	}
 
-    @Override
-    public void setProtocolName(String protocolName) {
-    }
+	@Override
+	public void setProtocolName(String protocolName) {
+	}
 
 }

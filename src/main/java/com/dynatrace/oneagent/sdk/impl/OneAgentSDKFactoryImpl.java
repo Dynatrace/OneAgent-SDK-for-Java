@@ -25,54 +25,57 @@ import com.dynatrace.oneagent.sdk.impl.proxy.SDK2AgentInternalApiProxy;
  */
 public class OneAgentSDKFactoryImpl {
 
-    /* increase version with every change. in case of non breaking change (to OneAgent), increase oneSdkFix only. */
-    static final int oneSdkMajor = 1;
-    static final int oneSdkMinor = 4;
-    static final int oneSdkFix = 0;
+	/*
+	 * increase version with every change. in case of non breaking change (to
+	 * OneAgent), increase oneSdkFix only.
+	 */
+	static final int oneSdkMajor = 1;
+	static final int oneSdkMinor = 4;
+	static final int oneSdkFix = 0;
 
-    /** the only SDK instance (one for every classLoader) */
-    private static OneAgentSDK oneSDK = null;
+	/** the only SDK instance (one for every classLoader) */
+	private static OneAgentSDK oneSDK = null;
 
-    public static boolean debugOneAgentSdkStub = false;
+	public static boolean debugOneAgentSdkStub = false;
 
-    private static OneAgentSDK createOneSDK() {
-        Object agentApiImpl = SDKInstanceProvider.create(oneSdkMajor, oneSdkMinor, oneSdkFix);
-        if (agentApiImpl == null) {
-            // OneAgent not present or not compatible
-            if (debugOneAgentSdkStub) {
-                logDebug("- no OneAgent present or OneAgent declined to work with OneAgentSdk version " + oneSdkMajor + "."
-                        + oneSdkMinor + "." + oneSdkFix);
-            }
-            return new OneAgentSDKNoop();
-        }
-        try {
-            SDK2AgentInternalApiProxy agentApi = new SDK2AgentInternalApiProxy(agentApiImpl);
-            Object agentSdkImpl = agentApi.oneAgentSDKFactory_createSdk();
-            if (agentSdkImpl != null) {
-                return new OneAgentSDKProxy(agentApi, agentSdkImpl);
-            }
-            if (debugOneAgentSdkStub) {
-                logDebug("- OneAgent failed to provide sdk object.");
-            }
-            return new OneAgentSDKNoop();
-        } catch (Throwable e) {
-          if (debugOneAgentSdkStub) {
-              logDebug("- failed to contact OneAgent: " + e.getClass().getName() + ": " + e.getMessage());
-          }
-          return new OneAgentSDKNoop();
-        }
-    }
+	private static OneAgentSDK createOneSDK() {
+		Object agentApiImpl = SDKInstanceProvider.create(oneSdkMajor, oneSdkMinor, oneSdkFix);
+		if (agentApiImpl == null) {
+			// OneAgent not present or not compatible
+			if (debugOneAgentSdkStub) {
+				logDebug("- no OneAgent present or OneAgent declined to work with OneAgentSdk version " + oneSdkMajor
+						+ "." + oneSdkMinor + "." + oneSdkFix);
+			}
+			return new OneAgentSDKNoop();
+		}
+		try {
+			SDK2AgentInternalApiProxy agentApi = new SDK2AgentInternalApiProxy(agentApiImpl);
+			Object agentSdkImpl = agentApi.oneAgentSDKFactory_createSdk();
+			if (agentSdkImpl != null) {
+				return new OneAgentSDKProxy(agentApi, agentSdkImpl);
+			}
+			if (debugOneAgentSdkStub) {
+				logDebug("- OneAgent failed to provide sdk object.");
+			}
+			return new OneAgentSDKNoop();
+		} catch (Throwable e) {
+			if (debugOneAgentSdkStub) {
+				logDebug("- failed to contact OneAgent: " + e.getClass().getName() + ": " + e.getMessage());
+			}
+			return new OneAgentSDKNoop();
+		}
+	}
 
-    public static synchronized OneAgentSDK createInstance() {
-        if (oneSDK == null) {
-            debugOneAgentSdkStub = Boolean
-                    .parseBoolean(System.getProperty("com.dynatrace.oneagent.sdk.debug", "false"));
-            oneSDK = createOneSDK();
-        }
-        return oneSDK;
-    }
+	public static synchronized OneAgentSDK createInstance() {
+		if (oneSDK == null) {
+			debugOneAgentSdkStub = Boolean
+					.parseBoolean(System.getProperty("com.dynatrace.oneagent.sdk.debug", "false"));
+			oneSDK = createOneSDK();
+		}
+		return oneSDK;
+	}
 
-    public static void logDebug(String msg) {
-        System.out.println("[onesdk    ] " + msg);
-    }
+	public static void logDebug(String msg) {
+		System.out.println("[onesdk    ] " + msg);
+	}
 }

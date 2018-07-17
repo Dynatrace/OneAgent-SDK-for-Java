@@ -19,6 +19,7 @@ package com.dynatrace.oneagent.sdk.api;
  * Tracer used to trace in-process-linking. See
  * {@link OneAgentSDK#createInProcessLink()} and
  * {@link OneAgentSDK#traceInProcessLink(InProcessLink)} for more details.
+ * 
  * @since 1.1
  */
 public interface InProcessLinkTracer extends Tracer {
