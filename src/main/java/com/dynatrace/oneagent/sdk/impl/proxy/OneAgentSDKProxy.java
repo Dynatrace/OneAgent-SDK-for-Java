@@ -22,6 +22,7 @@ import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
@@ -29,6 +30,7 @@ import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.IncomingWebRequestTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.OutgoingWebRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallClientTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallServerTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.WebApplicationInfoNoop;
@@ -167,6 +169,18 @@ public class OneAgentSDKProxy implements OneAgentSDK {
             return IncomingWebRequestTracerNoop.INSTANCE;
         }
 		return new IncomingWebRequestProxy(apiProxy, agentObject);
+	}
+
+	@Override
+	public OutgoingWebRequestTracer traceOutgoingWebRequest(String url, String method) {
+        Object agentObject = apiProxy.oneAgentSDK_traceOutgoingWebRequest(agentSdkImpl, url, method);
+        if (agentObject == null) {
+            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+            }
+            return OutgoingWebRequestTracerNoop.INSTANCE;
+        }
+        return new OutgoingWebRequestTracerProxy(apiProxy, agentObject);
 	}
 
 }

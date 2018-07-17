@@ -39,6 +39,7 @@ public class SDK2AgentInternalApiProxy {
     private final Method oneAgentSDK_addCustomRequestAttribute_2; // String, long
     private final Method oneAgentSDK_addCustomRequestAttribute_3; // String, double
     private final Method oneAgentSDK_traceIncomingWebRequest;
+    private final Method oneAgentSDK_traceOutgoingWebRequest;
     private final Method tracer_start;
     private final Method tracer_end;
     private final Method tracer_error_1; // string
@@ -69,6 +70,7 @@ public class SDK2AgentInternalApiProxy {
         oneAgentSDK_addCustomRequestAttribute_2 = findMethod("oneAgentSDK_addCustomRequestAttribute", new Class[] {Object.class, String.class, Long.TYPE});
         oneAgentSDK_addCustomRequestAttribute_3 = findMethod("oneAgentSDK_addCustomRequestAttribute", new Class[] {Object.class, String.class, Double.TYPE});
         oneAgentSDK_traceIncomingWebRequest = findMethod("oneAgentSDK_traceIncomingWebRequest", new Class[] {Object.class, String.class, String.class, String.class, String.class, String.class});
+        oneAgentSDK_traceOutgoingWebRequest = findMethod("oneAgentSDK_traceOutgoingWebRequest", new Class[] {Object.class, String.class, String.class});
         tracer_start = findMethod("tracer_start", new Class[]{Object.class});
         tracer_end = findMethod("tracer_end", new Class[]{Object.class});
         tracer_error_1 = findMethod("tracer_error", new Class[]{Object.class,String.class});
@@ -79,11 +81,11 @@ public class SDK2AgentInternalApiProxy {
         incomingTaggable_setDynatraceByteTag = findMethod("incomingTaggable_setDynatraceByteTag", new Class[] {Object.class, byte[].class});
         outgoingRemoteCallTracer_setProtocolName = findMethod("outgoingRemoteCallTracer_setProtocolName", new Class[] {Object.class, String.class});
         incomingRemoteCallTracer_setProtocolName = findMethod("incomingRemoteCallTracer_setProtocolName", new Class[] {Object.class, String.class});
-        webRequestTracer_setStatusCode= findMethod("webRequestTracer_setStatusCode", new Class[] {Object.class, Integer.TYPE});
-        webRequestTracer_addResponseHeader= findMethod("webRequestTracer_addResponseHeader", new Class[] {Object.class, String.class, String.class});
-        webRequestTracer_addRequestHeader= findMethod("webRequestTracer_addRequestHeader", new Class[] {Object.class, String.class, String.class});
-        incomingWebRequestTracer_setRemoteAddress= findMethod("incomingWebRequestTracer_setRemoteAddress", new Class[] {Object.class, String.class});
-        incomingWebRequestTracer_addParameter= findMethod("incomingWebRequestTracer_addParameter", new Class[] {Object.class, String.class, String.class});
+        webRequestTracer_setStatusCode = findMethod("webRequestTracer_setStatusCode", new Class[] {Object.class, Integer.TYPE});
+        webRequestTracer_addResponseHeader = findMethod("webRequestTracer_addResponseHeader", new Class[] {Object.class, String.class, String.class});
+        webRequestTracer_addRequestHeader = findMethod("webRequestTracer_addRequestHeader", new Class[] {Object.class, String.class, String.class});
+        incomingWebRequestTracer_setRemoteAddress = findMethod("incomingWebRequestTracer_setRemoteAddress", new Class[] {Object.class, String.class});
+        incomingWebRequestTracer_addParameter = findMethod("incomingWebRequestTracer_addParameter", new Class[] {Object.class, String.class, String.class});
     }
 
     private Method findMethod(String name, Class<?>... args) throws NoSuchMethodException, SecurityException {
@@ -127,6 +129,10 @@ public class SDK2AgentInternalApiProxy {
 			String url, String method) {
 		return invoke(oneAgentSDK_traceIncomingWebRequest, agentSdkImpl, webApplicationInfo.getWebServerName(), 
 				webApplicationInfo.getApplicationID(), webApplicationInfo.getContextRoot(), url, method);
+	}
+
+	Object oneAgentSDK_traceOutgoingWebRequest(Object agentSdkImpl, String url, String method) {
+		return invoke(oneAgentSDK_traceOutgoingWebRequest, agentSdkImpl, url, method);
 	}
 
     void oneAgentSDK_setLoggingCallback(Object sdk, Object loggingCallback) {

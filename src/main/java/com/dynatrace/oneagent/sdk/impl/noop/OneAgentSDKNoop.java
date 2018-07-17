@@ -22,6 +22,7 @@ import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
@@ -90,5 +91,10 @@ public class OneAgentSDKNoop implements OneAgentSDK {
 
 	@Override
 	public void addCustomRequestAttribute(String key, double value) {
+	}
+
+	@Override
+	public OutgoingWebRequestTracer traceOutgoingWebRequest(String url, String method) {
+		return OutgoingWebRequestTracerNoop.INSTANCE;
 	}
 }

@@ -19,6 +19,10 @@ import com.dynatrace.oneagent.sdk.api.Tracer;
 
 class NodeNoop implements Tracer {
 
+    protected static final byte[] NO_TAG_BLOB = new byte[] {};
+    protected static final String NO_TAG_STRING = "";
+
+
     @Override
     public void start() {
     }

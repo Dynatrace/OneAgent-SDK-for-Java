@@ -15,14 +15,10 @@
  */
 package com.dynatrace.oneagent.sdk.impl.noop;
 
-import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 
-public class RemoteCallClientTracerNoop extends NodeNoop implements OutgoingRemoteCallTracer {
-
-    public static final OutgoingRemoteCallTracer INSTANCE = new RemoteCallClientTracerNoop();
-
-    private RemoteCallClientTracerNoop() {
-    }
+public class OutgoingWebRequestTracerNoop extends NodeNoop implements OutgoingWebRequestTracer {
+	public static final OutgoingWebRequestTracerNoop INSTANCE = new OutgoingWebRequestTracerNoop();
 
     @Override
     public String getDynatraceStringTag() {
@@ -33,9 +29,17 @@ public class RemoteCallClientTracerNoop extends NodeNoop implements OutgoingRemo
     public byte[] getDynatraceByteTag() {
         return NO_TAG_BLOB;
     }
+    
+	@Override
+	public void addRequestHeader(String name, String value) {
+	}
 
-    @Override
-    public void setProtocolName(String protocolName) {
-    }
+	@Override
+	public void addResponseHeader(String name, String value) {
+	}
+
+	@Override
+	public void setStatusCode(int statusCode) {
+	}
 
 }
