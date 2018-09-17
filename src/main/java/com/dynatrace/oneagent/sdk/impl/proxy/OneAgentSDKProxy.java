@@ -18,16 +18,20 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.IncomingWebRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallClientTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallServerTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.WebApplicationInfoNoop;
 
 /** TODO: check if/how class could be generated */
 public class OneAgentSDKProxy implements OneAgentSDK {
@@ -136,6 +140,33 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 	@Override
 	public void addCustomRequestAttribute(String key, double value) {
 		apiProxy.oneAgentSDK_addCustomRequestAttribute(agentSdkImpl, key, value);
+	}
+
+	@Override
+	public WebApplicationInfo createWebApplicationInfo(String webServerName, String applicationID, String contextRoot) {
+		return new WebApplicationInfoImpl(webServerName, applicationID, contextRoot);
+	}
+
+	@Override
+	public IncomingWebRequestTracer traceIncomingWebRequest(WebApplicationInfo webApplicationInfo, String url,
+			String method) {
+		if (webApplicationInfo instanceof WebApplicationInfoNoop) {
+			return IncomingWebRequestTracerNoop.INSTANCE;
+		} else if (!(webApplicationInfo instanceof WebApplicationInfoImpl)) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- invalid WebApplicationInfo object provided: " + (webApplicationInfo == null ? "null" : webApplicationInfo.getClass().getName()));
+			}
+			return IncomingWebRequestTracerNoop.INSTANCE;
+		}
+
+        Object agentObject = apiProxy.oneAgentSDK_traceIncomingWebRequest(agentSdkImpl, (WebApplicationInfoImpl) webApplicationInfo, url, method);
+        if (agentObject == null) {
+            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+            }
+            return IncomingWebRequestTracerNoop.INSTANCE;
+        }
+		return new IncomingWebRequestProxy(apiProxy, agentObject);
 	}
 
 }

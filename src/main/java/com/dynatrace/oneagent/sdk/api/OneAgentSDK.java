@@ -15,8 +15,9 @@
  */
 package com.dynatrace.oneagent.sdk.api;
 
-import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
+import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
 /**
  * Root interface contains provided Agent SDK API calls. Basically the whole API
@@ -28,6 +29,39 @@ import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
  * Single API calls might differ from that rules. Those rules are explicitly documented.<br>
  */
 public interface OneAgentSDK {
+
+	/**
+	 * Using this headername to transport Dynatrace tag inside an outgoing http request ensures compatibility to Dynatrace built-in sensors.
+	 */
+	public static final String DYNATRACE_HTTP_HEADERNAME = "X-dynaTrace";
+	
+	// ***** Web Requests (incoming) *****
+	
+	/**
+	 * Initializes a WebApplicationInfo instance that is required for tracing incoming web requests. This information determines the identity and name of the resulting Web Request service in dynatrace.
+	 * Also see https://www.dynatrace.com/support/help/server-side-services/introduction/how-does-dynatrace-detect-and-name-services/#web-request-services for detail description of the meaning of the parameters.
+	 *
+	 * @param webServerName		logical name of the web server. In case of a cluster every node in the cluster must report the same name here.
+	 * 							Attention: Make sure not to use the host header for this parameter. Host headers are often spoofed and contain things like google or baidoo which do not reflect your setup.
+	 * @param applicationID		application ID of the web application
+	 * @param contextRoot		context root of the application.
+	 * 							All URLs traced with the returned WebApplicationInfo, should start with provided context root. 
+	 * @return					{@link WebApplicationInfo} instance to work with
+	 * @since 1.3
+	 */
+	WebApplicationInfo createWebApplicationInfo(String webServerName, String applicationID, String contextRoot);
+
+	/**
+	 * Traces an incoming web request.
+	 *
+	 * @param webApplicationInfo	information about web application
+	 * @param url					(parts of a) URL, which will be parsed into: scheme, hostname/port, path & query
+	 * 								Note: the hostname will be resolved by the Agent at start() call
+	 * @param method				HTTP request method
+	 * @return						{@link IncomingWebRequestTracer} to work with
+	 * @since 1.3
+	 */
+	IncomingWebRequestTracer traceIncomingWebRequest(WebApplicationInfo webApplicationInfo, String url, String method);
 
     // ***** Remote Calls (outgoing & incoming) *****
 

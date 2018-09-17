@@ -1,3 +1,4 @@
 com.dynatrace.oneagent.sdk
 com.dynatrace.oneagent.sdk.api
 com.dynatrace.oneagent.sdk.api.enums
+com.dynatrace.oneagent.sdk.api.infos

@@ -22,9 +22,9 @@ abstract class TraceableProxy implements Tracer {
     protected final SDK2AgentInternalApiProxy apiProxy;
     protected final Object agentsNodeObject;
 
-    TraceableProxy(SDK2AgentInternalApiProxy apiProxy, Object node) {
+    TraceableProxy(SDK2AgentInternalApiProxy apiProxy, Object agentsNodeObject) {
         this.apiProxy = apiProxy;
-        agentsNodeObject = node;
+        this.agentsNodeObject = agentsNodeObject;
     }
 
     @Override

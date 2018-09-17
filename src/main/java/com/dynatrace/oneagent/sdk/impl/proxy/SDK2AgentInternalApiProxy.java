@@ -38,6 +38,7 @@ public class SDK2AgentInternalApiProxy {
     private final Method oneAgentSDK_addCustomRequestAttribute_1; // String, String 
     private final Method oneAgentSDK_addCustomRequestAttribute_2; // String, long
     private final Method oneAgentSDK_addCustomRequestAttribute_3; // String, double
+    private final Method oneAgentSDK_traceIncomingWebRequest;
     private final Method tracer_start;
     private final Method tracer_end;
     private final Method tracer_error_1; // string
@@ -48,6 +49,12 @@ public class SDK2AgentInternalApiProxy {
     private final Method incomingTaggable_setDynatraceByteTag;
     private final Method outgoingRemoteCallTracer_setProtocolName;
     private final Method incomingRemoteCallTracer_setProtocolName;
+    private final Method webRequestTracer_setStatusCode;
+    private final Method webRequestTracer_addResponseHeader;
+    private final Method webRequestTracer_addRequestHeader;
+    private final Method incomingWebRequestTracer_setRemoteAddress;
+    private final Method incomingWebRequestTracer_addParameter;
+    
 
     public SDK2AgentInternalApiProxy(Object agentImpl) throws NoSuchMethodException, SecurityException {
         this.agentImpl = agentImpl;
@@ -61,6 +68,7 @@ public class SDK2AgentInternalApiProxy {
         oneAgentSDK_addCustomRequestAttribute_1 = findMethod("oneAgentSDK_addCustomRequestAttribute", new Class[] {Object.class, String.class, String.class});
         oneAgentSDK_addCustomRequestAttribute_2 = findMethod("oneAgentSDK_addCustomRequestAttribute", new Class[] {Object.class, String.class, Long.TYPE});
         oneAgentSDK_addCustomRequestAttribute_3 = findMethod("oneAgentSDK_addCustomRequestAttribute", new Class[] {Object.class, String.class, Double.TYPE});
+        oneAgentSDK_traceIncomingWebRequest = findMethod("oneAgentSDK_traceIncomingWebRequest", new Class[] {Object.class, String.class, String.class, String.class, String.class, String.class});
         tracer_start = findMethod("tracer_start", new Class[]{Object.class});
         tracer_end = findMethod("tracer_end", new Class[]{Object.class});
         tracer_error_1 = findMethod("tracer_error", new Class[]{Object.class,String.class});
@@ -71,6 +79,11 @@ public class SDK2AgentInternalApiProxy {
         incomingTaggable_setDynatraceByteTag = findMethod("incomingTaggable_setDynatraceByteTag", new Class[] {Object.class, byte[].class});
         outgoingRemoteCallTracer_setProtocolName = findMethod("outgoingRemoteCallTracer_setProtocolName", new Class[] {Object.class, String.class});
         incomingRemoteCallTracer_setProtocolName = findMethod("incomingRemoteCallTracer_setProtocolName", new Class[] {Object.class, String.class});
+        webRequestTracer_setStatusCode= findMethod("webRequestTracer_setStatusCode", new Class[] {Object.class, Integer.TYPE});
+        webRequestTracer_addResponseHeader= findMethod("webRequestTracer_addResponseHeader", new Class[] {Object.class, String.class, String.class});
+        webRequestTracer_addRequestHeader= findMethod("webRequestTracer_addRequestHeader", new Class[] {Object.class, String.class, String.class});
+        incomingWebRequestTracer_setRemoteAddress= findMethod("incomingWebRequestTracer_setRemoteAddress", new Class[] {Object.class, String.class});
+        incomingWebRequestTracer_addParameter= findMethod("incomingWebRequestTracer_addParameter", new Class[] {Object.class, String.class, String.class});
     }
 
     private Method findMethod(String name, Class<?>... args) throws NoSuchMethodException, SecurityException {
@@ -108,6 +121,12 @@ public class SDK2AgentInternalApiProxy {
 
 	Object oneAgentSDK_traceInProcessLink(Object agentSdkImpl, InProcessLinkImpl inProcessLink) {
 		return invoke(oneAgentSDK_traceInProcessLink, agentSdkImpl, inProcessLink.getAgentProvidedLink());
+	}
+
+	Object oneAgentSDK_traceIncomingWebRequest(Object agentSdkImpl, WebApplicationInfoImpl webApplicationInfo,
+			String url, String method) {
+		return invoke(oneAgentSDK_traceIncomingWebRequest, agentSdkImpl, webApplicationInfo.getWebServerName(), 
+				webApplicationInfo.getApplicationID(), webApplicationInfo.getContextRoot(), url, method);
 	}
 
     void oneAgentSDK_setLoggingCallback(Object sdk, Object loggingCallback) {
@@ -169,4 +188,25 @@ public class SDK2AgentInternalApiProxy {
     void incomingRemoteCallTracer_setProtocolName(Object remoteCallServer, String protocolname) {
         invoke(incomingRemoteCallTracer_setProtocolName, remoteCallServer, protocolname);
     }
+
+    void webRequestTracer_setStatusCode(Object webRequestTracer, int statusCode) {
+    	invoke(webRequestTracer_setStatusCode, webRequestTracer, statusCode);
+    }
+    
+    void webRequestTracer_addResponseHeader(Object webRequestTracer, String name, String value) {
+    	invoke(webRequestTracer_addResponseHeader, webRequestTracer, name, value);
+    }
+    
+    void webRequestTracer_addRequestHeader(Object webRequestTracer, String name, String value) {
+    	invoke(webRequestTracer_addRequestHeader, webRequestTracer, name, value);
+    }
+    
+    void incomingWebRequestTracer_setRemoteAddress(Object incomingWebRequestTracer, String remoteAddress) {
+    	invoke(incomingWebRequestTracer_setRemoteAddress, incomingWebRequestTracer, remoteAddress);
+    }
+    
+    void incomingWebRequestTracer_addParameter(Object incomingWebRequestTracer, String name, String value) {
+    	invoke(incomingWebRequestTracer_addParameter, incomingWebRequestTracer, name, value);
+    }
+
 }

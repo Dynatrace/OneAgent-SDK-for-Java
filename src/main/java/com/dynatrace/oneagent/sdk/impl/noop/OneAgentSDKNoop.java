@@ -18,10 +18,12 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 
 /**
@@ -32,6 +34,19 @@ import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
  */
 public class OneAgentSDKNoop implements OneAgentSDK {
 
+	// ***** Webrequests (incoming) *****
+	@Override
+	public WebApplicationInfo createWebApplicationInfo(String webServerName, String applicationID, String contextRoot) {
+		return WebApplicationInfoNoop.INSTANCE;
+	}
+	
+	@Override
+	public IncomingWebRequestTracer traceIncomingWebRequest(WebApplicationInfo webApplicationInfo, String url,
+			String method) {
+		return IncomingWebRequestTracerNoop.INSTANCE;
+	}
+
+	
     // ***** Remote Calls (outgoing & incoming) *****
 	@Override
     public IncomingRemoteCallTracer traceIncomingRemoteCall(String remoteMethod, String remoteService,
