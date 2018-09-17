@@ -22,12 +22,14 @@ import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 
 /**
- * This class provides an empty (NOOP) implementation of the {@link OneAgentSDK} interface.
+ * This class provides an empty (NOOP) implementation of the {@link OneAgentSDK}
+ * interface.
  *
  * @author Alram.Lechner
  *
@@ -39,36 +41,36 @@ public class OneAgentSDKNoop implements OneAgentSDK {
 	public WebApplicationInfo createWebApplicationInfo(String webServerName, String applicationID, String contextRoot) {
 		return WebApplicationInfoNoop.INSTANCE;
 	}
-	
+
 	@Override
 	public IncomingWebRequestTracer traceIncomingWebRequest(WebApplicationInfo webApplicationInfo, String url,
 			String method) {
 		return IncomingWebRequestTracerNoop.INSTANCE;
 	}
 
-	
-    // ***** Remote Calls (outgoing & incoming) *****
+	// ***** Remote Calls (outgoing & incoming) *****
 	@Override
-    public IncomingRemoteCallTracer traceIncomingRemoteCall(String remoteMethod, String remoteService,
-            String clientEndpoint) {
-        return RemoteCallServerTracerNoop.INSTANCE;
-    }
+	public IncomingRemoteCallTracer traceIncomingRemoteCall(String remoteMethod, String remoteService,
+			String clientEndpoint) {
+		return RemoteCallServerTracerNoop.INSTANCE;
+	}
 
 	@Override
-    public OutgoingRemoteCallTracer traceOutgoingRemoteCall(String remoteMethod, String remoteService, String serviceEndpoint, ChannelType channelType, String channelEndpoint) {
-        return RemoteCallClientTracerNoop.INSTANCE;
-    }
+	public OutgoingRemoteCallTracer traceOutgoingRemoteCall(String remoteMethod, String remoteService,
+			String serviceEndpoint, ChannelType channelType, String channelEndpoint) {
+		return RemoteCallClientTracerNoop.INSTANCE;
+	}
 
-	// ***** Common                             *****
-
-	@Override
-    public void setLoggingCallback(LoggingCallback loggingCallback) {
-    }
+	// ***** Common *****
 
 	@Override
-    public SDKState getCurrentState() {
-        return SDKState.PERMANENTLY_INACTIVE;
-    }
+	public void setLoggingCallback(LoggingCallback loggingCallback) {
+	}
+
+	@Override
+	public SDKState getCurrentState() {
+		return SDKState.PERMANENTLY_INACTIVE;
+	}
 
 	@Override
 	public InProcessLink createInProcessLink() {
@@ -90,5 +92,10 @@ public class OneAgentSDKNoop implements OneAgentSDK {
 
 	@Override
 	public void addCustomRequestAttribute(String key, double value) {
+	}
+
+	@Override
+	public OutgoingWebRequestTracer traceOutgoingWebRequest(String url, String method) {
+		return OutgoingWebRequestTracerNoop.INSTANCE;
 	}
 }

@@ -22,6 +22,7 @@ import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
@@ -29,6 +30,7 @@ import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.IncomingWebRequestTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.OutgoingWebRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallClientTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallServerTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.WebApplicationInfoNoop;
@@ -36,74 +38,77 @@ import com.dynatrace.oneagent.sdk.impl.noop.WebApplicationInfoNoop;
 /** TODO: check if/how class could be generated */
 public class OneAgentSDKProxy implements OneAgentSDK {
 
-    private final SDK2AgentInternalApiProxy apiProxy;
-    private final Object agentSdkImpl;
+	private final SDK2AgentInternalApiProxy apiProxy;
+	private final Object agentSdkImpl;
 
-    public OneAgentSDKProxy(SDK2AgentInternalApiProxy apiProxy, Object agentSdkImpl) {
-        this.apiProxy = apiProxy;
-        this.agentSdkImpl = agentSdkImpl;
-    }
+	public OneAgentSDKProxy(SDK2AgentInternalApiProxy apiProxy, Object agentSdkImpl) {
+		this.apiProxy = apiProxy;
+		this.agentSdkImpl = agentSdkImpl;
+	}
 
-    @Override
-    public IncomingRemoteCallTracer traceIncomingRemoteCall(String remoteMethod, String remoteService, String serviceEndpoint) {
-        Object agentObject = apiProxy.oneAgentSDK_traceIncomingRemoteCall(agentSdkImpl, remoteMethod, remoteService, serviceEndpoint);
-        if (agentObject == null) {
-            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
-            }
-            return RemoteCallServerTracerNoop.INSTANCE;
-        }
-        return new RemoteCallServerProxy(apiProxy, agentObject);
-    }
+	@Override
+	public IncomingRemoteCallTracer traceIncomingRemoteCall(String remoteMethod, String remoteService,
+			String serviceEndpoint) {
+		Object agentObject = apiProxy.oneAgentSDK_traceIncomingRemoteCall(agentSdkImpl, remoteMethod, remoteService,
+				serviceEndpoint);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return RemoteCallServerTracerNoop.INSTANCE;
+		}
+		return new RemoteCallServerProxy(apiProxy, agentObject);
+	}
 
-    @Override
-    public OutgoingRemoteCallTracer traceOutgoingRemoteCall(String remoteMethod, String remoteService,
-            String serverEndpoint, ChannelType channelType, String remoteHost) {
-        int iChannelType = -1;
-        if (channelType != null) {
-            iChannelType = channelType.getSDKConstant();   
-        }
-        Object agentObject = apiProxy.oneAgentSDK_traceOutgoingRemoteCall(agentSdkImpl, remoteMethod, remoteService, serverEndpoint, iChannelType, remoteHost);
-        if (agentObject == null) {
-            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
-            }
-            return RemoteCallClientTracerNoop.INSTANCE;
-        }
-        return new RemoteCallClientProxy(apiProxy, agentObject);
-    }
+	@Override
+	public OutgoingRemoteCallTracer traceOutgoingRemoteCall(String remoteMethod, String remoteService,
+			String serverEndpoint, ChannelType channelType, String remoteHost) {
+		int iChannelType = -1;
+		if (channelType != null) {
+			iChannelType = channelType.getSDKConstant();
+		}
+		Object agentObject = apiProxy.oneAgentSDK_traceOutgoingRemoteCall(agentSdkImpl, remoteMethod, remoteService,
+				serverEndpoint, iChannelType, remoteHost);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return RemoteCallClientTracerNoop.INSTANCE;
+		}
+		return new RemoteCallClientProxy(apiProxy, agentObject);
+	}
 
-    @Override
-    public void setLoggingCallback(LoggingCallback loggingCallback) {
-        apiProxy.oneAgentSDK_setLoggingCallback(agentSdkImpl, loggingCallback);
-    }
+	@Override
+	public void setLoggingCallback(LoggingCallback loggingCallback) {
+		apiProxy.oneAgentSDK_setLoggingCallback(agentSdkImpl, loggingCallback);
+	}
 
-    @Override
-    public SDKState getCurrentState() {
-        Boolean isCapturing = apiProxy.oneAgentSDK_isCapturing(agentSdkImpl);
-        if (isCapturing == null) {
-            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
-            }
-            return SDKState.PERMANENTLY_INACTIVE;
-        }
-        if (isCapturing.booleanValue()) {
-            return SDKState.ACTIVE;
-        } else {
-            return SDKState.TEMPORARILY_INACTIVE;
-        }
-    }
+	@Override
+	public SDKState getCurrentState() {
+		Boolean isCapturing = apiProxy.oneAgentSDK_isCapturing(agentSdkImpl);
+		if (isCapturing == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return SDKState.PERMANENTLY_INACTIVE;
+		}
+		if (isCapturing.booleanValue()) {
+			return SDKState.ACTIVE;
+		} else {
+			return SDKState.TEMPORARILY_INACTIVE;
+		}
+	}
 
 	@Override
 	public InProcessLink createInProcessLink() {
-        Object agentProvidedLink = apiProxy.oneAgentSDK_createInProcessLink(agentSdkImpl);
-        if (agentProvidedLink == null) {
-            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide InProcessLink");
-            }
-        	return InProcessLinkNoop.INSTANCE;
-        }
-        return new InProcessLinkImpl(agentProvidedLink);
+		Object agentProvidedLink = apiProxy.oneAgentSDK_createInProcessLink(agentSdkImpl);
+		if (agentProvidedLink == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide InProcessLink");
+			}
+			return InProcessLinkNoop.INSTANCE;
+		}
+		return new InProcessLinkImpl(agentProvidedLink);
 	}
 
 	@Override
@@ -112,11 +117,12 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			return InProcessLinkTracerNoop.INSTANCE;
 		} else if (!(inProcessLink instanceof InProcessLinkImpl)) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- invalid InProcessLink object provided: " + (inProcessLink == null ? "null" : inProcessLink.getClass().getName()));
+				OneAgentSDKFactoryImpl.logDebug("- invalid InProcessLink object provided: "
+						+ (inProcessLink == null ? "null" : inProcessLink.getClass().getName()));
 			}
 			return InProcessLinkTracerNoop.INSTANCE;
 		}
-		
+
 		Object agentObject = apiProxy.oneAgentSDK_traceInProcessLink(agentSdkImpl, (InProcessLinkImpl) inProcessLink);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
@@ -154,19 +160,33 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			return IncomingWebRequestTracerNoop.INSTANCE;
 		} else if (!(webApplicationInfo instanceof WebApplicationInfoImpl)) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- invalid WebApplicationInfo object provided: " + (webApplicationInfo == null ? "null" : webApplicationInfo.getClass().getName()));
+				OneAgentSDKFactoryImpl.logDebug("- invalid WebApplicationInfo object provided: "
+						+ (webApplicationInfo == null ? "null" : webApplicationInfo.getClass().getName()));
 			}
 			return IncomingWebRequestTracerNoop.INSTANCE;
 		}
 
-        Object agentObject = apiProxy.oneAgentSDK_traceIncomingWebRequest(agentSdkImpl, (WebApplicationInfoImpl) webApplicationInfo, url, method);
-        if (agentObject == null) {
-            if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-                OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
-            }
-            return IncomingWebRequestTracerNoop.INSTANCE;
-        }
+		Object agentObject = apiProxy.oneAgentSDK_traceIncomingWebRequest(agentSdkImpl,
+				(WebApplicationInfoImpl) webApplicationInfo, url, method);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return IncomingWebRequestTracerNoop.INSTANCE;
+		}
 		return new IncomingWebRequestProxy(apiProxy, agentObject);
+	}
+
+	@Override
+	public OutgoingWebRequestTracer traceOutgoingWebRequest(String url, String method) {
+		Object agentObject = apiProxy.oneAgentSDK_traceOutgoingWebRequest(agentSdkImpl, url, method);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return OutgoingWebRequestTracerNoop.INSTANCE;
+		}
+		return new OutgoingWebRequestTracerProxy(apiProxy, agentObject);
 	}
 
 }

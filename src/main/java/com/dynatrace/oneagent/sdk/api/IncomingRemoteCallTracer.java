@@ -16,20 +16,21 @@
 package com.dynatrace.oneagent.sdk.api;
 
 /**
- * Represents the server side of a remote call.
- * This Interface extends {@link Tracer} - it is important to respect the
- * mentioned requirements when working with {@link IncomingRemoteCallTracer}.
+ * Represents the server side of a remote call. This Interface extends
+ * {@link Tracer} - it is important to respect the mentioned requirements when
+ * working with {@link IncomingRemoteCallTracer}.
  *
  */
 
 public interface IncomingRemoteCallTracer extends Tracer, IncomingTaggable {
 
-    /**
-     * Sets the name of the used remoting protocol.
-     *
-     * @param protocolName      protocol name
-     * @since 1.0
-     */
-    void setProtocolName(String protocolName);
+	/**
+	 * Sets the name of the used remoting protocol.
+	 *
+	 * @param protocolName
+	 *            protocol name
+	 * @since 1.0
+	 */
+	void setProtocolName(String protocolName);
 
 }

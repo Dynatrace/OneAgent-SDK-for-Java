@@ -21,25 +21,25 @@ package com.dynatrace.oneagent.sdk.api;
  */
 public interface IncomingTaggable {
 
-    /**
-     * Consumes a tag to continue a pure path. Must be set before a node is
-     * being started.<br>
-     * See {@link OutgoingTaggable} to determine how to create a tag.
-     *
-     * @param tag
-     *            the tag in String representation - must not be null.
-     * @since 1.0
-     */
-    void setDynatraceStringTag(String tag);
+	/**
+	 * Consumes a tag to continue a pure path. Must be set before a node is being
+	 * started.<br>
+	 * See {@link OutgoingTaggable} to determine how to create a tag.
+	 *
+	 * @param tag
+	 *            the tag in String representation - must not be null.
+	 * @since 1.0
+	 */
+	void setDynatraceStringTag(String tag);
 
-    /**
-     * Same as {@link #setDynatraceStringTag(String)} but consumes binary
-     * representation of tag.
-     *
-     * @param tag
-     *            the tag in binary representation - must not be null.
-     * @since 1.0
-     */
-    void setDynatraceByteTag(byte[] tag);
+	/**
+	 * Same as {@link #setDynatraceStringTag(String)} but consumes binary
+	 * representation of tag.
+	 *
+	 * @param tag
+	 *            the tag in binary representation - must not be null.
+	 * @since 1.0
+	 */
+	void setDynatraceByteTag(byte[] tag);
 
 }

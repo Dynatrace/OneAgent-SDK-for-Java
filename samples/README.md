@@ -34,7 +34,7 @@ Check your Dynatrace environment for newly created services like that:
 ![in-process-linking-service](img/in-process-linking-service.png)
 
 ### Run WebRequest sample application
-This Application shows how to trace incoming webrequests. To run this sample you just go into the sample directory and run the sample by typing:
+This Application shows how to trace outgoing- and incoming webrequests. To run this sample you just go into the sample directory and run the sample by typing:
 
 - run sample: `mvn exec:exec`
 

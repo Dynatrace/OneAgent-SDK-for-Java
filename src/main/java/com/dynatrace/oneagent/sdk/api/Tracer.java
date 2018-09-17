@@ -21,66 +21,66 @@ package com.dynatrace.oneagent.sdk.api;
  */
 public interface Tracer {
 
-    /**
-     * starts timing of a node. Every node that has been started, must be
-     * ended with {@link #end()} method. Consider using the following pattern:
-     *
-     * <pre>
-     * {@code
-     *   tracer.start();
-     *   try {
-     *     // do your work
-     *   } catch (Exception e) {
-     *     tracer.error(e);
-     *   } finally {
-     *     tracer.end();
-     *   }
-     * }
-     * </pre>
-     *
-     * {@link #start()}, {@link #end()}, {@link #error(String)},
-     * {@link #error(Throwable)} are not thread-safe. They must be called from
-     * the same thread where {@link #start()} has been invoked.
-     *
-     * @since 1.0
-     */
-    void start();
+	/**
+	 * starts timing of a node. Every node that has been started, must be ended with
+	 * {@link #end()} method. Consider using the following pattern:
+	 *
+	 * <pre>
+	 * {@code
+	 *   tracer.start();
+	 *   try {
+	 *     // do your work
+	 *   } catch (Exception e) {
+	 *     tracer.error(e);
+	 *   } finally {
+	 *     tracer.end();
+	 *   }
+	 * }
+	 * </pre>
+	 *
+	 * {@link #start()}, {@link #end()}, {@link #error(String)},
+	 * {@link #error(Throwable)} are not thread-safe. They must be called from the
+	 * same thread where {@link #start()} has been invoked.
+	 *
+	 * @since 1.0
+	 */
+	void start();
 
-    /**
-     * Ends timing of a node. Typically this method is called via finally block.
-     * <br>
-     * {@link #start()}, {@link #end()}, {@link #error(String)},
-     * {@link #error(Throwable)} are not thread-safe. They must be called from
-     * the same thread where {@link #start()} has been invoked.
-     *
-     * @since 1.0
-     */
-    void end();
+	/**
+	 * Ends timing of a node. Typically this method is called via finally block.
+	 * <br>
+	 * {@link #start()}, {@link #end()}, {@link #error(String)},
+	 * {@link #error(Throwable)} are not thread-safe. They must be called from the
+	 * same thread where {@link #start()} has been invoked.
+	 *
+	 * @since 1.0
+	 */
+	void end();
 
-    /**
-     * Marks the node as 'exited by exception'. An additional error message 
-     * can be provided as String. <br>
-     * {@link #start()}, {@link #end()}, {@link #error(String)},
-     * {@link #error(Throwable)} are not thread-safe. They must be called from
-     * the same thread where {@link #start()} has been invoked.
-     *
-     * @param message
-     *            error message with details about occurred error (eg. return
-     *            code). must not be null.
-     * @since 1.0
-     */
-    void error(String message);
+	/**
+	 * Marks the node as 'exited by exception'. An additional error message can be
+	 * provided as String. <br>
+	 * {@link #start()}, {@link #end()}, {@link #error(String)},
+	 * {@link #error(Throwable)} are not thread-safe. They must be called from the
+	 * same thread where {@link #start()} has been invoked.
+	 *
+	 * @param message
+	 *            error message with details about occurred error (eg. return code).
+	 *            must not be null.
+	 * @since 1.0
+	 */
+	void error(String message);
 
-    /**
-     * Marks the node as 'exited by exception'.Additional information can 
-     * be provided as Throwable. <br>
-     * {@link #start()}, {@link #end()}, {@link #error(String)},
-     * {@link #error(Throwable)} are not thread-safe. They must be called from
-     * the same thread where {@link #start()} has been invoked.
-     *
-     * @param throwable
-     *            exception, that occurred. must not null.
-     * @since 1.0
-     */
-    void error(Throwable throwable);
+	/**
+	 * Marks the node as 'exited by exception'.Additional information can be
+	 * provided as Throwable. <br>
+	 * {@link #start()}, {@link #end()}, {@link #error(String)},
+	 * {@link #error(Throwable)} are not thread-safe. They must be called from the
+	 * same thread where {@link #start()} has been invoked.
+	 *
+	 * @param throwable
+	 *            exception, that occurred. must not null.
+	 * @since 1.0
+	 */
+	void error(Throwable throwable);
 }

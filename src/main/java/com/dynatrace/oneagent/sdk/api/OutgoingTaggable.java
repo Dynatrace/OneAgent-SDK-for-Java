@@ -21,23 +21,24 @@ package com.dynatrace.oneagent.sdk.api;
  */
 public interface OutgoingTaggable {
 
-    /**
-     * Creates a Dynatrace tag and returns the String representation of it. This 
-     * tag has to be transported with the remoting protocol to the destination.<br>
-     * See {@link IncomingTaggable} how to continue a path with provided tag on the server side.
-     *
-     * @return the tag - never null.
-     * @since 1.0
-     */
-    String getDynatraceStringTag();
+	/**
+	 * Creates a Dynatrace tag and returns the String representation of it. This tag
+	 * has to be transported with the remoting protocol to the destination.<br>
+	 * See {@link IncomingTaggable} how to continue a path with provided tag on the
+	 * server side.
+	 *
+	 * @return the tag - never null.
+	 * @since 1.0
+	 */
+	String getDynatraceStringTag();
 
-    /**
-     * Same as {@link #getDynatraceStringTag()}, but returning the tag as
-     * binary representation.
-     *
-     * @return the tag - never null.
-     * @since 1.0
-     */
-    byte[] getDynatraceByteTag();
+	/**
+	 * Same as {@link #getDynatraceStringTag()}, but returning the tag as binary
+	 * representation.
+	 *
+	 * @return the tag - never null.
+	 * @since 1.0
+	 */
+	byte[] getDynatraceByteTag();
 
 }

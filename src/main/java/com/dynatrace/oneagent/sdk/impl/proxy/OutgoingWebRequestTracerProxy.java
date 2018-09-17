@@ -15,38 +15,28 @@
  */
 package com.dynatrace.oneagent.sdk.impl.proxy;
 
-import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 
-public class IncomingWebRequestProxy extends TraceableProxy implements IncomingWebRequestTracer {
+public class OutgoingWebRequestTracerProxy extends TraceableProxy implements OutgoingWebRequestTracer {
 
-	public IncomingWebRequestProxy(SDK2AgentInternalApiProxy apiProxy, Object agentObject) {
-		super(apiProxy, agentObject);
+	OutgoingWebRequestTracerProxy(SDK2AgentInternalApiProxy apiProxy,
+			Object oneAgentSDK_createOutgoingWebreqeustTracer) {
+		super(apiProxy, oneAgentSDK_createOutgoingWebreqeustTracer);
 	}
 
 	@Override
-	public void setDynatraceStringTag(String tag) {
-		apiProxy.incomingTaggable_setDynatraceStringTag(agentsNodeObject, tag);
+	public String getDynatraceStringTag() {
+		return apiProxy.outgoingTaggable_getDynatraceStringTag(agentsNodeObject);
 	}
 
 	@Override
-	public void setDynatraceByteTag(byte[] tag) {
-		apiProxy.incomingTaggable_setDynatraceByteTag(agentsNodeObject, tag);
-	}
-
-	@Override
-	public void setRemoteAddress(String remoteAddress) {
-		apiProxy.incomingWebRequestTracer_setRemoteAddress(agentsNodeObject, remoteAddress);
-
+	public byte[] getDynatraceByteTag() {
+		return apiProxy.outgoingTaggable_getDynatraceByteTag(agentsNodeObject);
 	}
 
 	@Override
 	public void addRequestHeader(String name, String value) {
 		apiProxy.webRequestTracer_addRequestHeader(agentsNodeObject, name, value);
-	}
-
-	@Override
-	public void addParameter(String name, String value) {
-		apiProxy.incomingWebRequestTracer_addParameter(agentsNodeObject, name, value);
 	}
 
 	@Override

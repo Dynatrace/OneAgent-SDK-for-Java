@@ -20,7 +20,9 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
  	* [Trace incoming and outgoing remote calls](#remoting)
  	* [In process linking](#inprocess)
  	* [Add custom request attributes](#scav)
- 	* [Trace incoming web requests](#webrequests)
+ 	* [Trace web requests](#webrequests)
+ 	 	* [Trace incoming web requests](#inwebrequests)
+ 	 	* [Trace outgoing web requests](#outwebrequests)
 * [Further reading](#furtherreading)
 * [Help & Support](#help)
 * [Release notes](#releasenotes)
@@ -42,6 +44,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 |OneAgent SDK for Java|Required OneAgent version|
 |:--------------------|:------------------------|
+|1.4.0                |>=1.151                  |
 |1.3.0                |>=1.149                  |
 |1.2.0                |>=1.147                  |
 |1.1.0                |>=1.143                  |
@@ -59,7 +62,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.3.0</version>
+	  <version>1.4.0</version>
 	  <scope>compile</scope>
 	</dependency>
 
@@ -130,6 +133,7 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 
 |Feature                                   |Required OneAgent SDK for Java version|
 |:-----------------------------------------|:-------------------------------------|
+|Outgoing webrequests                      |>=1.4.0                               |
 |Incoming webrequests                      |>=1.3.0                               |
 |Custom request attributes                 |>=1.2.0                               |
 |In process linking                        |>=1.1.0                               |
@@ -218,17 +222,21 @@ When no service call is being traced, the custom request attributes are dropped.
 
 <a name="webrequests"/>
 
-## Trace incoming web requests
+### Trace web requests
 
-You can use the SDK to trace incoming web requests. This might be useful if Dynatrace does not support the respective web server framework or language.
+<a name="inwebrequests"/>
 
-To trace any kind of incoming web request you first need to create a WebServerInfo object. The info object represents the endpoint of your web server (webservername, applicationname and context root). This object should be reused for all traced webrequests for the same application.
+#### Trace incoming web requests
+
+You can use the SDK to trace incoming web requests. This might be useful if Dynatrace does not support the respective web server framework or language processing the incoming web requests.
+
+To trace an incoming web request you first need to create a WebServerInfo object. The info object represents the endpoint of your web server (web server name, application name and context root). This object should be reused for all traced web requests within for the same application.
 
 ```Java
 WebServerInfo wsInfo = OneAgentSDK.createWebServerInfo("WebShopProduction", "CheckoutService", "/api/service/checkout");
 ```
 
-To trace a specific incoming web request you then need to create a Tracer object. It is important to provide all http headers from the request to the SDK by calling addRequestHeader(...). This ensures that tagging with our built-in sensor is working.
+To trace a specific incoming web request you then need to create a Tracer object. Make sure you provide all http headers from the request to the SDK by calling addRequestHeader(...). This ensures that tagging with our built-in sensor will work.
 
 ```Java
 IncomingWebRequestTracer tracer = OneAgentSDK.traceIncomingWebRequest(wsInfo,"https://www.oursupershop.com/api/service/checkout/save","POST")
@@ -250,11 +258,49 @@ try {
 	int statusCodeReturnedToClient = processWebRequest();
 	tracer.setStatusCode(statusCodeReturnedToClient);
 } catch (Exception e) {
-	tracer.setStatusCode(500); // we expect, the container sends http 500 in case request processing throws an exception
+	tracer.setStatusCode(500); // we expect that the container sends HTTP 500 status code in case request processing throws an exception
 	tracer.error(e);
 	throw e;
 } finally {
 	tracer.end();
+}
+```
+
+<a name="outwebrequests"/>
+
+#### Trace outgoing web requests
+
+You can use the SDK to trace outgoing web requests. This might be useful if Dynatrace does not support the respective http library or language sending the request.
+
+To trace an outgoing web request you need to create a Tracer object. It is important to send the Dynatrace Header. This ensures that tagging with our built-in sensor will work.
+
+```Java
+OutgoingWebRequestTracer outgoingWebRequestTracer = oneAgentSdk.traceOutgoingWebRequest(url, "GET");
+outgoingWebRequestTracer.start();
+try {
+	yourHttpClient.setUrl(url);
+	
+	// sending HTTP header OneAgentSDK.DYNATRACE_HTTP_HEADERNAME is necessary for tagging:
+	yourHttpClient.addRequestHeader(OneAgentSDK.DYNATRACE_HTTP_HEADERNAME, outgoingWebRequestTracer.getDynatraceStringTag());
+
+	// provide all request headers to outgoingWebRequestTracer (optional):
+	for (Entry<String, String> entry : yourHttpClient.getRequestHeaders().entrySet()) {
+		outgoingWebRequestTracer.addRequestHeader(entry.getKey(), entry.getValue());
+	}
+	
+	yourHttpClient.processHttpRequest();
+	
+	for (Entry<String, List<String>> entry : yourHttpClient.getHeaderFields().entrySet()) {
+		for (String value : entry.getValue()) {
+			outgoingWebRequestTracer.addResponseHeader(entry.getKey(), value);
+		}
+	}
+	outgoingWebRequestTracer.setStatusCode(yourHttpClient.getResponseCode());
+	
+} catch (Exception e) {
+	outgoingWebRequestTracer.error(e);
+} finally {
+	outgoingWebRequestTracer.end();
 }
 ```
 
@@ -297,6 +343,7 @@ see also https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases
 
 |Version|Description                            |Links                                    |
 |:------|:--------------------------------------|:----------------------------------------|
+|1.4.0  |Added support for outgoing webrequests |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-javadoc.jar)|
 |1.3.0  |Added support for incoming webrequests |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-javadoc.jar)|
 |1.2.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-javadoc.jar)|
 |1.1.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0-javadoc.jar)|

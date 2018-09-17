@@ -16,22 +16,12 @@
 package com.dynatrace.oneagent.sdk.api;
 
 /**
- * Interface for incoming webrequest tracer. <a href=
- * "https://github.com/Dynatrace/OneAgent-SDK#webrequests">https://github.com/Dynatrace/OneAgent-SDK#webrequests</a>
+ * Represents client side of an outgoing webrequest.
  * 
- * @since 1.3
+ * @since 1.4
+ *
  */
-public interface IncomingWebRequestTracer extends Tracer, IncomingTaggable {
-
-	/**
-	 * Validates and sets the remote IP address of the incoming web request. This
-	 * information is very useful to gain information about Load balancers, Proxies
-	 * and ultimately the end user that is sending the request.
-	 *
-	 * @param remoteAddress
-	 *            remote IP address
-	 */
-	void setRemoteAddress(String remoteAddress);
+public interface OutgoingWebRequestTracer extends Tracer, OutgoingTaggable {
 
 	/**
 	 * All HTTP request headers should be provided to this method. Selective
@@ -45,19 +35,8 @@ public interface IncomingWebRequestTracer extends Tracer, IncomingTaggable {
 	void addRequestHeader(String name, String value);
 
 	/**
-	 * All HTTP parameters should be provided to this method. Selective capturing
-	 * will be done based on sensor configuration.
-	 *
-	 * @param name
-	 *            HTTP parameter name
-	 * @param value
-	 *            HTTP parameter value
-	 */
-	void addParameter(String name, String value);
-
-	/**
-	 * All HTTP response headers should be provided to this method. Selective
-	 * capturing will be done based on sensor configuration.
+	 * All HTTP response headers returned by the server should be provided to this
+	 * method. Selective capturing will be done based on sensor configuration.
 	 *
 	 * @param name
 	 *            HTTP response header field name
@@ -70,7 +49,7 @@ public interface IncomingWebRequestTracer extends Tracer, IncomingTaggable {
 	 * Sets the HTTP response status code.
 	 *
 	 * @param statusCode
-	 *            HTTP status code returned to client
+	 *            HTTP status code retrieved from server
 	 */
 	void setStatusCode(int statusCode);
 

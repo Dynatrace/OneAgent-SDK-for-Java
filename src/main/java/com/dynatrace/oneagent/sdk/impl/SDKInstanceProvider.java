@@ -19,8 +19,8 @@ package com.dynatrace.oneagent.sdk.impl;
 class SDKInstanceProvider {
 
 	/**
-	 * @return SDK Object provided by OneAgent. null if no OneAgent is loaded or declines
-	 *         to work with current SDK.
+	 * @return SDK Object provided by OneAgent. null if no OneAgent is loaded or
+	 *         declines to work with current SDK.
 	 */
 	static Object create(int onesdkmajor, int onesdkminor, int onesdkfix) {
 		return null;

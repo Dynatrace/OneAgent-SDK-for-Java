@@ -20,5 +20,5 @@ import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
 public class InProcessLinkTracerNoop extends NodeNoop implements InProcessLinkTracer {
 
 	public final static InProcessLinkTracer INSTANCE = new InProcessLinkTracerNoop();
-	
+
 }

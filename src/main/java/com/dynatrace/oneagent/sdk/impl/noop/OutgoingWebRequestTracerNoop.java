@@ -15,10 +15,31 @@
  */
 package com.dynatrace.oneagent.sdk.impl.noop;
 
-import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
+import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 
-public class WebApplicationInfoNoop implements WebApplicationInfo {
+public class OutgoingWebRequestTracerNoop extends NodeNoop implements OutgoingWebRequestTracer {
+	public static final OutgoingWebRequestTracerNoop INSTANCE = new OutgoingWebRequestTracerNoop();
 
-	public static final WebApplicationInfo INSTANCE = new WebApplicationInfoNoop();
+	@Override
+	public String getDynatraceStringTag() {
+		return NO_TAG_STRING;
+	}
+
+	@Override
+	public byte[] getDynatraceByteTag() {
+		return NO_TAG_BLOB;
+	}
+
+	@Override
+	public void addRequestHeader(String name, String value) {
+	}
+
+	@Override
+	public void addResponseHeader(String name, String value) {
+	}
+
+	@Override
+	public void setStatusCode(int statusCode) {
+	}
 
 }
