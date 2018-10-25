@@ -23,6 +23,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
  	* [Trace web requests](#webrequests)
  	 	* [Trace incoming web requests](#inwebrequests)
  	 	* [Trace outgoing web requests](#outwebrequests)
+	* [Trace messaging](#messaging)
 * [Further reading](#furtherreading)
 * [Help & Support](#help)
 * [Release notes](#releasenotes)
@@ -44,6 +45,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 |OneAgent SDK for Java|Required OneAgent version|
 |:--------------------|:------------------------|
+|1.5.0                |>=1.157                  |
 |1.4.0                |>=1.151                  |
 |1.3.0                |>=1.149                  |
 |1.2.0                |>=1.147                  |
@@ -131,13 +133,14 @@ The feature sets differ slightly with each language implementation. More functio
 
 A more detailed specification of the features can be found in [Dynatrace OneAgent SDK](https://github.com/Dynatrace/OneAgent-SDK#features).
 
-|Feature                                   |Required OneAgent SDK for Java version|
-|:-----------------------------------------|:-------------------------------------|
-|Outgoing webrequests                      |>=1.4.0                               |
-|Incoming webrequests                      |>=1.3.0                               |
-|Custom request attributes                 |>=1.2.0                               |
-|In process linking                        |>=1.1.0                               |
-|Trace incoming and outgoing remote calls  |>=1.0.3                               |
+|Feature                                        |Required OneAgent SDK for Java version|
+|:----------------------------------------------|:-------------------------------------|
+|Sending, receiving and processing of messages  |>=1.5.0                               |
+|Outgoing webrequests                           |>=1.4.0                               |
+|Incoming webrequests                           |>=1.3.0                               |
+|Custom request attributes                      |>=1.2.0                               |
+|In process linking                             |>=1.1.0                               |
+|Trace incoming and outgoing remote calls       |>=1.0.3                               |
 
 <a name="remoting" />
 
@@ -303,6 +306,103 @@ try {
 	outgoingWebRequestTracer.end();
 }
 ```
+<a name="messaging" />
+
+### Trace messaging
+
+You can use the SDK to trace messages sent or received via messaging system. When tracing messages, we distinguish between:
+
+* sending a message
+* receiving a message
+* processing a received message
+
+To trace an outgoing message, the code looks straight forward compared to other tracers:
+ 
+```Java
+MessagingSystemInfo messagingSystemInfo = oneAgentSDK.createMessagingSystemInfo("myMessagingSystem",
+		"requestQueue", MessageDestinationType.QUEUE, ChannelType.TCP_IP, "localhost:4711");
+OutgoingMessageTracer outgoingMessageTracer = oneAgentSDK.traceOutgoingMessage(messagingSystemInfo);
+outgoingMessageTracer.start();
+try {
+	// transport the dynatrace tag along with the message: 	
+	messageToSend.setHeaderField(
+		OneAgentSDK.DYNATRACE_MESSAGE_PROPERTYNAME, outgoingMessageTracer.getDynatraceStringTag());
+	theQueue.send(messageToSend);
+	
+	// optional:  add messageid provided from messaging system
+	outgoingMessageTracer.setVendorMessageId(toSend.getMessageId());
+	// optional:  add correlationId
+	outgoingMessageTracer.setCorrelationId(toSend.correlationId);
+} catch (Exception e) {
+	outgoingMessageTracer.error(e.getMessage());
+	Logger.logError(e);
+} finally {
+	outgoingMessageTracer.end();
+}
+```
+
+On the incoming side, we need to differentiate between the blocking receiving part and processing the received message. Therefore two different tracers are being used: ``ReceivingMessageTracer`` and ``ProcessingMessageTracer``.
+
+```Java
+MessagingSystemInfo messagingSystemInfo = oneAgentSDK.createMessagingSystemInfo("myMessagingSystem",
+		"requestQueue", MessageDestinationType.QUEUE, ChannelType.TCP_IP, "localhost:4711");
+
+// message receiving daemon task:
+while(true) {
+	IncomingMessageReceiveTracer incomingMessageReceiveTracer = 
+		oneAgentSDK.traceIncomingMessageReceive(messagingSystemInfo);
+	incomingMessageReceiveTracer.start();
+	try {
+		// blocking call - until message is being available:
+		Message queryMessage = theQueue.receive("client queries");
+		IncomingMessageProcessTracer incomingMessageProcessTracer = oneAgentSDK
+			.traceIncomingMessageProcess(messagingSystemInfo);
+		incomingMessageProcessTracer.setDynatraceStringTag(
+			queryMessage.getHeaderField(OneAgentSDK.DYNATRACE_MESSAGE_PROPERTYNAME));
+		incomingMessageProcessTracer.setVendorMessageId(queryMessage.msgId);
+		incomingMessageProcessTracer.setCorrelationId(queryMessage.correlationId);
+		incomingMessageProcessTracer.start();
+		try {
+			// do the work ... 
+		} catch (Exception e) {
+			incomingMessageProcessTracer.error(e.getMessage());
+			Logger.logError(e);
+		} finally {
+			incomingMessageProcessTracer.end();
+		}
+	} catch (Exception e) {
+		incomingMessageReceiveTracer.error(e.getMessage());
+		Logger.logError(e);
+	} finally {
+		incomingMessageReceiveTracer.end();
+	}
+}
+```
+
+In case of non-blocking receive (e. g. via eventhandler), there is no need to use ``ReceivingMessageTracer`` - just trace processing of the message by using the ``ProcessingMessageTracer``:
+
+```Java
+MessagingSystemInfo messagingSystemInfo = oneAgentSDK.createMessagingSystemInfo("myMessagingSystem",
+	"requestQueue", MessageDestinationType.QUEUE, ChannelType.TCP_IP, "localhost:4711");
+
+public void onMessage(Message message) {
+	IncomingMessageProcessTracer incomingMessageProcessTracer = oneAgentSDK
+		.traceIncomingMessageProcess(messagingSystemInfo);
+	incomingMessageProcessTracer.setDynatraceStringTag((String)
+		message.getObjectProperty(OneAgentSDK.DYNATRACE_MESSAGE_PROPERTYNAME));
+	incomingMessageProcessTracer.setVendorMessageId(queryMessage.msgId);
+	incomingMessageProcessTracer.setCorrelationId(queryMessage.correlationId);
+	incomingMessageProcessTracer.start();
+	try {
+		// do the work ... 
+	} catch (Exception e) {
+		incomingMessageProcessTracer.error(e.getMessage());
+		Logger.logError(e);
+	} finally {
+		incomingMessageProcessTracer.end();
+	}
+}
+```
 
 <a name="furtherreading" />
 
@@ -343,6 +443,7 @@ see also https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases
 
 |Version|Description                            |Links                                    |
 |:------|:--------------------------------------|:----------------------------------------|
+|1.5.0  |Added support for messaging            |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.5.0/oneagent-sdk-1.5.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.5.0/oneagent-sdk-1.5.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.5.0/oneagent-sdk-1.5.0-javadoc.jar)|
 |1.4.0  |Added support for outgoing webrequests |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-javadoc.jar)|
 |1.3.0  |Added support for incoming webrequests |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-javadoc.jar)|
 |1.2.0  |Added support for in-process-linking   |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-javadoc.jar)|
