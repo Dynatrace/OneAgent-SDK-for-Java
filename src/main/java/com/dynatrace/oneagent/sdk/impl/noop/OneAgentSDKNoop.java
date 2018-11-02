@@ -17,15 +17,20 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
+import com.dynatrace.oneagent.sdk.api.IncomingMessageProcessTracer;
+import com.dynatrace.oneagent.sdk.api.IncomingMessageReceiveTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
+import com.dynatrace.oneagent.sdk.api.OutgoingMessageTracer;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
-import com.dynatrace.oneagent.sdk.api.enums.SDKState;
-import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
+import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
+import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
+import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
 /**
  * This class provides an empty (NOOP) implementation of the {@link OneAgentSDK}
@@ -97,5 +102,26 @@ public class OneAgentSDKNoop implements OneAgentSDK {
 	@Override
 	public OutgoingWebRequestTracer traceOutgoingWebRequest(String url, String method) {
 		return OutgoingWebRequestTracerNoop.INSTANCE;
+	}
+
+	@Override
+	public MessagingSystemInfo createMessagingSystemInfo(String vendorName, String destinationName,
+			MessageDestinationType destinationType, ChannelType channelType, String channelEndpoint) {
+		return MessagingSystemInfoNoop.INSTANCE;
+	}
+
+	@Override
+	public OutgoingMessageTracer traceOutgoingMessage(MessagingSystemInfo messagingSystem) {
+		return OutgoingMessageTracerNoop.INSTANCE;
+	}
+
+	@Override
+	public IncomingMessageReceiveTracer traceIncomingMessageReceive(MessagingSystemInfo messagingSystem) {
+		return IncomingMessageReceiveTracerNoop.INSTANCE;
+	}
+
+	@Override
+	public IncomingMessageProcessTracer traceIncomingMessageProcess(MessagingSystemInfo messagingSystem) {
+		return IncomingMessageProcessTracerNoop.INSTANCE;
 	}
 }

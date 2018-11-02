@@ -16,7 +16,9 @@
 package com.dynatrace.oneagent.sdk.api;
 
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
+import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
 /**
@@ -37,7 +39,12 @@ public interface OneAgentSDK {
 	 * request ensures compatibility to Dynatrace built-in sensors.
 	 */
 	public static final String DYNATRACE_HTTP_HEADERNAME = "X-dynaTrace";
-
+	
+	/**
+	 * Using this propertyname to transport Dynatrace tag along with the message, ensures compatibility to Dynatrace built-in sensors.
+	 */
+	public static final String DYNATRACE_MESSAGE_PROPERTYNAME = "dtdTraceTagInfo";
+	
 	// ***** Web Requests (incoming) *****
 
 	/**
@@ -184,6 +191,55 @@ public interface OneAgentSDK {
 	 * @since 1.2
 	 */
 	void addCustomRequestAttribute(String key, double value);
+
+	// ***** Messaging (outgoing & incoming) *****
+
+	/**
+	 * Initializes a MessagingSystemInfo instance that is required for tracing messages.
+	 *
+	 * @param vendorName	one of {@link com.dynatrace.oneagent.sdk.api.enums.MessageSystemVendor} if well known vendor. Custom provided in any other case.
+	 * @param destinationName	destination name (e.g. queue name, topic name)
+	 * @param destinationType	destination type - see {@link MessageDestinationType}.
+	 * @param channelType		communication protocol used
+	 * @param channelEndpoint	optional and depending on protocol:
+	 * 							* for TCP/IP: host name/IP of the server-side (can include port)
+	 * 							* for UNIX domain sockets: name of domain socket file
+	 * 							* for named pipes: name of pipe
+	 * @return					{@link MessagingSystemInfo} instance to work with
+	 * 
+	 * @since 1.5
+	 */
+	MessagingSystemInfo createMessagingSystemInfo(String vendorName, String destinationName, MessageDestinationType destinationType, ChannelType channelType, String channelEndpoint);
+
+	/**
+	 * Creates a tracer for an outgoing asynchronous message (send).
+	 * 
+	 * @param messagingSystem	information about the messaging system (see createMessagingSystemInfo methods).
+	 * @return {@link OutgoingMessageTracer} to work with
+	 * 
+	 * @since 1.5
+	 */
+	OutgoingMessageTracer traceOutgoingMessage(MessagingSystemInfo messagingSystem);
+
+	/**
+	 * Creates a tracer for an incoming asynchronous message (blocking receive).
+	 * 
+	 * @param messagingSystem	information about the messaging system (see createMessagingSystemInfo methods).
+	 * @return {@link IncomingMessageReceiveTracer} to work with
+	 * 
+	 * @since 1.5
+	 */
+	IncomingMessageReceiveTracer traceIncomingMessageReceive(MessagingSystemInfo messagingSystem);
+	
+	/**
+	 * Creates a tracer for processing (consuming) a received message (onMessage).
+	 * 
+	 * @param messagingSystem	information about the messaging system (see createMessagingSystemInfo methods).
+	 * @return {@link IncomingMessageProcessTracer} to work with
+	 * 
+	 * @since 1.5
+	 */
+	IncomingMessageProcessTracer traceIncomingMessageProcess(MessagingSystemInfo messagingSystem);
 
 	// ***** various *****
 
