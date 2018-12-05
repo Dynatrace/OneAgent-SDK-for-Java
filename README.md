@@ -173,6 +173,7 @@ try {
 	// make the call and transport the tag across to server
 } catch (Throwable e) {
 	outgoingRemoteCall.error(e);
+	// rethrow or add your exception handling
 } finally {
 	outgoingRemoteCall.end();
 }
@@ -324,6 +325,7 @@ try {
 	
 } catch (Exception e) {
 	outgoingWebRequestTracer.error(e);
+	// rethrow or add your exception handling
 } finally {
 	outgoingWebRequestTracer.end();
 }
@@ -357,7 +359,7 @@ try {
 	outgoingMessageTracer.setCorrelationId(toSend.correlationId);
 } catch (Exception e) {
 	outgoingMessageTracer.error(e.getMessage());
-	Logger.logError(e);
+	// rethrow or add your exception handling
 } finally {
 	outgoingMessageTracer.end();
 }
@@ -395,7 +397,7 @@ while(true) {
 		}
 	} catch (Exception e) {
 		incomingMessageReceiveTracer.error(e.getMessage());
-		Logger.logError(e);
+		// rethrow or add your exception handling
 	} finally {
 		incomingMessageReceiveTracer.end();
 	}
@@ -421,7 +423,7 @@ public void onMessage(Message message) {
 		// do the work ... 
 	} catch (Exception e) {
 		incomingMessageProcessTracer.error(e.getMessage());
-		Logger.logError(e);
+		// rethrow or add your exception handling
 	} finally {
 		incomingMessageProcessTracer.end();
 	}
