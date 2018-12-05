@@ -135,7 +135,7 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 
 |Feature                                        |Required OneAgent SDK for Java version|
 |:----------------------------------------------|:-------------------------------------|
-|Sending, receiving and processing of messages  |>=1.5.0                               |
+|Trace messaging                                |>=1.5.0                               |
 |Outgoing webrequests                           |>=1.4.0                               |
 |Incoming webrequests                           |>=1.3.0                               |
 |Custom request attributes                      |>=1.2.0                               |
@@ -316,7 +316,7 @@ You can use the SDK to trace messages sent or received via messaging system. Whe
 * receiving a message
 * processing a received message
 
-To trace an outgoing message, the code looks straight forward compared to other tracers:
+To trace an outgoing message, you simply need to create a MessagingSystemInfo and call traceOutgoingMessage with that instance:
  
 ```Java
 MessagingSystemInfo messagingSystemInfo = oneAgentSDK.createMessagingSystemInfo("myMessagingSystem",
