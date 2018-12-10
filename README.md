@@ -405,7 +405,7 @@ while(true) {
 ```
 
 In case of non-blocking receive (e. g. via eventhandler), there is no need to use `IncomingMessageReceiveTracer` - just trace processing 
-of the message by using the ``ProcessingMessageTracer``:
+of the message by using the `IncomingMessageProcessTracer`:
 
 ```Java
 MessagingSystemInfo messagingSystemInfo = oneAgentSDK.createMessagingSystemInfo("myMessagingSystem",
