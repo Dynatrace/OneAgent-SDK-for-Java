@@ -366,7 +366,7 @@ try {
 ```
 
 On the incoming side, we need to differentiate between the blocking receiving part and processing the received message. Therefore two 
-different tracers are being used: ``ReceivingMessageTracer`` and ``ProcessingMessageTracer``.
+different tracers are being used: `IncomingMessageReceiveTracer` and `IncomingMessageProcessTracer`.
 
 ```Java
 MessagingSystemInfo messagingSystemInfo = oneAgentSDK.createMessagingSystemInfo("myMessagingSystem",
