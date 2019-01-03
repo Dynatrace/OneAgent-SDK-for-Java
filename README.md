@@ -334,7 +334,7 @@ try {
 
 ### Trace messaging
 
-You can use the SDK to trace messages sent or received via messaging system. When tracing messages, we distinguish between:
+You can use the SDK to trace messages sent or received via messaging & queuing systems. When tracing messages, we distinguish between:
 
 * sending a message
 * receiving a message
