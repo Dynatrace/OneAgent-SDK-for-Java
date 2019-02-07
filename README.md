@@ -351,12 +351,13 @@ try {
 	// transport the dynatrace tag along with the message: 	
 	messageToSend.setHeaderField(
 		OneAgentSDK.DYNATRACE_MESSAGE_PROPERTYNAME, outgoingMessageTracer.getDynatraceStringTag());
+	// optional:  add application provided correlationId
+	outgoingMessageTracer.setCorrelationId(toSend.correlationId);
+
 	theQueue.send(messageToSend);
 	
 	// optional:  add messageid provided from messaging system
 	outgoingMessageTracer.setVendorMessageId(toSend.getMessageId());
-	// optional:  add correlationId
-	outgoingMessageTracer.setCorrelationId(toSend.correlationId);
 } catch (Exception e) {
 	outgoingMessageTracer.error(e.getMessage());
 	// rethrow or add your exception handling
