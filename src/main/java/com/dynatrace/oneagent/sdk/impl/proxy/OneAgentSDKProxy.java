@@ -17,19 +17,28 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
+import com.dynatrace.oneagent.sdk.api.IncomingMessageProcessTracer;
+import com.dynatrace.oneagent.sdk.api.IncomingMessageReceiveTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.LoggingCallback;
 import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
+import com.dynatrace.oneagent.sdk.api.OutgoingMessageTracer;
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
 import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
-import com.dynatrace.oneagent.sdk.api.enums.SDKState;
-import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
+import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
+import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
+import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.IncomingMessageProcessTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.IncomingMessageReceiveTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.IncomingWebRequestTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.MessagingSystemInfoNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.OutgoingMessageTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.OutgoingWebRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallClientTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallServerTracerNoop;
@@ -187,6 +196,76 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			return OutgoingWebRequestTracerNoop.INSTANCE;
 		}
 		return new OutgoingWebRequestTracerProxy(apiProxy, agentObject);
+	}
+
+	@Override
+	public MessagingSystemInfo createMessagingSystemInfo(String vendorName, String destinationName,
+			MessageDestinationType destinationType, ChannelType channelType, String channelEndpoint) {
+		return new MessagingSystemInfoImpl(vendorName, destinationName, destinationType, channelType, channelEndpoint);
+	}
+
+	@Override
+	public OutgoingMessageTracer traceOutgoingMessage(MessagingSystemInfo messagingSystem) {
+		if (messagingSystem instanceof MessagingSystemInfoNoop) {
+			return OutgoingMessageTracerNoop.INSTANCE;
+		} else if (!(messagingSystem instanceof MessagingSystemInfoImpl)) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- invalid MessagingSystemInfo object provided: "
+						+ (messagingSystem == null ? "null" : messagingSystem.getClass().getName()));
+			}
+			return OutgoingMessageTracerNoop.INSTANCE;
+		}
+
+		Object agentObject = apiProxy.oneAgentSDK_traceOutgoingMessage(agentSdkImpl, (MessagingSystemInfoImpl) messagingSystem);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return OutgoingMessageTracerNoop.INSTANCE;
+		}
+		return new OutgoingMessageTracerProxy(apiProxy, agentObject);
+	}
+
+	@Override
+	public IncomingMessageReceiveTracer traceIncomingMessageReceive(MessagingSystemInfo messagingSystem) {
+		if (messagingSystem instanceof MessagingSystemInfoNoop) {
+			return IncomingMessageReceiveTracerNoop.INSTANCE;
+		} else if (!(messagingSystem instanceof MessagingSystemInfoImpl)) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- invalid MessagingSystemInfo object provided: "
+						+ (messagingSystem == null ? "null" : messagingSystem.getClass().getName()));
+			}
+			return IncomingMessageReceiveTracerNoop.INSTANCE;
+		}
+		Object agentObject = apiProxy.oneAgentSDK_traceIncomingMessageReceive(agentSdkImpl, (MessagingSystemInfoImpl) messagingSystem);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return IncomingMessageReceiveTracerNoop.INSTANCE;
+		}
+		return new IncomingMessageReceiveTracerProxy(apiProxy, agentObject);
+	}
+
+	@Override
+	public IncomingMessageProcessTracer traceIncomingMessageProcess(MessagingSystemInfo messagingSystem) {
+		if (messagingSystem instanceof MessagingSystemInfoNoop) {
+			return IncomingMessageProcessTracerNoop.INSTANCE;
+		} else if (!(messagingSystem instanceof MessagingSystemInfoImpl)) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- invalid MessagingSystemInfo object provided: "
+						+ (messagingSystem == null ? "null" : messagingSystem.getClass().getName()));
+			}
+			return IncomingMessageProcessTracerNoop.INSTANCE;
+		}
+		Object agentObject = apiProxy.oneAgentSDK_traceIncomingMessageProcess(agentSdkImpl, (MessagingSystemInfoImpl) messagingSystem);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return IncomingMessageProcessTracerNoop.INSTANCE;
+		}
+		return new IncomingMessageProcessTracerProxy(apiProxy, agentObject);
 	}
 
 }

@@ -30,7 +30,7 @@ public class OneAgentSDKFactoryImpl {
 	 * OneAgent), increase oneSdkFix only.
 	 */
 	static final int oneSdkMajor = 1;
-	static final int oneSdkMinor = 4;
+	static final int oneSdkMinor = 5;
 	static final int oneSdkFix = 0;
 
 	/** the only SDK instance (one for every classLoader) */

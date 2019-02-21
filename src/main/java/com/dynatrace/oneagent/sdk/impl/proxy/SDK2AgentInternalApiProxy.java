@@ -41,6 +41,9 @@ public class SDK2AgentInternalApiProxy {
 	private final Method oneAgentSDK_addCustomRequestAttribute_3; // String, double
 	private final Method oneAgentSDK_traceIncomingWebRequest;
 	private final Method oneAgentSDK_traceOutgoingWebRequest;
+	private final Method oneAgentSDK_traceIncomingMessageReceive;
+	private final Method oneAgentSDK_traceIncomingMessageProcess;
+	private final Method oneAgentSDK_traceOutgoingMessage;
 	private final Method tracer_start;
 	private final Method tracer_end;
 	private final Method tracer_error_1; // string
@@ -56,6 +59,8 @@ public class SDK2AgentInternalApiProxy {
 	private final Method webRequestTracer_addRequestHeader;
 	private final Method incomingWebRequestTracer_setRemoteAddress;
 	private final Method incomingWebRequestTracer_addParameter;
+	private final Method messageTracer_setVendorMessageId;
+	private final Method messageTracer_setCorrelationId;
 
 	public SDK2AgentInternalApiProxy(Object agentImpl) throws NoSuchMethodException, SecurityException {
 		this.agentImpl = agentImpl;
@@ -80,6 +85,12 @@ public class SDK2AgentInternalApiProxy {
 				new Class[] { Object.class, String.class, String.class, String.class, String.class, String.class });
 		oneAgentSDK_traceOutgoingWebRequest = findMethod("oneAgentSDK_traceOutgoingWebRequest",
 				new Class[] { Object.class, String.class, String.class });
+		oneAgentSDK_traceIncomingMessageReceive = findMethod("oneAgentSDK_traceIncomingMessageReceive",
+				new Class[] { Object.class, String.class, String.class, String.class, Integer.TYPE, String.class });
+		oneAgentSDK_traceIncomingMessageProcess = findMethod("oneAgentSDK_traceIncomingMessageProcess",
+				new Class[] { Object.class, String.class, String.class, String.class, Integer.TYPE, String.class });
+		oneAgentSDK_traceOutgoingMessage =findMethod("oneAgentSDK_traceOutgoingMessage",
+				new Class[] { Object.class, String.class, String.class, String.class, Integer.TYPE, String.class });
 		tracer_start = findMethod("tracer_start", new Class[] { Object.class });
 		tracer_end = findMethod("tracer_end", new Class[] { Object.class });
 		tracer_error_1 = findMethod("tracer_error", new Class[] { Object.class, String.class });
@@ -106,6 +117,10 @@ public class SDK2AgentInternalApiProxy {
 				new Class[] { Object.class, String.class });
 		incomingWebRequestTracer_addParameter = findMethod("incomingWebRequestTracer_addParameter",
 				new Class[] { Object.class, String.class, String.class });
+		messageTracer_setVendorMessageId = findMethod("messageTracer_setVendorMessageId",
+				new Class[] { Object.class, String.class });
+		messageTracer_setCorrelationId = findMethod("messageTracer_setCorrelationId",
+				new Class[] { Object.class, String.class });
 	}
 
 	private Method findMethod(String name, Class<?>... args) throws NoSuchMethodException, SecurityException {
@@ -154,6 +169,24 @@ public class SDK2AgentInternalApiProxy {
 
 	Object oneAgentSDK_traceOutgoingWebRequest(Object agentSdkImpl, String url, String method) {
 		return invoke(oneAgentSDK_traceOutgoingWebRequest, agentSdkImpl, url, method);
+	}
+	
+	Object oneAgentSDK_traceOutgoingMessage(Object agentSdkImpl, MessagingSystemInfoImpl messagingSystem) {
+		return invoke(oneAgentSDK_traceOutgoingMessage, agentSdkImpl, messagingSystem.getVendorName(), 
+				messagingSystem.getDestinationName(), messagingSystem.getDestinationType().getName(), 
+				messagingSystem.getChannelType().getSDKConstant(),messagingSystem.getChannelEndpoint());
+	}
+
+	Object oneAgentSDK_traceIncomingMessageReceive(Object agentSdkImpl, MessagingSystemInfoImpl messagingSystem) {
+		return invoke(oneAgentSDK_traceIncomingMessageReceive, agentSdkImpl, messagingSystem.getVendorName(), 
+				messagingSystem.getDestinationName(), messagingSystem.getDestinationType().getName(), 
+				messagingSystem.getChannelType().getSDKConstant(),messagingSystem.getChannelEndpoint());
+	}
+
+	Object oneAgentSDK_traceIncomingMessageProcess(Object agentSdkImpl,	MessagingSystemInfoImpl messagingSystem) {
+		return invoke(oneAgentSDK_traceIncomingMessageProcess, agentSdkImpl, messagingSystem.getVendorName(), 
+				messagingSystem.getDestinationName(), messagingSystem.getDestinationType().getName(), 
+				messagingSystem.getChannelType().getSDKConstant(),messagingSystem.getChannelEndpoint());
 	}
 
 	void oneAgentSDK_setLoggingCallback(Object sdk, Object loggingCallback) {
@@ -234,6 +267,14 @@ public class SDK2AgentInternalApiProxy {
 
 	void incomingWebRequestTracer_addParameter(Object incomingWebRequestTracer, String name, String value) {
 		invoke(incomingWebRequestTracer_addParameter, incomingWebRequestTracer, name, value);
+	}
+
+	void messageTracer_setVendorMessageId(Object messageTracer, String vendorMessageId) {
+		invoke(messageTracer_setVendorMessageId, messageTracer, vendorMessageId);
+	}
+
+	void messageTracer_setCorrelationId(Object messageTracer, String correlationId) {
+		invoke(messageTracer_setCorrelationId, messageTracer, correlationId);
 	}
 
 }
