@@ -437,7 +437,7 @@ public void onMessage(Message message) {
 
 ### Trace SQL database requests
 
-A SQL database request is traced by calling `traceSqlDatabaseRequest`.
+A SQL database request is traced by calling `traceSqlDatabaseRequest`. For details about usage see the [OneAgentSDK specification](https://github.com/Dynatrace/OneAgent-SDK#database)
 
 ```
 String sql = "SELECT * FROM transformationdata WHERE transformation_id = " + id;
@@ -447,7 +447,8 @@ DatabaseInfo databaseInfo = oneAgentSdk.createDatabaseInfo("TransformationDb", D
 DatabaseRequestTracer databaseTracer = oneAgentSdk.traceSqlDatabaseRequest(databaseInfo, sql);
 databaseTracer.start();
 try {
-	executeTheDatabaseCall(sql);
+	Result result = executeTheDatabaseCall(sql);
+	databaseTracer.setRowCountReturned(result.getRows().getLength());
 } catch (InterruptedException e) {
 	databaseTracer.error(e);
     // handle or rethrow

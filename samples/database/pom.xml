@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+					  http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <groupId>com.dynatrace.oneagent.sdk.samples.messaging</groupId>
+  <artifactId>messaging-sample</artifactId>
+  <version>1.7.0</version>
+  <packaging>jar</packaging>
+ 
+  <dependencies>
+	<dependency>
+	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
+	  <artifactId>oneagent-sdk</artifactId>
+	  <version>1.7.0</version>
+	  <scope>compile</scope>
+	</dependency>
+  </dependencies>
+
+  <url>https://github.com/Dynatrace/OneAgent-SDK-Java</url>
+  <name>Dynatrace OneAgent SDK Java database request sample</name>
+  <organization>
+  	<name>Dynatrace</name>
+  	<url>http://www.dynatrace.com</url>
+  </organization>
+  
+  <properties>
+	<maven.compiler.source>1.6</maven.compiler.source>
+	<maven.compiler.target>1.6</maven.compiler.target>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+	<!-- uncomment and replace url/tenant/token in case of manual agent injection -->
+	<!-- 
+	<agent.lib>path_to_installed_one_agent\agent\lib64\oneagentjava.dll</agent.lib>
+	<agent.server>https://url.to.tenant.com:443</agent.server>
+	<agent.tenant>tenantUUID</agent.tenant>
+	<agent.tenantToken>tenantToken</agent.tenantToken>
+	<agent.options>,debugOneAgentSdkJava=true</agent.options>
+	<agent.agentpath>-agentpath:"${agent.lib}=name=SdkSample,server=${agent.server}"${agent.options},tenant=${agent.tenant},tenantToken=${agent.tenantToken}</agent.agentpath>
+	 -->
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+		<version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.database.DatabaseApp</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>java</executable>
+          <arguments>
+          	<argument>${agent.agentpath}</argument>
+          	<argument>-classpath</argument>
+          	<classpath/>
+              <mainClass>com.dynatrace.oneagent.sdk.samples.database.DatabaseApp</mainClass>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>  
+
+</project>
