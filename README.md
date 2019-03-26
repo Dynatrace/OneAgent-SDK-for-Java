@@ -437,27 +437,22 @@ public void onMessage(Message message) {
 
 ### Trace SQL database requests
 
-A SQL database request is traced by calling `traceSQLDatabaseRequest`. See [DatabaseRequestTracerSamples.cs](/sample/Dynatrace.OneAgent.Sdk.Sample/DatabaseRequestTracerSamples.cs) for the full list of examples (sync/async/lambda/exception/...)
-
-**Example synchronous database call (see [DatabaseRequestTracerSamples.cs](/sample/Dynatrace.OneAgent.Sdk.Sample/DatabaseRequestTracerSamples.cs) for more details):**
+A SQL database request is traced by calling `traceSqlDatabaseRequest`.
 
 ```
-IDatabaseInfo dbInfo = oneAgentSdk.CreateDatabaseInfo("MyDb", "MyVendor", ChannelType.TCP_IP, "database.example.com:1234");
-IDatabaseRequestTracer dbTracer = oneAgentSdk.TraceSQLDatabaseRequest(dbInfo, "Select * From AA");
+String sql = "SELECT * FROM transformationdata WHERE transformation_id = " + id;
 
-dbTracer.Start();
-try
-{
-    ExecuteDbCallVoid();
-}
-catch
-{
-    dbTracer.Error("DB call failed");
+DatabaseInfo databaseInfo = oneAgentSdk.createDatabaseInfo("TransformationDb", DatabaseVendor.FIREBIRD.getVendorName(), ChannelType.TCP_IP, "db-serv01.acme.com:2323");
+
+DatabaseRequestTracer tracer = oneAgentSdk.traceSqlDatabaseRequest(databaseInfo, sql);
+tracer.start();
+try {
+	executeTheDatabaseCall(sql);
+} catch (InterruptedException e) {
+	tracer.error(e);
     // handle or rethrow
-}
-finally
-{
-    dbTracer.End();
+} finally {
+	tracer.end();
 }
 ```
 
