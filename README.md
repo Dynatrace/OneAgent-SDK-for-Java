@@ -25,6 +25,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 	 	* [Trace incoming web requests](#inwebrequests)
 	 	* [Trace outgoing web requests](#outwebrequests)
 	* [Trace messaging](#messaging)
+	* [Trace SQL database requests](#databaseRequest)
 * [Further reading](#furtherreading)
 * [Help & Support](#help)
 * [Release notes](#releasenotes)
@@ -46,6 +47,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 |OneAgent SDK for Java|Required OneAgent version|
 |:--------------------|:------------------------|
+|1.7.0                |>=1.167                  |
 |1.6.0                |>=1.161                  |
 |1.4.0                |>=1.151                  |
 |1.3.0                |>=1.149                  |
@@ -65,7 +67,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 	<dependency>
 	  <groupId>com.dynatrace.oneagent.sdk.java</groupId>
 	  <artifactId>oneagent-sdk</artifactId>
-	  <version>1.6.0</version>
+	  <version>1.7.0</version>
 	  <scope>compile</scope>
 	</dependency>
 
@@ -145,6 +147,7 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 
 |Feature                                        |Required OneAgent SDK for Java version|
 |:----------------------------------------------|:-------------------------------------|
+|Trace database requests                        |>=1.7.0                               |
 |Trace messaging                                |>=1.6.0                               |
 |Outgoing webrequests                           |>=1.4.0                               |
 |Incoming webrequests                           |>=1.3.0                               |
@@ -430,6 +433,33 @@ public void onMessage(Message message) {
 	}
 }
 ```
+<a name="databaseRequest" />
+
+### Trace SQL database requests
+
+A SQL database request is traced by calling `traceSQLDatabaseRequest`. See [DatabaseRequestTracerSamples.cs](/sample/Dynatrace.OneAgent.Sdk.Sample/DatabaseRequestTracerSamples.cs) for the full list of examples (sync/async/lambda/exception/...)
+
+**Example synchronous database call (see [DatabaseRequestTracerSamples.cs](/sample/Dynatrace.OneAgent.Sdk.Sample/DatabaseRequestTracerSamples.cs) for more details):**
+
+```
+IDatabaseInfo dbInfo = oneAgentSdk.CreateDatabaseInfo("MyDb", "MyVendor", ChannelType.TCP_IP, "database.example.com:1234");
+IDatabaseRequestTracer dbTracer = oneAgentSdk.TraceSQLDatabaseRequest(dbInfo, "Select * From AA");
+
+dbTracer.Start();
+try
+{
+    ExecuteDbCallVoid();
+}
+catch
+{
+    dbTracer.Error("DB call failed");
+    // handle or rethrow
+}
+finally
+{
+    dbTracer.End();
+}
+```
 
 <a name="furtherreading" />
 
@@ -470,6 +500,7 @@ see also https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases
 
 |Version|Description                                 |Links                                    |
 |:------|:-------------------------------------------|:----------------------------------------|
+|1.7.0  |Added support for database requests         |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0-javadoc.jar)|
 |1.6.0  |Added support for messaging                 |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0-javadoc.jar)|
 |1.4.0  |Added support for outgoing webrequests      |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-javadoc.jar)|
 |1.3.0  |Added support for incoming webrequests      |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-javadoc.jar)|

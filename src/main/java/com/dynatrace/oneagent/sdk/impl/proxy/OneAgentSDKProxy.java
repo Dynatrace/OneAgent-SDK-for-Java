@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Dynatrace LLC
+ * Copyright 2019 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.dynatrace.oneagent.sdk.impl.proxy;
 
+import com.dynatrace.oneagent.sdk.api.DatabaseRequestTracer;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingMessageProcessTracer;
@@ -29,9 +30,12 @@ import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
+import com.dynatrace.oneagent.sdk.impl.noop.DatabaseInfoNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.DatabaseRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.IncomingMessageProcessTracerNoop;
@@ -266,6 +270,34 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			return IncomingMessageProcessTracerNoop.INSTANCE;
 		}
 		return new IncomingMessageProcessTracerProxy(apiProxy, agentObject);
+	}
+
+	@Override
+	public DatabaseInfo createDatabaseInfo(String name, String vendor, ChannelType channelType,
+			String channelEndpoint) {
+		return new DatabaseInfoImpl(name, vendor, channelType, channelEndpoint);
+	}
+
+	@Override
+	public DatabaseRequestTracer traceSqlDatabaseRequest(DatabaseInfo databaseInfo, String statement) {
+		if (databaseInfo instanceof DatabaseInfoNoop) {
+			return DatabaseRequestTracerNoop.INSTANCE;
+		} else if (!(databaseInfo instanceof DatabaseInfoImpl)) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- invalid DatabaseInfo object provided: "
+						+ (databaseInfo == null ? "null" : databaseInfo.getClass().getName()));
+			}
+			return DatabaseRequestTracerNoop.INSTANCE;
+		}
+
+		Object agentObject = apiProxy.oneAgentSDK_traceSQLDatabaseRequest(agentSdkImpl, (DatabaseInfoImpl) databaseInfo, statement);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+			}
+			return DatabaseRequestTracerNoop.INSTANCE;
+		}
+		return new DatabaseRequestTracerProxy(apiProxy, agentObject);
 	}
 
 }

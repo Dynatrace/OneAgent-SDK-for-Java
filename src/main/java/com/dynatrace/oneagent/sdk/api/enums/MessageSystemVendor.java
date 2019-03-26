@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Dynatrace LLC
+ * Copyright 2019 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ import com.dynatrace.oneagent.sdk.api.OneAgentSDK;
 
 /**
  * Enumerates all well-known messaging systems. See {@link OneAgentSDK#createMessagingSystemInfo(String, String, MessageDestinationType, ChannelType, String)}.
- * Using these constants ensures that services captured by OneAgentSDK are handled the same way as traced via built-in sensors. 
+ * Using these constants ensures that services captured by OneAgentSDK are handled the same way as traced via built-in sensors.
+ * 
+ * @since 1.5 
  */
 public enum MessageSystemVendor {
 
