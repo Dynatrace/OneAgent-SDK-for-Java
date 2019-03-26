@@ -444,15 +444,15 @@ String sql = "SELECT * FROM transformationdata WHERE transformation_id = " + id;
 
 DatabaseInfo databaseInfo = oneAgentSdk.createDatabaseInfo("TransformationDb", DatabaseVendor.FIREBIRD.getVendorName(), ChannelType.TCP_IP, "db-serv01.acme.com:2323");
 
-DatabaseRequestTracer tracer = oneAgentSdk.traceSqlDatabaseRequest(databaseInfo, sql);
-tracer.start();
+DatabaseRequestTracer databaseTracer = oneAgentSdk.traceSqlDatabaseRequest(databaseInfo, sql);
+databaseTracer.start();
 try {
 	executeTheDatabaseCall(sql);
 } catch (InterruptedException e) {
-	tracer.error(e);
+	databaseTracer.error(e);
     // handle or rethrow
 } finally {
-	tracer.end();
+	databaseTracer.end();
 }
 ```
 
