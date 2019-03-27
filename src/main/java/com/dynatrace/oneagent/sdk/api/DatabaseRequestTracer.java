@@ -17,7 +17,7 @@ package com.dynatrace.oneagent.sdk.api;
 
 /**
  * Interface for outgoing database tracer.
- * <a href="https://github.com/Dynatrace/OneAgent-SDK#database">https://github.com/Dynatrace/OneAgent-SDK#database</a>
+ * <a href="https://github.com/Dynatrace/OneAgent-SDK-for-Java#databaseRequest">https://github.com/Dynatrace/OneAgent-SDK-for-Java#databaseRequest</a>
  * 
  * @since 1.7.0
  */

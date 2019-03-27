@@ -6,7 +6,7 @@ Sample applications showing how to use Dynatrace OneAgent SDK for Java to create
 
 - `remotecall`: shows usage of remote call API. Allows you to tag remote calls in the same or between different JVMs.  
 - `in-process-linking`: shows usage of in-process-linking API. Allows you to tag eg. asynchronous execution inside the same process.
-- `webrequest`: shows usage of outging- and incoming webrequests
+- `webrequest`: shows usage of outgoing and incoming web request tracing
 - `messaging`: shows usage of messaging
 - `database`: shows usage of database request tracing
 
