@@ -440,7 +440,7 @@ public void onMessage(Message message) {
 A SQL database request is traced by calling `traceSqlDatabaseRequest`. For details about usage see the [OneAgentSDK specification](https://github.com/Dynatrace/OneAgent-SDK#database)
 
 ```java
-String sql = "SELECT * FROM transformationdata WHERE transformation_id = " + id;
+String sql = "SELECT * FROM transformationdata WHERE transformation_id = " + id; // for brevity, don't do that ;)
 
 DatabaseInfo databaseInfo = oneAgentSdk.createDatabaseInfo("TransformationDb", DatabaseVendor.FIREBIRD.getVendorName(), ChannelType.TCP_IP, "db-serv01.acme.com:2323");
 
