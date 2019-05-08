@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Dynatrace LLC
+ * Copyright 2019 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.dynatrace.oneagent.sdk.impl.noop;
 
+import com.dynatrace.oneagent.sdk.api.DatabaseRequestTracer;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
 import com.dynatrace.oneagent.sdk.api.IncomingMessageProcessTracer;
@@ -29,6 +30,7 @@ import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
@@ -123,5 +125,16 @@ public class OneAgentSDKNoop implements OneAgentSDK {
 	@Override
 	public IncomingMessageProcessTracer traceIncomingMessageProcess(MessagingSystemInfo messagingSystem) {
 		return IncomingMessageProcessTracerNoop.INSTANCE;
+	}
+
+	@Override
+	public DatabaseInfo createDatabaseInfo(String name, String vendor, ChannelType channelType,
+			String channelEndpoint) {
+		return DatabaseInfoNoop.INSTANCE;
+	}
+
+	@Override
+	public DatabaseRequestTracer traceSqlDatabaseRequest(DatabaseInfo databaseInfo, String statement) {
+		return DatabaseRequestTracerNoop.INSTANCE;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Dynatrace LLC
+ * Copyright 2019 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.dynatrace.oneagent.sdk.api;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
+import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
@@ -44,6 +45,34 @@ public interface OneAgentSDK {
 	 * Using this propertyname to transport Dynatrace tag along with the message, ensures compatibility to Dynatrace built-in sensors.
 	 */
 	public static final String DYNATRACE_MESSAGE_PROPERTYNAME = "dtdTraceTagInfo";
+
+	// ***** outgoing Database *****
+	
+	/**
+	 * Initializes a DatabaseInfo instance that is required for tracing database requests.
+	 *
+	 * @param name				name of the database
+	 * @param vendor			database vendor name (e.g. Oracle, MySQL, ...), can be a user defined name
+	 *                          If possible use a constant defined in {@link com.dynatrace.oneagent.sdk.api.enums.DatabaseVendor}
+	 * @param channelType		communication protocol used to communicate with the database.
+	 * @param channelEndpoint	this represents the communication endpoint for the database. This information allows Dynatrace to tie the database requests to a specific process or cloud service. It is optional.
+	 * 							* for TCP/IP: host name/IP of the server-side (can include port in the form of "host:port") 
+	 * 							* for UNIX domain sockets: name of domain socket file
+	 * 							* for named pipes: name of pipe
+	 * @return					{@link DatabaseInfo} instance to work with
+	 * @since 1.7.0
+	 */
+	DatabaseInfo createDatabaseInfo(String name, String vendor, ChannelType channelType, String channelEndpoint);
+
+	/**
+	 * Creates a tracer for tracing outgoing SQL database requests.
+	 *
+	 * @param databaseInfo			information about database
+	 * @param statement				database SQL statement
+	 * @return						{@link DatabaseRequestTracer} to work with
+	 * @since 1.7.0
+	 */
+	DatabaseRequestTracer traceSqlDatabaseRequest(DatabaseInfo databaseInfo, String statement);
 	
 	// ***** Web Requests (incoming) *****
 

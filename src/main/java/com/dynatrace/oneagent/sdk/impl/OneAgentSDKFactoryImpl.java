@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Dynatrace LLC
+ * Copyright 2019 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,13 +30,10 @@ public class OneAgentSDKFactoryImpl {
 	 * OneAgent), increase oneSdkFix only.
 	 */
 	static final int oneSdkMajor = 1;
-	static final int oneSdkMinor = 5;
+	static final int oneSdkMinor = 7;
 	static final int oneSdkFix = 0;
 
-	/** the only SDK instance (one for every classLoader) */
-	private static OneAgentSDK oneSDK = null;
-
-	public static boolean debugOneAgentSdkStub = false;
+	public static final boolean debugOneAgentSdkStub = Boolean.parseBoolean(System.getProperty("com.dynatrace.oneagent.sdk.debug", "false"));
 
 	private static OneAgentSDK createOneSDK() {
 		Object agentApiImpl = SDKInstanceProvider.create(oneSdkMajor, oneSdkMinor, oneSdkFix);
@@ -66,13 +63,8 @@ public class OneAgentSDKFactoryImpl {
 		}
 	}
 
-	public static synchronized OneAgentSDK createInstance() {
-		if (oneSDK == null) {
-			debugOneAgentSdkStub = Boolean
-					.parseBoolean(System.getProperty("com.dynatrace.oneagent.sdk.debug", "false"));
-			oneSDK = createOneSDK();
-		}
-		return oneSDK;
+	public static OneAgentSDK createInstance() {
+		return createOneSDK();
 	}
 
 	public static void logDebug(String msg) {
