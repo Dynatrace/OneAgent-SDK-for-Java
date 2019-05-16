@@ -254,11 +254,11 @@ When no service call is being traced, the custom request attributes are dropped.
 You can use the SDK to trace incoming web requests. This might be useful if Dynatrace does not support the respective web server framework or language 
 processing the incoming web requests.
 
-To trace an incoming web request you first need to create a WebServerInfo object. The info object represents the endpoint of your web server (web server 
+To trace an incoming web request you first need to create a WebApplicationInfo object. The info object represents the endpoint of your web server (web server 
 name, application name and context root). This object should be reused for all traced web requests within for the same application.
 
 ```Java
-WebServerInfo wsInfo = oneAgentSdk.createWebServerInfo("WebShopProduction", "CheckoutService", "/api/service/checkout");
+WebApplicationInfo wsInfo = oneAgentSdk.createWebApplicationInfo("WebShopProduction", "CheckoutService", "/api/service/checkout");
 ```
 
 To trace a specific incoming web request you then need to create a Tracer object. Make sure you provide all http headers from the request to the SDK by 
