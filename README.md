@@ -1,5 +1,3 @@
-**Disclaimer: This SDK is currently in beta and still work in progress.**
-
 # Dynatrace OneAgent SDK for Java
 
 This SDK allows Dynatrace customers to instrument java applications. This is useful to enhance the visibility for proprietary frameworks or 
@@ -9,7 +7,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 #### Table of Contents
 
-* [Package contents](#package)  
+* [Package contents](#package)
 * [Requirements](#requirements)
 * [Integration](#integration)
 	* [Dependencies](#dependencies)
@@ -469,7 +467,7 @@ try {
 
 ## Help & Support
 
-The Dynatrace OneAgent SDK for Java is an open source project, currently in beta status. The features are fully supported by Dynatrace. 
+The Dynatrace OneAgent SDK for Java is an open source project. The features are fully supported by Dynatrace. 
 
 **Get Help**
 * Ask a question in the <a href="https://answers.dynatrace.com/spaces/482/view.html" target="_blank">product forums</a>
