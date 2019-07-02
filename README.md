@@ -467,7 +467,7 @@ try {
 
 ## Help & Support
 
-The Dynatrace OneAgent SDK for Java is an open source project. The features are fully supported by Dynatrace. 
+The Dynatrace OneAgent SDK for Java is fully supported by Dynatrace.
 
 **Get Help**
 * Ask a question in the <a href="https://answers.dynatrace.com/spaces/482/view.html" target="_blank">product forums</a>
