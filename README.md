@@ -1,5 +1,3 @@
-**Disclaimer: This SDK is currently in beta and still work in progress.**
-
 # Dynatrace OneAgent SDK for Java
 
 This SDK allows Dynatrace customers to instrument java applications. This is useful to enhance the visibility for proprietary frameworks or 
@@ -9,7 +7,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 #### Table of Contents
 
-* [Package contents](#package)  
+* [Package contents](#package)
 * [Requirements](#requirements)
 * [Integration](#integration)
 	* [Dependencies](#dependencies)
@@ -45,15 +43,15 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 - JRE 1.6 or higher
 - Dynatrace OneAgent (required versions see below)
 
-|OneAgent SDK for Java|Required OneAgent version|
-|:--------------------|:------------------------|
-|1.7.0                |>=1.167                  |
-|1.6.0                |>=1.161                  |
-|1.4.0                |>=1.151                  |
-|1.3.0                |>=1.149                  |
-|1.2.0                |>=1.147                  |
-|1.1.0                |>=1.143                  |
-|1.0.3                |>=1.135                  |
+|OneAgent SDK for Java|Required OneAgent version|Support status|
+|:--------------------|:------------------------|:-------------|
+|1.7.0                |>=1.167                  |Supported     |
+|1.6.0                |>=1.161                  |Supported     |
+|1.4.0                |>=1.151                  |Supported     |
+|1.3.0                |>=1.149                  |Supported     |
+|1.2.0                |>=1.147                  |Supported     |
+|1.1.0                |>=1.143                  |Supported     |
+|1.0.3                |>=1.135                  |Supported     |
 
 <a name="integration" />
 
@@ -469,7 +467,11 @@ try {
 
 ## Help & Support
 
-The Dynatrace OneAgent SDK for Java is an open source project, currently in beta status. The features are fully supported by Dynatrace. 
+**Support policy**
+
+The Dynatrace OneAgent SDK for Java has GA status. The features are fully supported by Dynatrace.
+
+For detailed support policy see [Dynatrace OneAgent SDK help](https://github.com/Dynatrace/OneAgent-SDK#help).
 
 **Get Help**
 * Ask a question in the <a href="https://answers.dynatrace.com/spaces/482/view.html" target="_blank">product forums</a>
