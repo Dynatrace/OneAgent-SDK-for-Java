@@ -432,6 +432,9 @@ try {
 }
 ```
 
+Please note that SQL database traces are only created if they occur within some other SDK trace (e.g. incoming remote call)
+or a OneAgent built-in trace (e.g. incoming web request).
+
 ## Further reading
 
 * <a href="https://www.dynatrace.com/support/help/extend-dynatrace/oneagent-sdk/what-is-oneagent-sdk/" target="_blank">What is the OneAgent SDK?</a> in the Dynatrace documentation
