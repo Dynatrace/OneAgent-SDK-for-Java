@@ -30,9 +30,9 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 ## Package contents
 
-* `samples`: contains sample application, which demonstrates the usage of the SDK. see readme inside the samples directory for more details
+* `samples`: contains sample application, which demonstrates the usage of the SDK. See readme inside the samples directory for more details.
 * `docs`: contains the reference documentation (javadoc). The most recent version is also available online at [https://dynatrace.github.io/OneAgent-SDK-for-Java/](https://dynatrace.github.io/OneAgent-SDK-for-Java/).
-* `LICENSE`: license under which the whole SDK and sample applications are published
+* `LICENSE`: license under which the whole SDK and sample applications are published.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 ### Dependencies
 
-If you want to integrate the OneAgent SDK into your application, just add the following maven dependency:
+If you want to integrate the OneAgent SDK into your application, just add the following Maven dependency:
 
 ```xml
 <dependency>
@@ -64,7 +64,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 </dependency>
 ```
 
-If you prefer to integrate the SDK using plain jar file, just download them from mavenCentral. You can find the download links for each
+If you prefer to integrate the SDK using plain jar file, just download them from Maven Central. You can find the download links for each
 version in the [Release notes](#releasenotes) section.
 
 The Dynatrace OneAgent SDK for Java has no further dependencies.
@@ -83,12 +83,12 @@ Additionally you should/have to ensure, that you have set a `LoggingCallback`. F
 
 ## API concepts
 
-Common concepts of the Dynatrace OneAgent SDK are explained the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK#apiconcepts).
+Common concepts of the Dynatrace OneAgent SDK are explained in the [Dynatrace OneAgent SDK repository](https://github.com/Dynatrace/OneAgent-SDK#apiconcepts).
 
 ### OneAgentSDK object
 
-Use OneAgentSDKFactory.createInstance() to obtain an OneAgentSDK instance. You should reuse this object over the whole application
-and if possible JVM lifetime:
+Use OneAgentSDKFactory.createInstance() to obtain an OneAgentSDK instance. You should reuse this object throughout the whole application
+and, if possible, JVM lifetime:
 
 ```Java
 OneAgentSDK oneAgentSdk = OneAgentSDKFactory.createInstance();
@@ -104,13 +104,13 @@ default:
 }
 ```
 
-It is good practice to check the SDK state regularly as it may change at every point of time (except PERMANENTLY_INACTIVE never
-changes over JVM lifetime).
+It is good practice to check the SDK state regularly as it may change at any point in time (except for PERMANENTLY_INACTIVE, which never
+changes throughout the JVM lifetime).
 
 ### Tracers
 
 To trace any kind of call you first need to create a Tracer. The Tracer object represents the logical and physical endpoint that
-you want to call. A Tracer serves two purposes. First to time the call (duration, cpu and more) and report errors. That is why
+you want to call. A Tracer serves two purposes. First, to time the call (duration, cpu and more) and report errors. That is why
 each Tracer has these three methods. The error method must be called only once, and it must be in between start and end.
 
 ```Java
