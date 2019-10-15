@@ -410,6 +410,8 @@ public void onMessage(Message message) {
 }
 ```
 
+> Please also see the [documentation on messaging tracers in the specification repository](https://github.com/Dynatrace/OneAgent-SDK#messaging).
+
 ### Trace SQL database requests
 
 A SQL database request is traced by calling `traceSqlDatabaseRequest`. For details about usage see the [OneAgentSDK specification](https://github.com/Dynatrace/OneAgent-SDK#database)
