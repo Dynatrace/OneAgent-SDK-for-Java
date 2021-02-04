@@ -17,7 +17,7 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 
 import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 
-public final class OutgoingWebRequestTracerProxy extends TraceableProxy implements OutgoingWebRequestTracer {
+final class OutgoingWebRequestTracerProxy extends TraceableProxy implements OutgoingWebRequestTracer {
 
 	OutgoingWebRequestTracerProxy(SDK2AgentInternalApiProxy apiProxy,
 			Object oneAgentSDK_createOutgoingWebreqeustTracer) {
