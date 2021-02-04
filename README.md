@@ -19,6 +19,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
   * [Trace incoming and outgoing remote calls](#trace-incoming-and-outgoing-remote-calls)
   * [In process linking](#in-process-linking)
   * [Add custom request attributes](#add-custom-request-attributes)
+  * [Custom services](#custom-services)
   * [Trace web requests](#trace-web-requests)
     * [Trace incoming web requests](#trace-incoming-web-requests)
     * [Trace outgoing web requests](#trace-outgoing-web-requests)
@@ -41,6 +42,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 |OneAgent SDK for Java|Required OneAgent version|Support status|
 |:--------------------|:------------------------|:-------------|
+|1.8.0                |>=1.201                  |Supported     |
 |1.7.0                |>=1.167                  |Supported     |
 |1.6.0                |>=1.161                  |Supported     |
 |1.4.0                |>=1.151                  |Supported     |
@@ -59,7 +61,7 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 <dependency>
   <groupId>com.dynatrace.oneagent.sdk.java</groupId>
   <artifactId>oneagent-sdk</artifactId>
-  <version>1.7.0</version>
+  <version>1.8.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -136,6 +138,7 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 
 |Feature                                        |Required OneAgent SDK for Java version|
 |:----------------------------------------------|:-------------------------------------|
+|Custom services                                |>=1.8.0                               |
 |Trace database requests                        |>=1.7.0                               |
 |Trace messaging                                |>=1.6.0                               |
 |Outgoing web requests                          |>=1.4.0                               |
@@ -226,6 +229,27 @@ oneAgentSDK.addCustomRequestAttribute("salesAmount", 2500);
 ```
 
 When no service call is being traced, the custom request attributes are dropped.
+
+### Custom services
+
+You can use the SDK to trace custom service methods. A custom service method is a meaningful
+part of your code that you want to trace but that does not fit any other tracer.
+An example could be the callback of a periodic timer.
+
+```Java
+String serviceMethod = "onTimer";
+String serviceName = "PeriodicCleanupTask";
+CustomServiceTracer tracer = oneAgentSDK.traceCustomService(serviceMethod, serviceName);
+tracer.start();
+try {
+	doMyCleanup();
+} catch (Exception e) {
+	tracer.error(e.getMessage());
+	throw e;
+} finally {
+	tracer.end();
+}
+```
 
 ### Trace web requests
 
@@ -477,6 +501,7 @@ see also <https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases>
 
 |Version|Description                                 |Links                                    |
 |:------|:-------------------------------------------|:----------------------------------------|
+|1.8.0  |Added support for custom services           |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.8.0/oneagent-sdk-1.8.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.8.0/oneagent-sdk-1.8.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.8.0/oneagent-sdk-1.8.0-javadoc.jar)|
 |1.7.0  |Added support for database requests         |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0-javadoc.jar)|
 |1.6.0  |Added support for messaging                 |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0-javadoc.jar)|
 |1.4.0  |Added support for outgoing webrequests      |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-javadoc.jar)|

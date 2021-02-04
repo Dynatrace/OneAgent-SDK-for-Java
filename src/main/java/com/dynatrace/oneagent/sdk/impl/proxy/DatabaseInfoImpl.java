@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 
-public class DatabaseInfoImpl implements DatabaseInfo {
+final class DatabaseInfoImpl implements DatabaseInfo {
 
 	private final String name;
 	private final String vendor;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 
 import com.dynatrace.oneagent.sdk.api.OutgoingRemoteCallTracer;
 
-public class RemoteCallClientTracerNoop extends NodeNoop implements OutgoingRemoteCallTracer {
+public final class RemoteCallClientTracerNoop extends NodeNoop implements OutgoingRemoteCallTracer {
 
 	public static final OutgoingRemoteCallTracer INSTANCE = new RemoteCallClientTracerNoop();
 

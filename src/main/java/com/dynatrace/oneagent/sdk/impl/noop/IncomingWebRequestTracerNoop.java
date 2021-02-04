@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 
 import com.dynatrace.oneagent.sdk.api.IncomingWebRequestTracer;
 
-public class IncomingWebRequestTracerNoop extends NodeNoop implements IncomingWebRequestTracer {
+public final class IncomingWebRequestTracerNoop extends NodeNoop implements IncomingWebRequestTracer {
 
 	public static final IncomingWebRequestTracer INSTANCE = new IncomingWebRequestTracerNoop();
 

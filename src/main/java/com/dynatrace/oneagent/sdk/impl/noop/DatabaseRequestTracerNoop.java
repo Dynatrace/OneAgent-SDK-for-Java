@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 
 import com.dynatrace.oneagent.sdk.api.DatabaseRequestTracer;
 
-public class DatabaseRequestTracerNoop extends NodeNoop implements DatabaseRequestTracer {
+public final class DatabaseRequestTracerNoop extends NodeNoop implements DatabaseRequestTracer {
 
 	public static final DatabaseRequestTracerNoop INSTANCE = new DatabaseRequestTracerNoop();
 	

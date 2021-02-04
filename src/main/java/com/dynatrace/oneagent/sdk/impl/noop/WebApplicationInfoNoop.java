@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,10 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
-public class WebApplicationInfoNoop implements WebApplicationInfo {
+public final class WebApplicationInfoNoop implements WebApplicationInfo {
 
 	public static final WebApplicationInfo INSTANCE = new WebApplicationInfoNoop();
 
+	private WebApplicationInfoNoop() {
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -269,7 +269,7 @@ public interface OneAgentSDK {
 	 * @since 1.5
 	 */
 	IncomingMessageProcessTracer traceIncomingMessageProcess(MessagingSystemInfo messagingSystem);
-
+	
 	// ***** various *****
 
 	/**
@@ -292,4 +292,16 @@ public interface OneAgentSDK {
 	 * @since 1.0
 	 */
 	SDKState getCurrentState();
+
+	/**
+	 * Creates a tracer for a custom transaction (Dynatrace calls them Custom service). Used whenever a transaction 
+	 * should be traced, that does not match any of the specialised transaction types (e. g. DB-request, webrequest, ...).
+	 * 
+	 * @param serviceMethod service method being used for service creation.
+	 * @param serviceName service name being used for service creation.
+	 * 
+	 * @return {@link CustomServiceTracer} to work with
+	 * @since 1.8
+	 */
+	CustomServiceTracer traceCustomService(String serviceMethod, String serviceName);
 }
