@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.dynatrace.oneagent.sdk.impl.proxy;
 
+import com.dynatrace.oneagent.sdk.api.CustomServiceTracer;
 import com.dynatrace.oneagent.sdk.api.DatabaseRequestTracer;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
@@ -34,6 +35,7 @@ import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
+import com.dynatrace.oneagent.sdk.impl.noop.CustomServiceTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.DatabaseInfoNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.DatabaseRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.InProcessLinkNoop;
@@ -49,7 +51,7 @@ import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallServerTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.WebApplicationInfoNoop;
 
 /** TODO: check if/how class could be generated */
-public class OneAgentSDKProxy implements OneAgentSDK {
+public final class OneAgentSDKProxy implements OneAgentSDK {
 
 	private final SDK2AgentInternalApiProxy apiProxy;
 	private final Object agentSdkImpl;
@@ -66,7 +68,7 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 				serviceEndpoint);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return RemoteCallServerTracerNoop.INSTANCE;
 		}
@@ -84,7 +86,7 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 				serverEndpoint, iChannelType, remoteHost);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return RemoteCallClientTracerNoop.INSTANCE;
 		}
@@ -101,7 +103,7 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 		Boolean isCapturing = apiProxy.oneAgentSDK_isCapturing(agentSdkImpl);
 		if (isCapturing == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return SDKState.PERMANENTLY_INACTIVE;
 		}
@@ -139,7 +141,7 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 		Object agentObject = apiProxy.oneAgentSDK_traceInProcessLink(agentSdkImpl, (InProcessLinkImpl) inProcessLink);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide InProcessLinkTracer");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide InProcessLinkTracer");
 			}
 			return InProcessLinkTracerNoop.INSTANCE;
 		}
@@ -183,7 +185,7 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 				(WebApplicationInfoImpl) webApplicationInfo, url, method);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return IncomingWebRequestTracerNoop.INSTANCE;
 		}
@@ -195,7 +197,7 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 		Object agentObject = apiProxy.oneAgentSDK_traceOutgoingWebRequest(agentSdkImpl, url, method);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return OutgoingWebRequestTracerNoop.INSTANCE;
 		}
@@ -220,10 +222,11 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			return OutgoingMessageTracerNoop.INSTANCE;
 		}
 
-		Object agentObject = apiProxy.oneAgentSDK_traceOutgoingMessage(agentSdkImpl, (MessagingSystemInfoImpl) messagingSystem);
+		Object agentObject = apiProxy.oneAgentSDK_traceOutgoingMessage(agentSdkImpl,
+				(MessagingSystemInfoImpl) messagingSystem);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return OutgoingMessageTracerNoop.INSTANCE;
 		}
@@ -241,10 +244,11 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			}
 			return IncomingMessageReceiveTracerNoop.INSTANCE;
 		}
-		Object agentObject = apiProxy.oneAgentSDK_traceIncomingMessageReceive(agentSdkImpl, (MessagingSystemInfoImpl) messagingSystem);
+		Object agentObject = apiProxy.oneAgentSDK_traceIncomingMessageReceive(agentSdkImpl,
+				(MessagingSystemInfoImpl) messagingSystem);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return IncomingMessageReceiveTracerNoop.INSTANCE;
 		}
@@ -262,10 +266,11 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			}
 			return IncomingMessageProcessTracerNoop.INSTANCE;
 		}
-		Object agentObject = apiProxy.oneAgentSDK_traceIncomingMessageProcess(agentSdkImpl, (MessagingSystemInfoImpl) messagingSystem);
+		Object agentObject = apiProxy.oneAgentSDK_traceIncomingMessageProcess(agentSdkImpl,
+				(MessagingSystemInfoImpl) messagingSystem);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return IncomingMessageProcessTracerNoop.INSTANCE;
 		}
@@ -290,14 +295,26 @@ public class OneAgentSDKProxy implements OneAgentSDK {
 			return DatabaseRequestTracerNoop.INSTANCE;
 		}
 
-		Object agentObject = apiProxy.oneAgentSDK_traceSQLDatabaseRequest(agentSdkImpl, (DatabaseInfoImpl) databaseInfo, statement);
+		Object agentObject = apiProxy.oneAgentSDK_traceSQLDatabaseRequest(agentSdkImpl, (DatabaseInfoImpl) databaseInfo,
+				statement);
 		if (agentObject == null) {
 			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
-				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide provide object");
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
 			}
 			return DatabaseRequestTracerNoop.INSTANCE;
 		}
 		return new DatabaseRequestTracerProxy(apiProxy, agentObject);
 	}
 
+	@Override
+	public CustomServiceTracer traceCustomService(String serviceMethod, String serviceName) {
+		Object agentObject = apiProxy.oneAgentSDK_traceCustomService(agentSdkImpl, serviceMethod, serviceName);
+		if (agentObject == null) {
+			if (OneAgentSDKFactoryImpl.debugOneAgentSdkStub) {
+				OneAgentSDKFactoryImpl.logDebug("- OneAgent failed to provide object");
+			}
+			return CustomServiceTracerNoop.INSTANCE;
+		}
+		return new CustomServiceTracerProxy(apiProxy, agentObject);
+	}
 }

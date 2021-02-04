@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,11 @@ package com.dynatrace.oneagent.sdk.impl.noop;
 
 import com.dynatrace.oneagent.sdk.api.OutgoingWebRequestTracer;
 
-public class OutgoingWebRequestTracerNoop extends NodeNoop implements OutgoingWebRequestTracer {
+public final class OutgoingWebRequestTracerNoop extends NodeNoop implements OutgoingWebRequestTracer {
 	public static final OutgoingWebRequestTracerNoop INSTANCE = new OutgoingWebRequestTracerNoop();
+
+	private OutgoingWebRequestTracerNoop() {
+	}
 
 	@Override
 	public String getDynatraceStringTag() {

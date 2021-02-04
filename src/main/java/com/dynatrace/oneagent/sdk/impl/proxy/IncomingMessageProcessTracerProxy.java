@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 
 import com.dynatrace.oneagent.sdk.api.IncomingMessageProcessTracer;
 
-public class IncomingMessageProcessTracerProxy extends TraceableProxy implements IncomingMessageProcessTracer {
+final class IncomingMessageProcessTracerProxy extends TraceableProxy implements IncomingMessageProcessTracer {
 
-	public IncomingMessageProcessTracerProxy(SDK2AgentInternalApiProxy apiProxy, Object agentObject) {
+	IncomingMessageProcessTracerProxy(SDK2AgentInternalApiProxy apiProxy, Object agentObject) {
 		super(apiProxy, agentObject);
 	}
 

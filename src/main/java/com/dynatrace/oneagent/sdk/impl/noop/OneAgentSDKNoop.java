@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.dynatrace.oneagent.sdk.impl.noop;
 
+import com.dynatrace.oneagent.sdk.api.CustomServiceTracer;
 import com.dynatrace.oneagent.sdk.api.DatabaseRequestTracer;
 import com.dynatrace.oneagent.sdk.api.InProcessLink;
 import com.dynatrace.oneagent.sdk.api.InProcessLinkTracer;
@@ -41,8 +42,8 @@ import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
  * @author Alram.Lechner
  *
  */
-public class OneAgentSDKNoop implements OneAgentSDK {
-
+public final class OneAgentSDKNoop implements OneAgentSDK {
+	
 	// ***** Webrequests (incoming) *****
 	@Override
 	public WebApplicationInfo createWebApplicationInfo(String webServerName, String applicationID, String contextRoot) {
@@ -136,5 +137,10 @@ public class OneAgentSDKNoop implements OneAgentSDK {
 	@Override
 	public DatabaseRequestTracer traceSqlDatabaseRequest(DatabaseInfo databaseInfo, String statement) {
 		return DatabaseRequestTracerNoop.INSTANCE;
+	}
+
+	@Override
+	public CustomServiceTracer traceCustomService(String serviceMethod, String serviceName) {
+		return CustomServiceTracerNoop.INSTANCE;
 	}
 }

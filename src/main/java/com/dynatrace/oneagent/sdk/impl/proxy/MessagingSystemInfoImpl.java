@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 import com.dynatrace.oneagent.sdk.api.enums.ChannelType;
 import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 
-public class MessagingSystemInfoImpl implements com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo {
+final class MessagingSystemInfoImpl implements com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo {
 
 	private final String vendorName;
 	private final String destinationName;

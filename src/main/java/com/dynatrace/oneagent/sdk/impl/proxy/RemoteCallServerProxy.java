@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package com.dynatrace.oneagent.sdk.impl.proxy;
 
 import com.dynatrace.oneagent.sdk.api.IncomingRemoteCallTracer;
 
-public class RemoteCallServerProxy extends TraceableProxy implements IncomingRemoteCallTracer {
+final class RemoteCallServerProxy extends TraceableProxy implements IncomingRemoteCallTracer {
 
 	RemoteCallServerProxy(SDK2AgentInternalApiProxy apiProxy, Object remoteCallObject) {
 		super(apiProxy, remoteCallObject);

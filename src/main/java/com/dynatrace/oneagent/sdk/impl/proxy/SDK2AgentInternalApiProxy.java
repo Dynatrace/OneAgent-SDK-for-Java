@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Dynatrace LLC
+ * Copyright 2021 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
  * @author Alram.Lechner
  *
  */
-public class SDK2AgentInternalApiProxy {
+public final class SDK2AgentInternalApiProxy {
 
 	private Object agentImpl;
 	private final Method oneAgentSDKFactory_createSdk;
@@ -45,6 +45,7 @@ public class SDK2AgentInternalApiProxy {
 	private final Method oneAgentSDK_traceIncomingMessageProcess;
 	private final Method oneAgentSDK_traceOutgoingMessage;
 	private final Method oneAgentSDK_traceSQLDatabaseRequest;
+	private final Method oneAgentSDK_traceCustomService;
 	private final Method tracer_start;
 	private final Method tracer_end;
 	private final Method tracer_error_1; // string
@@ -64,7 +65,6 @@ public class SDK2AgentInternalApiProxy {
 	private final Method messageTracer_setCorrelationId;
 	private final Method databaseRequestTracer_setRowsReturned;
 	private final Method databaseRequestTracer_setRoundTripCount;
-	
 
 	public SDK2AgentInternalApiProxy(Object agentImpl) throws NoSuchMethodException, SecurityException {
 		this.agentImpl = agentImpl;
@@ -97,6 +97,8 @@ public class SDK2AgentInternalApiProxy {
 				new Class[] { Object.class, String.class, String.class, String.class, Integer.TYPE, String.class });
 		oneAgentSDK_traceSQLDatabaseRequest = findMethod("oneAgentSDK_traceSQLDatabaseRequest",
 				new Class[] { Object.class, String.class, String.class, Integer.TYPE, String.class, String.class });
+		oneAgentSDK_traceCustomService  = findMethod("oneAgentSDK_traceCustomService",
+				new Class[] { Object.class, String.class, String.class });
 		tracer_start = findMethod("tracer_start", new Class[] { Object.class });
 		tracer_end = findMethod("tracer_end", new Class[] { Object.class });
 		tracer_error_1 = findMethod("tracer_error", new Class[] { Object.class, String.class });
@@ -208,6 +210,10 @@ public class SDK2AgentInternalApiProxy {
 				databaseInfo.getChannelEndpoint(), sql);
 	}
 
+	Object oneAgentSDK_traceCustomService(Object agentSdkImpl, String serviceMethod, String serviceName) {
+		return invoke(oneAgentSDK_traceCustomService, agentSdkImpl, serviceMethod, serviceName);
+	}
+
 	void oneAgentSDK_setLoggingCallback(Object sdk, Object loggingCallback) {
 		invoke(oneAgentSDK_setLoggingCallback, sdk, loggingCallback);
 	}
@@ -303,5 +309,4 @@ public class SDK2AgentInternalApiProxy {
 	void databaseRequestTracer_setRoundTripCount(Object databaseRequestTracer, int roundTripCount) {
 		invoke(databaseRequestTracer_setRoundTripCount, databaseRequestTracer, roundTripCount);
 	}
-
 }
