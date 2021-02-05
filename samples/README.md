@@ -1,4 +1,4 @@
-# Sample applications for OneAgent SDK for Java 
+# Sample applications for OneAgent SDK for Java
 
 Sample applications showing how to use Dynatrace OneAgent SDK for Java to create custom specific PurePaths and service calls.
 
@@ -18,6 +18,7 @@ Sample applications showing how to use Dynatrace OneAgent SDK for Java to create
 - run `mvn package` in root directory of the desired sample
 
 ### Run RemoteCall sample application
+
 This Application shows how to trace remote calls and tag them. To run this sample you need to start a server and client sample application - both with Dynatrace OneAgent injected.
 
 - Server: `mvn -pl remotecall-server exec:exec`
@@ -28,6 +29,7 @@ Check your Dynatrace environment for newly created service like that:
 ![remotecall-server](img/remotecall-service.png)
 
 ### Run InProcessLinking sample application
+
 This Application shows how to in-process-linking and custom service attributes are being used. To run this sample you need to create a custom service for your tenant - and of course Dynatrace OneAgent must be installed.
 
 - ensure you have custom service for method `startAsyncOperation` in class `com.dynatrace.oneagent.sdk.samples.inprocesslinking.InProcessLinkingApp` 
@@ -37,18 +39,29 @@ Check your Dynatrace environment for newly created services like that:
 ![in-process-linking-service](img/in-process-linking-service.png)
 
 ### Run WebRequest sample application
+
 This Application shows how to trace outgoing- and incoming webrequests. To run this sample you just go into the sample directory and run the sample by typing:
 
 - run sample: `mvn exec:exec`
 
 ### Run Messaging sample application
+
 This Application shows how to trace outgoing, receiving and processing of incoming messages. To run this sample you just go into the sample directory and run the sample by typing:
 
 - run sample: `mvn exec:exec`
 
 ### Run DatabaseRequest sample application
+
 This Application shows how to trace database requests. To run this sample you just go into the sample directory and run the sample by typing:
 
 - run sample: `mvn exec:exec`
 
 To run this sample you need to create a custom service for your tenant. See source of sample app for details.
+
+### Run custom service sample application
+
+This Application shows how to trace a custom service.
+To run this sample, go into the sample directory and run the sample by typing:
+
+- run sample: `mvn exec:exec`
+
