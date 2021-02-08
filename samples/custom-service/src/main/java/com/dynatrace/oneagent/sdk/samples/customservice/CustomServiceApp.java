@@ -40,7 +40,7 @@ public class CustomServiceApp {
 
 	public static void main(String args[]) {
 		System.out.println("*************************************************************");
-		System.out.println("**         Running custom service request sample                 **");
+		System.out.println("**         Running custom service request sample           **");
 		System.out.println("*************************************************************");
 		try {
 			CustomServiceApp app = new CustomServiceApp();
