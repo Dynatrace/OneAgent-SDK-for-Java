@@ -34,7 +34,7 @@
 	<!-- uncomment and replace url/tenant/token in case of manual agent injection -->
 	<!-- 
 	<agent.lib>path_to_installed_one_agent\agent\lib64\oneagentjava.dll</agent.lib>
-	<agent.server>https://url.to.tenant.com:443</agent.server>
+	<agent.server>https://url.to.tenant.com</agent.server>
 	<agent.tenant>tenantUUID</agent.tenant>
 	<agent.tenantToken>tenantToken</agent.tenantToken>
 	<agent.options>,debugOneAgentSdkJava=true</agent.options>
