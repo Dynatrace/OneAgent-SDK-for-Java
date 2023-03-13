@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Dynatrace LLC
+ * Copyright 2023 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.dynatrace.oneagent.sdk.impl.proxy;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
 
@@ -65,6 +66,8 @@ public final class SDK2AgentInternalApiProxy {
 	private final Method messageTracer_setCorrelationId;
 	private final Method databaseRequestTracer_setRowsReturned;
 	private final Method databaseRequestTracer_setRoundTripCount;
+
+    private final Method oneAgentSDK_getCurrentTraceAndSpanId;
 
 	public SDK2AgentInternalApiProxy(Object agentImpl) throws NoSuchMethodException, SecurityException {
 		this.agentImpl = agentImpl;
@@ -133,6 +136,9 @@ public final class SDK2AgentInternalApiProxy {
 				new Class[] { Object.class, Integer.TYPE });
 		databaseRequestTracer_setRoundTripCount = findMethod("databaseRequestTracer_setRoundTripCount",
 				new Class[] { Object.class, Integer.TYPE });
+
+        oneAgentSDK_getCurrentTraceAndSpanId = findMethod("oneAgentSDK_getCurrentTraceAndSpanId",
+                new Class[] {Object.class});
 	}
 
 	private Method findMethod(String name, Class<?>... args) throws NoSuchMethodException, SecurityException {
@@ -309,4 +315,9 @@ public final class SDK2AgentInternalApiProxy {
 	void databaseRequestTracer_setRoundTripCount(Object databaseRequestTracer, int roundTripCount) {
 		invoke(databaseRequestTracer_setRoundTripCount, databaseRequestTracer, roundTripCount);
 	}
+
+    @SuppressWarnings("unchecked")
+    public Map.Entry<String, String> oneAgentSDK_getCurrentTraceAndSpanId(Object sdk) {
+        return (Map.Entry<String, String>) invoke(oneAgentSDK_getCurrentTraceAndSpanId, sdk);
+    }
 }

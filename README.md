@@ -14,6 +14,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
   * [Troubleshooting](#troubleshooting)
 * [API concepts](#api-concepts)
   * [OneAgentSDK object](#oneagentsdk-object)
+  * [Trace Context](#tracecontext)
   * [Tracers](#tracers)
 * [Features](#features)
   * [Trace incoming and outgoing remote calls](#trace-incoming-and-outgoing-remote-calls)
@@ -37,7 +38,7 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 ## Requirements
 
-* JRE 1.6 or higher
+* An JRE that is both supported with a supported version of OneAgent and at least JRE 1.6-compatible.
 * Dynatrace OneAgent (for required versions, see table below)
 * The OneAgent SDK is not supported on serverless code modules, including those for AWS Lambda.
   Consider using [OpenTelemetry](https://www.dynatrace.com/support/help/shortlink/opentel-lambda)
@@ -45,14 +46,15 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 |OneAgent SDK for Java|Required OneAgent version|Support status|
 |:--------------------|:------------------------|:-------------|
+|1.9.0                |>=1.261                  |Supported     |
 |1.8.0                |>=1.201                  |Supported     |
-|1.7.0                |>=1.167                  |Supported     |
-|1.6.0                |>=1.161                  |Supported     |
-|1.4.0                |>=1.151                  |Supported     |
-|1.3.0                |>=1.149                  |Supported     |
-|1.2.0                |>=1.147                  |Supported     |
-|1.1.0                |>=1.143                  |Supported     |
-|1.0.3                |>=1.135                  |Supported     |
+|1.7.0                |>=1.167                  |Deprecated with support ending 2023-09-01 |
+|1.6.0                |>=1.161                  |Deprecated with support ending 2023-09-01 |
+|1.4.0                |>=1.151                  |Deprecated with support ending 2023-09-01 |
+|1.3.0                |>=1.149                  |Deprecated with support ending 2023-09-01 |
+|1.2.0                |>=1.147                  |Deprecated with support ending 2023-09-01 |
+|1.1.0                |>=1.143                  |Deprecated with support ending 2023-09-01 |
+|1.0.3                |>=1.135                  |Deprecated with support ending 2023-09-01 |
 
 ## Integration
 
@@ -64,13 +66,13 @@ If you want to integrate the OneAgent SDK into your application, just add the fo
 <dependency>
   <groupId>com.dynatrace.oneagent.sdk.java</groupId>
   <artifactId>oneagent-sdk</artifactId>
-  <version>1.8.0</version>
+  <version>1.9.0</version>
   <scope>compile</scope>
 </dependency>
 ```
 
-If you prefer to integrate the SDK using plain jar file, just download them from Maven Central. You can find the download links for each
-version in the [Release notes](#releasenotes) section.
+If you prefer to integrate the SDK using plain jar file, just download them from Maven Central, e.g. from
+<https://central.sonatype.com/artifact/com.dynatrace.oneagent.sdk.java/oneagent-sdk/1.9.0/versions>.
 
 The Dynatrace OneAgent SDK for Java has no further dependencies.
 
@@ -112,6 +114,27 @@ default:
 It is good practice to check the SDK state regularly as it may change at any point in time (except for PERMANENTLY_INACTIVE, which never
 changes throughout the JVM lifetime).
 
+
+<a name="tracecontext"></a>
+
+## Trace Context
+
+An instance of the `OneAgentSDK` can be used to get the current `ITraceContextInfo` which holds information
+about the *Trace-Id* and *Span-Id* of the current PurePath node.
+This information can then be used to provide e.g. additional context in log messages.
+
+Please note that `TraceContextInfo` is not intended for tagging or context-propagation use cases.
+Dedicated APIs (e.g. [remote calls](#remoting) or [web requests](#webrequests)) as well as
+built-in OneAgent sensors take care of linking services correctly.
+
+```Java
+TraceContextInfo traceContextInfo = oneAgentSdk.getTraceContextInfo();
+String traceId = traceContextInfo.getTraceId();
+String spanId = traceContextInfo.getSpanId();
+System.out.printf("[!dt dt.trace_id=%s,dt.span_id=%s] sending request... have trace ctx: %s%n",
+traceId, spanId, traceContextInfo.isValid());
+```
+
 ### Tracers
 
 To trace any kind of call you first need to create a Tracer. The Tracer object represents the logical and physical endpoint that
@@ -141,6 +164,7 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 
 |Feature                                        |Required OneAgent SDK for Java version|
 |:----------------------------------------------|:-------------------------------------|
+|Trace context for log enrichment               |>=1.9.0                               |
 |Custom services                                |>=1.8.0                               |
 |Trace database requests                        |>=1.7.0                               |
 |Trace messaging                                |>=1.6.0                               |
@@ -149,6 +173,9 @@ A more detailed specification of the features can be found in [Dynatrace OneAgen
 |Custom request attributes                      |>=1.2.0                               |
 |In process linking                             |>=1.1.0                               |
 |Trace incoming and outgoing remote calls       |>=1.0.3                               |
+
+
+<a name="remoting"></a>
 
 ### Trace incoming and outgoing remote calls
 
@@ -253,6 +280,8 @@ try {
 	tracer.end();
 }
 ```
+
+<a name="webrequests"></a>
 
 ### Trace web requests
 
@@ -500,15 +529,14 @@ SLAs apply according to the customer's support level.
 
 ## Release notes
 
-see also <https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases>
+### Version 1.9.0
 
-|Version|Description                                 |Links                                    |
-|:------|:-------------------------------------------|:----------------------------------------|
-|1.8.0  |Added support for custom services           |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.8.0/oneagent-sdk-1.8.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.8.0/oneagent-sdk-1.8.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.8.0/oneagent-sdk-1.8.0-javadoc.jar)|
-|1.7.0  |Added support for database requests         |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.7.0/oneagent-sdk-1.7.0-javadoc.jar)|
-|1.6.0  |Added support for messaging                 |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.6.0/oneagent-sdk-1.6.0-javadoc.jar)|
-|1.4.0  |Added support for outgoing webrequests      |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.4.0/oneagent-sdk-1.4.0-javadoc.jar)|
-|1.3.0  |Added support for incoming webrequests      |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.3.0/oneagent-sdk-1.3.0-javadoc.jar)|
-|1.2.0  |Added support for custom request attributes |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.2.0/oneagent-sdk-1.2.0-javadoc.jar)|
-|1.1.0  |Added support for in-process-linking        |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.1.0/oneagent-sdk-1.1.0-javadoc.jar)|
-|1.0.3  |Initial release                             |[binary](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3.jar) [source](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-sources.jar) [javadoc](https://search.maven.org/remotecontent?filepath=com/dynatrace/oneagent/sdk/java/oneagent-sdk/1.0.3/oneagent-sdk-1.0.3-javadoc.jar)|
+* [Add support to retrieve W3C trace context information for log enrichment.](#tracecontext)
+
+### Other announcements
+
+* ⚠️ **Deprecation announcement for older SDK versions:** Version 1.7 and all older versions have been put on the path to deprecation and will no longer be supported starting September 1, 2023. We advise customers to upgrade to newest version. Customers need to upgrade to at least 1.8 but are encouraged to upgrade to the newest available version (1.9).
+
+### Older versions
+
+See <https://github.com/Dynatrace/OneAgent-SDK-for-Java/releases> for older release notes.
