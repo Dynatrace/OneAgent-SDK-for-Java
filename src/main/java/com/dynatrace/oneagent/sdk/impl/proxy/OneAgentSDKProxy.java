@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Dynatrace LLC
+ * Copyright 2023 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package com.dynatrace.oneagent.sdk.impl.proxy;
+
+import java.util.Map;
 
 import com.dynatrace.oneagent.sdk.api.CustomServiceTracer;
 import com.dynatrace.oneagent.sdk.api.DatabaseRequestTracer;
@@ -33,6 +35,7 @@ import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
+import com.dynatrace.oneagent.sdk.api.infos.TraceContextInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 import com.dynatrace.oneagent.sdk.impl.OneAgentSDKFactoryImpl;
 import com.dynatrace.oneagent.sdk.impl.noop.CustomServiceTracerNoop;
@@ -48,6 +51,7 @@ import com.dynatrace.oneagent.sdk.impl.noop.OutgoingMessageTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.OutgoingWebRequestTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallClientTracerNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.RemoteCallServerTracerNoop;
+import com.dynatrace.oneagent.sdk.impl.noop.TraceContextInfoNoop;
 import com.dynatrace.oneagent.sdk.impl.noop.WebApplicationInfoNoop;
 
 /** TODO: check if/how class could be generated */
@@ -317,4 +321,11 @@ public final class OneAgentSDKProxy implements OneAgentSDK {
 		}
 		return new CustomServiceTracerProxy(apiProxy, agentObject);
 	}
+
+    @Override
+    public TraceContextInfo getTraceContextInfo() {
+        Map.Entry<String, String> traceAndSpanId = apiProxy.oneAgentSDK_getCurrentTraceAndSpanId(agentSdkImpl);
+        return traceAndSpanId == null ? TraceContextInfoNoop.INSTANCE : new TraceContextInfoImpl(
+                traceAndSpanId.getKey(), traceAndSpanId.getValue());
+    }
 }

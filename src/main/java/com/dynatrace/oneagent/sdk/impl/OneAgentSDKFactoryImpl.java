@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Dynatrace LLC
+ * Copyright 2023 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class OneAgentSDKFactoryImpl {
 	 * OneAgent), increase oneSdkFix only.
 	 */
 	static final int oneSdkMajor = 1;
-	static final int oneSdkMinor = 8;
+	static final int oneSdkMinor = 9;
 	static final int oneSdkFix = 0;
 
 	public static final boolean debugOneAgentSdkStub = Boolean.parseBoolean(System.getProperty("com.dynatrace.oneagent.sdk.debug", "false"));

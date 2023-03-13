@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Dynatrace LLC
+ * Copyright 2023 Dynatrace LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.dynatrace.oneagent.sdk.api.enums.MessageDestinationType;
 import com.dynatrace.oneagent.sdk.api.enums.SDKState;
 import com.dynatrace.oneagent.sdk.api.infos.DatabaseInfo;
 import com.dynatrace.oneagent.sdk.api.infos.MessagingSystemInfo;
+import com.dynatrace.oneagent.sdk.api.infos.TraceContextInfo;
 import com.dynatrace.oneagent.sdk.api.infos.WebApplicationInfo;
 
 /**
@@ -304,4 +305,15 @@ public interface OneAgentSDK {
 	 * @since 1.8
 	 */
 	CustomServiceTracer traceCustomService(String serviceMethod, String serviceName);
+
+    /**
+     * Returns the current W3C trace context for log enrichment
+     * (not meant for tagging and context-propagation but for log-enrichment).
+     * See {@link TraceContextInfo} for details.
+     *
+     * @return current trace context at the time of the call - never null (but may contain all-zero ID).
+     * @since 1.9
+     */
+    TraceContextInfo getTraceContextInfo();
+
 }
