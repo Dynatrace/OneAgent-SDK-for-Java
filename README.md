@@ -141,6 +141,10 @@ To trace any kind of call you first need to create a Tracer. The Tracer object r
 you want to call. A Tracer serves two purposes. First, to time the call (duration, cpu and more) and report errors. That is why
 each Tracer has these three methods. The error method must be called only once, and it must be in between start and end.
 
+A Tracer instance can only be used from the thread on which it was created.
+See [in process linking](#in-process-linking) for tracing across thread boundaries, and see further below in this section
+for how to cross process boundaries.
+
 ```Java
 void start();
 
@@ -149,11 +153,23 @@ void error(String message);
 void end();
 ```
 
+`start()` records the active PurePath node on the current Java thread
+as parent (if any; whether created by another Tracer or the OneAgent), creates a new PurePath node
+and sets the new one as the currently active one. The OneAgent also requires that a child node ends
+before all parent nodes (Stated another way, tracers on the same thread must be ended in the opposite
+order of how they were started. While this may sound odd if you hear it the first time, it corresponds
+to the most natural usage pattern and you usually don't even need to think about it).
+
+While the tracer's automatic parent-child relationship works very intuitively in most cases,
+it does not work with **asynchronous patterns**, where the same thread handles multiple logically
+separate operations in an interleaved way on the same Java thread. If you need to instrument
+such patterns, it is recommended to use the OneAgent's [OpenTelemetry interoperability][oa-otel].
+
+[oa-otel]: https://www.dynatrace.com/support/help/shortlink/opent-java
+
 The second purpose of a Tracer is to allow tracing across process boundaries. To achieve that these kind of traces supply so called
 tags. Tags are strings or byte arrays that enable Dynatrace to trace a transaction end to end. As such the tag is the one information
 that you need to transport across these calls as an SDK user.
-
-A Tracer instance can only be used from the thread on which it was created. See [in process linking](#in-process-linking) for tracing across thread boundaries.
 
 ## Features
 
