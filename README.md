@@ -319,16 +319,16 @@ calling addRequestHeader(...). This ensures that tagging with our built-in senso
 IncomingWebRequestTracer tracer = oneAgentSdk.traceIncomingWebRequest(wsInfo,"https://www.oursupershop.com/api/service/checkout/save", "POST")
 
 for (Entry<String, String> headerField : httpRequest.getHeaders().entrySet()) {
-	incomingWebrequestTracer.addRequestHeader(headerField.getKey(), headerField.getValue());
+	tracer.addRequestHeader(headerField.getKey(), headerField.getValue());
 }
 
 for (Entry<String, List<String>> parameterEntry : httpRequest.getParameters().entrySet()) {
 	for (String value : parameterEntry.getValue()) {
-		incomingWebrequestTracer.addParameter(parameterEntry.getKey(), value);
+		tracer.addParameter(parameterEntry.getKey(), value);
 	}
 }
 
-incomingWebrequestTracer.setRemoteAddress(httpRequest.getRemoteHostName());
+tracer.setRemoteAddress(httpRequest.getRemoteHostName());
 
 tracer.start();
 try {
