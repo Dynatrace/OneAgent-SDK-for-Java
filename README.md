@@ -313,7 +313,8 @@ WebApplicationInfo wsInfo = oneAgentSdk.createWebApplicationInfo("WebShopProduct
 ```
 
 To trace a specific incoming web request you then need to create a Tracer object. Make sure you provide all http headers from the request to the SDK by
-calling addRequestHeader(...). This ensures that tagging with our built-in sensor will work.
+calling addRequestHeader(...). This ensures that tagging with our built-in sensor will work, but note that only the proprietary x-dynatrace header
+will be processed (meaning, W3C trace context is not supported for tracing with the OneAgent SDKs, use OpenTelemetry instead if you require this).
 
 ```Java
 IncomingWebRequestTracer tracer = oneAgentSdk.traceIncomingWebRequest(wsInfo,"https://www.oursupershop.com/api/service/checkout/save", "POST")
