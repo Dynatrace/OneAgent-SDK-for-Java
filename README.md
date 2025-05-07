@@ -312,9 +312,13 @@ To trace an incoming web request you first need to create a WebApplicationInfo o
 WebApplicationInfo wsInfo = oneAgentSdk.createWebApplicationInfo("WebShopProduction", "CheckoutService", "/api/service/checkout");
 ```
 
-To trace a specific incoming web request you then need to create a Tracer object. Make sure you provide all http headers from the request to the SDK by
-calling addRequestHeader(...). This ensures that tagging with our built-in sensor will work, but note that only the proprietary x-dynatrace header
-will be processed (meaning, W3C trace context is not supported for tracing with the OneAgent SDKs, use OpenTelemetry instead if you require this).
+To trace a specific incoming web request you then need to create a Tracer object. Make sure you provide all http headers from the request
+to the SDK by calling `addRequestHeader(...)`. This ensures that tagging with our built-in sensors will work.
+
+**Note**:
+
+* Previous OneAgent versions only supported the proprietary Dynatrace tracing header (`x-dynatrace`).
+* Starting with OneAgent version `1.317`, [**W3C Trace Context**](https://www.w3.org/TR/trace-context) headers will be processed as well if they are provided via `addRequestHeader`.
 
 ```Java
 IncomingWebRequestTracer tracer = oneAgentSdk.traceIncomingWebRequest(wsInfo,"https://www.oursupershop.com/api/service/checkout/save", "POST")
@@ -551,6 +555,9 @@ SLAs apply according to the customer's support level.
 * [Add support to retrieve W3C trace context information for log enrichment.](#tracecontext)
 
 ### Other announcements
+
+* [**W3C Trace Context**](https://www.w3.org/TR/trace-context/) headers for [incoming web requests](#trace-incoming-web-requests) are
+supported with OneAgent versions starting from `1.317`.
 
 * ⚠️ **Deprecation announcement for older SDK versions:** Version 1.7 and all older versions have been put on the path to deprecation and will no longer be supported starting September 1, 2023. We advise customers to upgrade to newest version. Customers need to upgrade to at least 1.8 but are encouraged to upgrade to the newest available version (1.9).
 
