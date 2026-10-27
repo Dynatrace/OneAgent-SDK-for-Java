@@ -40,9 +40,9 @@ This is the official Java implementation of the [Dynatrace OneAgent SDK](https:/
 
 * An JRE that is both supported with a supported version of OneAgent and at least JRE 1.6-compatible.
 * Dynatrace OneAgent (for required versions, see table below)
-* The OneAgent SDK is not supported on serverless code modules, including those for AWS Lambda.
-  Consider using [OpenTelemetry](https://www.dynatrace.com/support/help/shortlink/opentel-lambda)
-  instead in these scenarios.
+* The OneAgent SDK is not supported by the classic AWS Lambda layers. 
+We recommend [migrating to the current AWS Lambda integration](https://docs.dynatrace.com/docs/ingest-from/amazon-web-services/integrate-into-aws/aws-lambda-integration/migrate-from-lambda-classic). 
+If you don’t migrate, use OpenTelemetry instead.
 
 |OneAgent SDK for Java|Required OneAgent version|Support status|
 |:--------------------|:------------------------|:-------------|
